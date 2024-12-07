@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="JRI" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="jri.justreadit.JRIApp" />
+    <module name="JustReadIt" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
