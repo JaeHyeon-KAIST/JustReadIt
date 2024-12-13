@@ -1,0 +1,46 @@
+.root{
+  -fx-background-color: #ffffff;
+}
+
+.html-editor .tool-bar {
+  -fx-visible: false;
+  -fx-managed: false;
+  -fx-pref-height: 0;
+  -fx-min-height: 0;
+  -fx-max-height: 0;
+  -fx-border-color: #394281;
+  -fx-border-radius: 0px;
+}
+
+.menu{
+  -fx-background-color: rgba(120, 179, 206, 0.5);
+  -fx-border-width: 0px 0px 0px 0px;
+  -fx-border-style: solid;
+  -fx-border-color: rgba(120, 179, 206, 0.5);
+}
+
+.menu_btn{
+  -fx-background-color: rgba(120, 179, 206, 0);
+  -fx-border-width: 0px 0px 0px 0px;
+  -fx-border-radius: 30px;
+  -fx-background-radius: 30px;
+}
+
+.note{
+  -fx-background-color: #ffffff;
+  -fx-border-width: 4px 4px 4px 4px;
+  -fx-border-radius: 20px;
+  -fx-background-radius: 20px;
+  -fx-border-style: solid;
+  -fx-border-color: #78b3ce;
+}
+
+.side_note{
+    -fx-background-color: #d0edfa;
+    -fx-border-width: 0px 0px 0px 0px;
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
+    -fx-border-style: solid;
+}
+
+

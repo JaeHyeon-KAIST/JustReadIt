@@ -1,9 +1,6 @@
 package jri.justreadit;
 
-import jri.justreadit.scenario.BookDetailScenario;
-import jri.justreadit.scenario.BookNoteScenario;
-import jri.justreadit.scenario.FirstScenario;
-import jri.justreadit.scenario.BookShelfScenario;
+import jri.justreadit.scenario.*;
 import x.XScenarioMgr;
 
 public class JRIScenarioMgr extends XScenarioMgr {
@@ -17,6 +14,7 @@ public class JRIScenarioMgr extends XScenarioMgr {
     this.addScenario(BookShelfScenario.createSingleton(this.mApp));
     this.addScenario(BookDetailScenario.createSingleton(this.mApp));
     this.addScenario(BookNoteScenario.createSingleton(this.mApp));
+    this.addScenario(NotePageScenario.createSingleton(this.mApp));
   }
 
   @Override
