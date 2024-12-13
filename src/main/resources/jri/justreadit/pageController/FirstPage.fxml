@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.embed.swing.SwingNode?>
 
 <VBox alignment="CENTER" prefHeight="118.0" prefWidth="302.0" spacing="20" xmlns="http://javafx.com/javafx/17.0.12"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="jri.justreadit.pageController.FirstPageController">
@@ -12,5 +13,8 @@
       <Button fx:id="bookNotePageButton" text="Move To BookNote Page"/>
     </children>
   </HBox>
+  <Pane fx:id="swingNodePane" prefHeight="600" prefWidth="1728">
+    <SwingNode fx:id="swingNode"/>
+  </Pane>
   <Button fx:id="exitButton" text="Exit"/>
 </VBox>

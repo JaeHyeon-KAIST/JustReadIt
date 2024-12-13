@@ -5,10 +5,12 @@ import java.util.HashMap;
 public abstract class XPageControllerMgr {
   protected XApp mApp;
   private final HashMap<String, XPageController> controllers;
+  private String currentPageName;
 
   public XPageControllerMgr(XApp app) {
     this.mApp = app;
     this.controllers = new HashMap<>();
+    this.currentPageName = null;
     this.initializeControllers();
   }
 
@@ -34,6 +36,11 @@ public abstract class XPageControllerMgr {
     if (controller == null) {
       throw new IllegalArgumentException("Controller not found: " + name);
     }
+    this.currentPageName = name;
     controller.show();
+  }
+
+  public String getCurrentPageName() {
+    return this.currentPageName;
   }
 }

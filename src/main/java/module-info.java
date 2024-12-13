@@ -1,6 +1,7 @@
 module com.jaehyeon.jri.justreadit {
   requires javafx.controls;
   requires javafx.fxml;
+  requires javafx.swing;
   requires javafx.web;
   requires java.desktop;
   requires jdk.jsobject;

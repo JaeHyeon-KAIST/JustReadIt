@@ -3,9 +3,12 @@ package jri.justreadit;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import jri.justreadit.canvas.JRICanvas2D;
 import x.XApp;
 import x.XLogMgr;
 import x.XScenarioMgr;
+
+import javax.swing.*;
 
 public class JRIApp extends XApp {
   // fields
@@ -14,6 +17,12 @@ public class JRIApp extends XApp {
   private JRIScenarioMgr scenarioMgr;
   private JRIPageControllerMgr pageControllerMgr; // 추가된 필드
   private XLogMgr mLogMgr;
+
+  private JRICanvas2D mCanvas2D = null;
+
+  public JRICanvas2D getJRICanvas2D() {
+    return this.mCanvas2D;
+  }
 
   // Root Pane getter
   public StackPane getRootPane() {
@@ -46,6 +55,7 @@ public class JRIApp extends XApp {
     this.rootPane = new StackPane();
     this.mLogMgr = new XLogMgr();
     this.mLogMgr.setPrintOn(true);
+    this.mCanvas2D = new JRICanvas2D();
 
     // Initialize Page Controller Manager
     this.pageControllerMgr = new JRIPageControllerMgr(this);
@@ -58,8 +68,16 @@ public class JRIApp extends XApp {
     primaryStage.setTitle("Just Read It");
 
     // Configure and show the main stage
-    Scene scene = new Scene(rootPane, 1200, 800);
+    Scene scene = new Scene(rootPane, 1728, 1117);
     primaryStage.setScene(scene);
+
+    primaryStage.setOnCloseRequest(event -> {
+      System.out.println("Closing application...");
+      // Ensure proper termination of the application
+      javafx.application.Platform.exit(); // Shut down JavaFX runtime
+      System.exit(0); // Terminate JVM
+    });
+
     primaryStage.show();
 
     // Initialize Scenario Manager
