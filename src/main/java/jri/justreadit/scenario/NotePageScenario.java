@@ -1,7 +1,6 @@
 package jri.justreadit.scenario;
 
 import jri.justreadit.JRIScene;
-import jri.justreadit.pageController.FirstPageController;
 import jri.justreadit.pageController.NotePageController;
 import x.XApp;
 import x.XCmdToChangeScene;
@@ -28,34 +27,44 @@ public class NotePageScenario extends XScenario {
 
   @Override
   protected void addScenes() {
-    this.addScene(FirstScene.createSingleton(this));
+    this.addScene(NoteScene.createSingleton(this));
   }
 
   public void dispatchMoveToSecondPageButtonPress() {
-    if (this.getApp().getScenarioMgr().getCurScene() == FirstScene.mSingleton) {
-      FirstScene.mSingleton.onMoveToSecondPageButtonPress();
+    if (this.getApp().getScenarioMgr().getCurScene() == NoteScene.mSingleton) {
+      NoteScene.mSingleton.onMoveToSecondPageButtonPress();
     }
   }
 
   public void dispatchMoveToBookNotePageButtonPress() {
-    if (this.getApp().getScenarioMgr().getCurScene() == FirstScene.mSingleton) {
-      FirstScene.mSingleton.onMoveToBookNotePageButtonPress();
+    if (this.getApp().getScenarioMgr().getCurScene() == NoteScene.mSingleton) {
+      NoteScene.mSingleton.onMoveToBookNotePageButtonPress();
     }
   }
 
-  public static class FirstScene extends JRIScene {
-    // singleton
-    private static FirstScene mSingleton = null;
+  public void dispatchGoToBookShelfPageButtonPress() {
+    if (this.getApp().getScenarioMgr().getCurScene() == NoteScene.mSingleton) {
+      NoteScene.mSingleton.dispatchGoToBookShelfPageButtonPress();
+    }
+  }
 
-    public static FirstScene getSingleton() {
-      assert (FirstScene.mSingleton != null);
-      return FirstScene.mSingleton;
+  public static class NoteScene extends JRIScene {
+    // singleton
+    private static NoteScene mSingleton = null;
+
+    public static NoteScene getSingleton() {
+      assert (NoteScene.mSingleton != null);
+      return NoteScene.mSingleton;
     }
 
-    public static FirstScene createSingleton(XScenario scenario) {
-      assert (FirstScene.mSingleton == null);
-      FirstScene.mSingleton = new FirstScene(scenario);
-      return FirstScene.mSingleton;
+    public static NoteScene createSingleton(XScenario scenario) {
+      assert (NoteScene.mSingleton == null);
+      NoteScene.mSingleton = new NoteScene(scenario);
+      return NoteScene.mSingleton;
+    }
+
+    public void dispatchGoToBookShelfPageButtonPress() {
+      XCmdToChangeScene.execute(this.mScenario.getApp(), BookShelfScenario.BookShelfScene.getSingleton(), this);
     }
 
     public void onMoveToSecondPageButtonPress() {
@@ -67,7 +76,7 @@ public class NotePageScenario extends XScenario {
       XCmdToChangeScene.execute(this.mScenario.getApp(), BookNoteScenario.ReadyScene.getSingleton(), this);
     }
 
-    private FirstScene(XScenario scenario) {
+    private NoteScene(XScenario scenario) {
       super(scenario);
     }
 
