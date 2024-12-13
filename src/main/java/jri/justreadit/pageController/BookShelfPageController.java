@@ -15,14 +15,6 @@ public class BookShelfPageController extends XPageController {
   }
 
   @FXML
-  private Button goToBookDetailPageButton;
-
-  @FXML
   public void initialize() {
-    goToBookDetailPageButton.setOnAction(event -> {
-      System.out.println("Go to book detail page button pressed");
-      BookShelfScenario scenario = (BookShelfScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
-      scenario.dispatchGoToBookDetailPageButtonPress();
-    });
   }
 }
