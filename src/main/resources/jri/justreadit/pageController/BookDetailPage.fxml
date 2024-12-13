@@ -14,7 +14,7 @@
 
 <HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="700.0" prefWidth="1200.0" styleClass="root" stylesheets="@css/style.css"
-      xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/22.0.2" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="jri.justreadit.pageController.BookDetailPageController">
   <children>
     <VBox prefHeight="400.0" prefWidth="250.0">

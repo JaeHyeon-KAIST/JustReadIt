@@ -13,446 +13,519 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="1117.0" prefWidth="1728.0" styleClass="root" stylesheets="@css/bookNote.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jri.justreadit.pageController.BookShelfPageController">
-   <children>
-      <VBox layoutX="-2.0" prefHeight="1119.0" prefWidth="1730.0">
-         <children>
-            <HBox prefHeight="1117.0" prefWidth="1728.0">
-               <children>
-                  <Pane fx:id="menu" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1117.0" prefWidth="100.0" stylesheets="@css/bookNote.css">
-                     <styleClass>
-                        <String fx:value="tool-bar" />
-                        <String fx:value="menu" />
-                     </styleClass>
-                     <children>
-                        <Button fx:id="goToBookShelfPageButton" alignment="CENTER" layoutX="13.0" layoutY="365.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
-                           <graphic>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@image/bookshelf.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="goToHomePageButton" alignment="CENTER" layoutX="11.0" layoutY="265.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
-                           <graphic>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@image/library.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </Pane>
-                  <VBox prefHeight="800.0" prefWidth="1623.0">
-                     <children>
-                        <Pane prefHeight="99.0" prefWidth="1014.0">
-                           <children>
-                              <Text layoutX="751.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just Read It" textAlignment="CENTER" textOrigin="CENTER">
-                                 <font>
-                                    <Font name="Apple SD Gothic Neo ExtraBold" size="30.0" />
-                                 </font>
-                              </Text>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="686.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@image/098f563424cb32a1e9f1a9e9505110cb.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </Pane>
-                        <Pane prefHeight="99.0" prefWidth="1014.0">
-                           <children>
-                              <Text fill="#78b3ce" layoutX="29.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My Bookshelf" textAlignment="CENTER" textOrigin="CENTER">
-                                 <font>
-                                    <Font name="Apple SD Gothic Neo ExtraBold" size="40.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </Pane>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" stylesheets="@css/bookNote.css">
-                           <children>
-                              <ScrollPane minViewportHeight="800.0" minViewportWidth="1500.0" prefHeight="884.0" prefViewportHeight="800.0" prefViewportWidth="1500.0" prefWidth="1590.0" styleClass="note" stylesheets="@css/bookNote.css">
-                                <content>
-                                    <HBox prefHeight="1080.0" prefWidth="1547.0" spacing="40.0" styleClass="root" stylesheets="@css/bookNote.css">
-                                       <children>
-                                          <VBox>
-                                             <children>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="220.0" prefWidth="734.0">
-                                                   <children>
-                                                      <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@image/book1.jpeg" />
-                                                         </image>
-                                                      </ImageView>
-                                                      <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="553.0" spacing="10.0">
-                                                         <children>
-                                                            <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER" wrappingWidth="546.870849609375">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Bold" size="30.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul " textOrigin="CENTER">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune" textOrigin="CENTER" wrappingWidth="543.791015625">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                         </children>
-                                                         <HBox.margin>
-                                                            <Insets left="20.0" />
-                                                         </HBox.margin>
-                                                      </VBox>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets left="40.0" top="30.0" />
-                                                   </padding>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="220.0" prefWidth="734.0">
-                                                   <children>
-                                                      <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@image/book1.jpeg" />
-                                                         </image>
-                                                      </ImageView>
-                                                      <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="553.0" spacing="10.0">
-                                                         <children>
-                                                            <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER" wrappingWidth="546.870849609375">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Bold" size="30.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul " textOrigin="CENTER">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune" textOrigin="CENTER" wrappingWidth="543.791015625">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                         </children>
-                                                         <HBox.margin>
-                                                            <Insets left="20.0" />
-                                                         </HBox.margin>
-                                                      </VBox>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets left="40.0" top="30.0" />
-                                                   </padding>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="220.0" prefWidth="734.0">
-                                                   <children>
-                                                      <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@image/book1.jpeg" />
-                                                         </image>
-                                                      </ImageView>
-                                                      <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="553.0" spacing="10.0">
-                                                         <children>
-                                                            <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER" wrappingWidth="546.870849609375">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Bold" size="30.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul " textOrigin="CENTER">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune" textOrigin="CENTER" wrappingWidth="543.791015625">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                         </children>
-                                                         <HBox.margin>
-                                                            <Insets left="20.0" />
-                                                         </HBox.margin>
-                                                      </VBox>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets left="40.0" top="30.0" />
-                                                   </padding>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="210.0" prefWidth="728.0">
-                                                   <children>
-                                                      <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@image/book1.jpeg" />
-                                                         </image>
-                                                      </ImageView>
-                                                      <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="534.0" spacing="10.0">
-                                                         <children>
-                                                            <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER" wrappingWidth="549.9220581054688">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Bold" size="30.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul " textOrigin="CENTER">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune" textOrigin="CENTER" wrappingWidth="543.791015625">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                         </children>
-                                                         <HBox.margin>
-                                                            <Insets left="20.0" />
-                                                         </HBox.margin>
-                                                      </VBox>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets left="40.0" top="30.0" />
-                                                   </padding>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="210.0" prefWidth="728.0">
-                                                   <children>
-                                                      <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@image/book1.jpeg" />
-                                                         </image>
-                                                      </ImageView>
-                                                      <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="534.0" spacing="10.0">
-                                                         <children>
-                                                            <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER" wrappingWidth="549.9220581054688">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Bold" size="30.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul " textOrigin="CENTER">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune" textOrigin="CENTER" wrappingWidth="543.791015625">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                         </children>
-                                                         <HBox.margin>
-                                                            <Insets left="20.0" />
-                                                         </HBox.margin>
-                                                      </VBox>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets left="40.0" top="30.0" />
-                                                   </padding>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                          <VBox>
-                                             <children>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="210.0" prefWidth="728.0">
-                                                   <children>
-                                                      <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@image/book1.jpeg" />
-                                                         </image>
-                                                      </ImageView>
-                                                      <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="534.0" spacing="10.0">
-                                                         <children>
-                                                            <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER" wrappingWidth="549.9220581054688">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Bold" size="30.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul " textOrigin="CENTER">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune" textOrigin="CENTER" wrappingWidth="543.791015625">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                         </children>
-                                                         <HBox.margin>
-                                                            <Insets left="20.0" />
-                                                         </HBox.margin>
-                                                      </VBox>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets left="40.0" top="30.0" />
-                                                   </padding>
-                                                   <VBox.margin>
-                                                      <Insets />
-                                                   </VBox.margin>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="210.0" prefWidth="728.0">
-                                                   <children>
-                                                      <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@image/book1.jpeg" />
-                                                         </image>
-                                                      </ImageView>
-                                                      <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="534.0" spacing="10.0">
-                                                         <children>
-                                                            <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER" wrappingWidth="549.9220581054688">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Bold" size="30.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul " textOrigin="CENTER">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune" textOrigin="CENTER" wrappingWidth="543.791015625">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                         </children>
-                                                         <HBox.margin>
-                                                            <Insets left="20.0" />
-                                                         </HBox.margin>
-                                                      </VBox>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets left="40.0" top="30.0" />
-                                                   </padding>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="210.0" prefWidth="728.0">
-                                                   <children>
-                                                      <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@image/book1.jpeg" />
-                                                         </image>
-                                                      </ImageView>
-                                                      <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="534.0" spacing="10.0">
-                                                         <children>
-                                                            <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER" wrappingWidth="549.9220581054688">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Bold" size="30.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul " textOrigin="CENTER">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune" textOrigin="CENTER" wrappingWidth="543.791015625">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                         </children>
-                                                         <HBox.margin>
-                                                            <Insets left="20.0" />
-                                                         </HBox.margin>
-                                                      </VBox>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets left="40.0" top="30.0" />
-                                                   </padding>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="210.0" prefWidth="728.0">
-                                                   <children>
-                                                      <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@image/book1.jpeg" />
-                                                         </image>
-                                                      </ImageView>
-                                                      <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="534.0" spacing="10.0">
-                                                         <children>
-                                                            <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER" wrappingWidth="549.9220581054688">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Bold" size="30.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul " textOrigin="CENTER">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune" textOrigin="CENTER" wrappingWidth="543.791015625">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                         </children>
-                                                         <HBox.margin>
-                                                            <Insets left="20.0" />
-                                                         </HBox.margin>
-                                                      </VBox>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets left="40.0" top="30.0" />
-                                                   </padding>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="210.0" prefWidth="728.0">
-                                                   <children>
-                                                      <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@image/book1.jpeg" />
-                                                         </image>
-                                                      </ImageView>
-                                                      <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="534.0" spacing="10.0">
-                                                         <children>
-                                                            <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER" wrappingWidth="549.9220581054688">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Bold" size="30.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul " textOrigin="CENTER">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune" textOrigin="CENTER" wrappingWidth="543.791015625">
-                                                               <font>
-                                                                  <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                                               </font>
-                                                            </Text>
-                                                         </children>
-                                                         <HBox.margin>
-                                                            <Insets left="20.0" />
-                                                         </HBox.margin>
-                                                      </VBox>
-                                                   </children>
-                                                   <padding>
-                                                      <Insets left="40.0" top="30.0" />
-                                                   </padding>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
-                                </content>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </ScrollPane>
-                           </children>
-                        </VBox>
-                     </children>
-                     <HBox.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </HBox.margin>
-                  </VBox>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
+<AnchorPane prefHeight="1117.0" prefWidth="1728.0" styleClass="root" stylesheets="@css/bookNote.css"
+            xmlns="http://javafx.com/javafx/22.0.2" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="jri.justreadit.pageController.BookShelfPageController">
+  <children>
+    <VBox layoutX="-2.0" prefHeight="1119.0" prefWidth="1730.0">
+      <children>
+        <HBox prefHeight="1117.0" prefWidth="1728.0">
+          <children>
+            <Pane fx:id="menu" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1117.0" prefWidth="100.0"
+                  stylesheets="@css/bookNote.css">
+              <styleClass>
+                <String fx:value="tool-bar"/>
+                <String fx:value="menu"/>
+              </styleClass>
+              <children>
+                <Button fx:id="goToBookShelfPageButton" alignment="CENTER" layoutX="13.0" layoutY="365.0"
+                        mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn"
+                        stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
+                  <graphic>
+                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                      <image>
+                        <Image url="@image/bookshelf.png"/>
+                      </image>
+                    </ImageView>
+                  </graphic>
+                  <font>
+                    <Font name="Arial" size="16.0"/>
+                  </font>
+                </Button>
+                <Button fx:id="goToHomePageButton" alignment="CENTER" layoutX="11.0" layoutY="265.0"
+                        mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn"
+                        stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
+                  <font>
+                    <Font name="Arial" size="16.0"/>
+                  </font>
+                  <graphic>
+                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                      <image>
+                        <Image url="@image/library.png"/>
+                      </image>
+                    </ImageView>
+                  </graphic>
+                </Button>
+              </children>
+            </Pane>
+            <VBox prefHeight="800.0" prefWidth="1623.0">
+              <children>
+                <Pane prefHeight="99.0" prefWidth="1014.0">
+                  <children>
+                    <Text layoutX="751.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just Read It"
+                          textAlignment="CENTER" textOrigin="CENTER">
+                      <font>
+                        <Font name="Apple SD Gothic Neo ExtraBold" size="30.0"/>
+                      </font>
+                    </Text>
+                    <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="686.0" layoutY="24.0" pickOnBounds="true"
+                               preserveRatio="true">
+                      <image>
+                        <Image url="@image/098f563424cb32a1e9f1a9e9505110cb.png"/>
+                      </image>
+                    </ImageView>
+                  </children>
+                  <VBox.margin>
+                    <Insets/>
+                  </VBox.margin>
+                </Pane>
+                <Pane prefHeight="99.0" prefWidth="1014.0">
+                  <children>
+                    <Text fill="#78b3ce" layoutX="29.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                          text="My Bookshelf" textAlignment="CENTER" textOrigin="CENTER">
+                      <font>
+                        <Font name="Apple SD Gothic Neo ExtraBold" size="40.0"/>
+                      </font>
+                    </Text>
+                  </children>
+                </Pane>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" stylesheets="@css/bookNote.css">
+                  <children>
+                    <ScrollPane minViewportHeight="800.0" minViewportWidth="1500.0" prefHeight="884.0"
+                                prefViewportHeight="800.0" prefViewportWidth="1500.0" prefWidth="1590.0"
+                                styleClass="note" stylesheets="@css/bookNote.css">
+                      <content>
+                        <HBox prefHeight="1080.0" prefWidth="1547.0" spacing="40.0" styleClass="root"
+                              stylesheets="@css/bookNote.css">
+                          <children>
+                            <VBox>
+                              <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="220.0" prefWidth="734.0">
+                                  <children>
+                                    <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                      <image>
+                                        <Image url="@image/book1.jpeg"/>
+                                      </image>
+                                    </ImageView>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="553.0" spacing="10.0">
+                                      <children>
+                                        <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="Being Mortal: Medicine and What Matters in the End "
+                                              textOrigin="CENTER" wrappingWidth="546.870849609375">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Bold" size="30.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul "
+                                              textOrigin="CENTER">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune"
+                                              textOrigin="CENTER" wrappingWidth="543.791015625">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                      </children>
+                                      <HBox.margin>
+                                        <Insets left="20.0"/>
+                                      </HBox.margin>
+                                    </VBox>
+                                  </children>
+                                  <padding>
+                                    <Insets left="40.0" top="30.0"/>
+                                  </padding>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="220.0" prefWidth="734.0">
+                                  <children>
+                                    <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                      <image>
+                                        <Image url="@image/book1.jpeg"/>
+                                      </image>
+                                    </ImageView>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="553.0" spacing="10.0">
+                                      <children>
+                                        <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="Being Mortal: Medicine and What Matters in the End "
+                                              textOrigin="CENTER" wrappingWidth="546.870849609375">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Bold" size="30.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul "
+                                              textOrigin="CENTER">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune"
+                                              textOrigin="CENTER" wrappingWidth="543.791015625">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                      </children>
+                                      <HBox.margin>
+                                        <Insets left="20.0"/>
+                                      </HBox.margin>
+                                    </VBox>
+                                  </children>
+                                  <padding>
+                                    <Insets left="40.0" top="30.0"/>
+                                  </padding>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="220.0" prefWidth="734.0">
+                                  <children>
+                                    <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                      <image>
+                                        <Image url="@image/book1.jpeg"/>
+                                      </image>
+                                    </ImageView>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="553.0" spacing="10.0">
+                                      <children>
+                                        <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="Being Mortal: Medicine and What Matters in the End "
+                                              textOrigin="CENTER" wrappingWidth="546.870849609375">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Bold" size="30.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul "
+                                              textOrigin="CENTER">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune"
+                                              textOrigin="CENTER" wrappingWidth="543.791015625">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                      </children>
+                                      <HBox.margin>
+                                        <Insets left="20.0"/>
+                                      </HBox.margin>
+                                    </VBox>
+                                  </children>
+                                  <padding>
+                                    <Insets left="40.0" top="30.0"/>
+                                  </padding>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="210.0" prefWidth="728.0">
+                                  <children>
+                                    <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                      <image>
+                                        <Image url="@image/book1.jpeg"/>
+                                      </image>
+                                    </ImageView>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="534.0" spacing="10.0">
+                                      <children>
+                                        <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="Being Mortal: Medicine and What Matters in the End "
+                                              textOrigin="CENTER" wrappingWidth="549.9220581054688">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Bold" size="30.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul "
+                                              textOrigin="CENTER">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune"
+                                              textOrigin="CENTER" wrappingWidth="543.791015625">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                      </children>
+                                      <HBox.margin>
+                                        <Insets left="20.0"/>
+                                      </HBox.margin>
+                                    </VBox>
+                                  </children>
+                                  <padding>
+                                    <Insets left="40.0" top="30.0"/>
+                                  </padding>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="210.0" prefWidth="728.0">
+                                  <children>
+                                    <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                      <image>
+                                        <Image url="@image/book1.jpeg"/>
+                                      </image>
+                                    </ImageView>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="534.0" spacing="10.0">
+                                      <children>
+                                        <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="Being Mortal: Medicine and What Matters in the End "
+                                              textOrigin="CENTER" wrappingWidth="549.9220581054688">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Bold" size="30.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul "
+                                              textOrigin="CENTER">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune"
+                                              textOrigin="CENTER" wrappingWidth="543.791015625">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                      </children>
+                                      <HBox.margin>
+                                        <Insets left="20.0"/>
+                                      </HBox.margin>
+                                    </VBox>
+                                  </children>
+                                  <padding>
+                                    <Insets left="40.0" top="30.0"/>
+                                  </padding>
+                                </HBox>
+                              </children>
+                            </VBox>
+                            <VBox>
+                              <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="210.0" prefWidth="728.0">
+                                  <children>
+                                    <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                      <image>
+                                        <Image url="@image/book1.jpeg"/>
+                                      </image>
+                                    </ImageView>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="534.0" spacing="10.0">
+                                      <children>
+                                        <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="Being Mortal: Medicine and What Matters in the End "
+                                              textOrigin="CENTER" wrappingWidth="549.9220581054688">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Bold" size="30.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul "
+                                              textOrigin="CENTER">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune"
+                                              textOrigin="CENTER" wrappingWidth="543.791015625">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                      </children>
+                                      <HBox.margin>
+                                        <Insets left="20.0"/>
+                                      </HBox.margin>
+                                    </VBox>
+                                  </children>
+                                  <padding>
+                                    <Insets left="40.0" top="30.0"/>
+                                  </padding>
+                                  <VBox.margin>
+                                    <Insets/>
+                                  </VBox.margin>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="210.0" prefWidth="728.0">
+                                  <children>
+                                    <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                      <image>
+                                        <Image url="@image/book1.jpeg"/>
+                                      </image>
+                                    </ImageView>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="534.0" spacing="10.0">
+                                      <children>
+                                        <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="Being Mortal: Medicine and What Matters in the End "
+                                              textOrigin="CENTER" wrappingWidth="549.9220581054688">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Bold" size="30.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul "
+                                              textOrigin="CENTER">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune"
+                                              textOrigin="CENTER" wrappingWidth="543.791015625">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                      </children>
+                                      <HBox.margin>
+                                        <Insets left="20.0"/>
+                                      </HBox.margin>
+                                    </VBox>
+                                  </children>
+                                  <padding>
+                                    <Insets left="40.0" top="30.0"/>
+                                  </padding>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="210.0" prefWidth="728.0">
+                                  <children>
+                                    <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                      <image>
+                                        <Image url="@image/book1.jpeg"/>
+                                      </image>
+                                    </ImageView>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="534.0" spacing="10.0">
+                                      <children>
+                                        <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="Being Mortal: Medicine and What Matters in the End "
+                                              textOrigin="CENTER" wrappingWidth="549.9220581054688">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Bold" size="30.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul "
+                                              textOrigin="CENTER">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune"
+                                              textOrigin="CENTER" wrappingWidth="543.791015625">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                      </children>
+                                      <HBox.margin>
+                                        <Insets left="20.0"/>
+                                      </HBox.margin>
+                                    </VBox>
+                                  </children>
+                                  <padding>
+                                    <Insets left="40.0" top="30.0"/>
+                                  </padding>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="210.0" prefWidth="728.0">
+                                  <children>
+                                    <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                      <image>
+                                        <Image url="@image/book1.jpeg"/>
+                                      </image>
+                                    </ImageView>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="534.0" spacing="10.0">
+                                      <children>
+                                        <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="Being Mortal: Medicine and What Matters in the End "
+                                              textOrigin="CENTER" wrappingWidth="549.9220581054688">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Bold" size="30.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul "
+                                              textOrigin="CENTER">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune"
+                                              textOrigin="CENTER" wrappingWidth="543.791015625">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                      </children>
+                                      <HBox.margin>
+                                        <Insets left="20.0"/>
+                                      </HBox.margin>
+                                    </VBox>
+                                  </children>
+                                  <padding>
+                                    <Insets left="40.0" top="30.0"/>
+                                  </padding>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" prefHeight="210.0" prefWidth="728.0">
+                                  <children>
+                                    <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                      <image>
+                                        <Image url="@image/book1.jpeg"/>
+                                      </image>
+                                    </ImageView>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="534.0" spacing="10.0">
+                                      <children>
+                                        <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="Being Mortal: Medicine and What Matters in the End "
+                                              textOrigin="CENTER" wrappingWidth="549.9220581054688">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Bold" size="30.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul "
+                                              textOrigin="CENTER">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune"
+                                              textOrigin="CENTER" wrappingWidth="543.791015625">
+                                          <font>
+                                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                          </font>
+                                        </Text>
+                                      </children>
+                                      <HBox.margin>
+                                        <Insets left="20.0"/>
+                                      </HBox.margin>
+                                    </VBox>
+                                  </children>
+                                  <padding>
+                                    <Insets left="40.0" top="30.0"/>
+                                  </padding>
+                                </HBox>
+                              </children>
+                            </VBox>
+                          </children>
+                        </HBox>
+                      </content>
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                      </padding>
+                    </ScrollPane>
+                  </children>
+                </VBox>
+              </children>
+              <HBox.margin>
+                <Insets left="20.0" right="20.0"/>
+              </HBox.margin>
+            </VBox>
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
 </AnchorPane>
