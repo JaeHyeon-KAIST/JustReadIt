@@ -1,0 +1,7 @@
+.html-editor .tool-bar {
+  -fx-visible: false;
+  -fx-managed: false;
+  -fx-pref-height: 0;
+  -fx-min-height: 0;
+  -fx-max-height: 0;
+}

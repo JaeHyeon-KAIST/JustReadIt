@@ -3,6 +3,7 @@ package jri.justreadit.pageController;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
@@ -68,9 +69,9 @@ public class BookNotePageController extends XPageController {
                   "window.javaLogger.log('Script initialization started...');" +
 
                   "document.head.innerHTML += '<style>" +
-                  "body { font-family: \"Apple SD Gothic Neo\", sans-serif !important; " +
-                  "font-size: 14px; line-height: 1.6; }" +
-                  "body:lang(ko) { font-family: \"Apple SD Gothic Neo\", sans-serif !important; }" +
+                  "@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);" +  // Noto Sans Korean 폰트 추가
+                  "* { font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', sans-serif !important; }" +
+                  "body { font-size: 14px; line-height: 1.6; }" +
                   "</style>';" +
                   "document.body.setAttribute('lang', 'ko');" +
 

@@ -12,17 +12,17 @@
 <?import javafx.scene.text.Text?>
 
 <HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="700.0" prefWidth="1200.0" styleClass="root" stylesheets="@style.css"
+      prefHeight="700.0" prefWidth="1200.0" styleClass="root" stylesheets="@css/style.css"
       xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="jri.justreadit.pageController.BookShelfPageController">
   <children>
     <VBox prefHeight="400.0" prefWidth="250.0">
       <children>
         <AnchorPane fx:id="side_ankerPlane" prefHeight="700.0" prefWidth="300.0" styleClass="side_ankerpane"
-                    stylesheets="@style.css">
+                    stylesheets="@css/style.css">
           <children>
             <Pane fx:id="inner_pane" layoutX="8.0" layoutY="20.0" prefHeight="44.0" prefWidth="230.0"
-                  styleClass="inner_pane" stylesheets="@style.css">
+                  styleClass="inner_pane" stylesheets="@css/style.css">
               <children>
                 <ImageView fitHeight="29.0" fitWidth="34.0" layoutX="18.0" layoutY="8.0" pickOnBounds="true"
                            preserveRatio="true">
@@ -31,7 +31,7 @@
                   </image>
                 </ImageView>
                 <Pane layoutX="189.0" layoutY="6.0" prefHeight="33.0" prefWidth="33.0" styleClass="most_inner_pane"
-                      stylesheets="@style.css">
+                      stylesheets="@css/style.css">
                   <children>
                     <ImageView fitHeight="17.0" fitWidth="22.0" layoutX="9.0" layoutY="8.0" pickOnBounds="true"
                                preserveRatio="true">
@@ -50,7 +50,7 @@
               </children>
             </Pane>
             <Button alignment="CENTER" layoutX="10.0" layoutY="113.0" mnemonicParsing="false" prefHeight="40.0"
-                    prefWidth="230.0" styleClass="pane_111" stylesheets="@style.css" text=" Bookshelf"
+                    prefWidth="230.0" styleClass="pane_111" stylesheets="@css/style.css" text=" Bookshelf"
                     textAlignment="CENTER" textFill="WHITE">
               <graphic>
                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -64,7 +64,7 @@
               </font>
             </Button>
             <Button alignment="CENTER" layoutX="10.0" layoutY="163.0" mnemonicParsing="false" prefHeight="40.0"
-                    prefWidth="230.0" styleClass="btn_workbench11" stylesheets="@style.css" text=" Book Detail"
+                    prefWidth="230.0" styleClass="btn_workbench11" stylesheets="@css/style.css" text=" Book Detail"
                     textAlignment="CENTER" textFill="WHITE" fx:id="goToBookDetailPageButton">
               <graphic>
                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -101,7 +101,7 @@
         </AnchorPane>
       </children>
     </VBox>
-    <Pane prefHeight="700.0" prefWidth="964.0" styleClass="progress" stylesheets="@style.css">
+    <Pane prefHeight="700.0" prefWidth="964.0" styleClass="progress" stylesheets="@css/style.css">
       <children>
         <Pane layoutY="20.0" prefHeight="60.0" prefWidth="960.0">
           <children>

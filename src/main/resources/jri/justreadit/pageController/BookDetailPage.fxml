@@ -13,17 +13,17 @@
 <?import javafx.scene.text.Text?>
 
 <HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="700.0" prefWidth="1200.0" styleClass="root" stylesheets="@style.css"
+      prefHeight="700.0" prefWidth="1200.0" styleClass="root" stylesheets="@css/style.css"
       xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="jri.justreadit.pageController.BookDetailPageController">
   <children>
     <VBox prefHeight="400.0" prefWidth="250.0">
       <children>
         <AnchorPane fx:id="side_ankerPlane" prefHeight="700.0" prefWidth="300.0" styleClass="side_ankerpane"
-                    stylesheets="@style.css">
+                    stylesheets="@css/style.css">
           <children>
             <Pane fx:id="inner_pane" layoutX="8.0" layoutY="20.0" prefHeight="44.0" prefWidth="230.0"
-                  styleClass="inner_pane" stylesheets="@style.css">
+                  styleClass="inner_pane" stylesheets="@css/style.css">
               <children>
                 <ImageView fitHeight="29.0" fitWidth="34.0" layoutX="18.0" layoutY="8.0" pickOnBounds="true"
                            preserveRatio="true">
@@ -32,7 +32,7 @@
                   </image>
                 </ImageView>
                 <Pane layoutX="189.0" layoutY="6.0" prefHeight="33.0" prefWidth="33.0" styleClass="most_inner_pane"
-                      stylesheets="@style.css">
+                      stylesheets="@css/style.css">
                   <children>
                     <ImageView fitHeight="17.0" fitWidth="22.0" layoutX="9.0" layoutY="8.0" pickOnBounds="true"
                                preserveRatio="true">
@@ -51,7 +51,7 @@
               </children>
             </Pane>
             <Button alignment="CENTER" layoutX="10.0" layoutY="113.0" mnemonicParsing="false" prefHeight="40.0"
-                    prefWidth="230.0" styleClass="btn_workbench11" stylesheets="@style.css" text=" Bookshelf"
+                    prefWidth="230.0" styleClass="btn_workbench11" stylesheets="@css/style.css" text=" Bookshelf"
                     textAlignment="CENTER" textFill="WHITE" fx:id="goToBookShelfPageButton">
               <graphic>
                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -65,7 +65,7 @@
               </font>
             </Button>
             <Button alignment="CENTER" layoutX="10.0" layoutY="163.0" mnemonicParsing="false" prefHeight="40.0"
-                    prefWidth="230.0" styleClass="pane_111" stylesheets="@style.css" text=" Book Detail"
+                    prefWidth="230.0" styleClass="pane_111" stylesheets="@css/style.css" text=" Book Detail"
                     textAlignment="CENTER" textFill="WHITE">
               <graphic>
                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -102,16 +102,16 @@
         </AnchorPane>
       </children>
     </VBox>
-    <Pane prefHeight="700.0" prefWidth="964.0" styleClass="progress" stylesheets="@style.css">
+    <Pane prefHeight="700.0" prefWidth="964.0" styleClass="progress" stylesheets="@css/style.css">
       <children>
         <Pane fx:id="book_note_pane" layoutX="63.0" layoutY="321.0" prefHeight="379.0" prefWidth="840.0"
-              styleClass="book_note_pane" stylesheets="@style.css">
+              styleClass="book_note_pane" stylesheets="@css/style.css">
           <children>
             <Pane layoutY="1.0" prefHeight="78.0" prefWidth="840.0" styleClass="book_note_pane"
-                  stylesheets="@style.css">
+                  stylesheets="@css/style.css">
               <children>
                 <Button layoutX="659.0" layoutY="21.0" mnemonicParsing="false" styleClass="pane_111"
-                        stylesheets="@style.css" text="Add New note" textFill="WHITE">
+                        stylesheets="@css/style.css" text="Add New note" textFill="WHITE">
                   <font>
                     <Font name="Arial" size="18.0"/>
                   </font>
@@ -121,7 +121,7 @@
             <Group layoutX="34.0" layoutY="109.0">
               <children>
                 <Pane prefHeight="106.0" prefWidth="220.0" styleClass="book_note_detail_up_pane"
-                      stylesheets="@style.css">
+                      stylesheets="@css/style.css">
                   <children>
                     <ImageView fitHeight="84.0" fitWidth="90.0" layoutX="68.0" layoutY="11.0" pickOnBounds="true"
                                preserveRatio="true">
@@ -132,7 +132,7 @@
                   </children>
                 </Pane>
                 <Pane layoutY="104.0" prefHeight="106.0" prefWidth="220.0" styleClass="book_note_detail_down_pane"
-                      stylesheets="@style.css">
+                      stylesheets="@css/style.css">
                   <children>
                     <Text layoutX="31.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reading Note">
                       <font>
@@ -148,7 +148,7 @@
             <Group layoutX="263.0" layoutY="109.0">
               <children>
                 <Pane prefHeight="106.0" prefWidth="220.0" styleClass="book_note_detail_up_pane"
-                      stylesheets="@style.css">
+                      stylesheets="@css/style.css">
                   <children>
                     <ImageView fitHeight="84.0" fitWidth="90.0" layoutX="68.0" layoutY="11.0" pickOnBounds="true"
                                preserveRatio="true">
@@ -159,7 +159,7 @@
                   </children>
                 </Pane>
                 <Pane layoutY="104.0" prefHeight="106.0" prefWidth="220.0" styleClass="book_note_detail_down_pane"
-                      stylesheets="@style.css">
+                      stylesheets="@css/style.css">
                   <children>
                     <Text layoutX="19.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="After Read Note">
                       <font>
