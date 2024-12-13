@@ -58,7 +58,7 @@ public class FirstScenario extends XScenario {
     }
 
     public void onMoveToSecondPageButtonPress() {
-      XCmdToChangeScene.execute(this.mScenario.getApp(), SecondScenario.SecondScene.getSingleton(), this);
+      XCmdToChangeScene.execute(this.mScenario.getApp(), BookShelfScenario.BookShelfScene.getSingleton(), this);
     }
 
     public void onMoveToBookNotePageButtonPress() {

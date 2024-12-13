@@ -43,6 +43,7 @@ public class BookNotePageController extends XPageController {
     System.out.println("Book ID: " + bookId);
     // Go Back 버튼 동작
     goBackButton.setOnAction(event -> {
+      System.out.println("Go back button pressed");
       BookNoteScenario scenario = (BookNoteScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
       scenario.dispatchReturnButtonPress();
     });
@@ -201,7 +202,7 @@ public class BookNotePageController extends XPageController {
     }
 
     // 포커스 처리 개선
-    Platform.runLater(() -> {
+    javafx.application.Platform.runLater(() -> {
       // HTMLEditor에만 포커스 설정
       htmlEditor.requestFocus();
 

@@ -3,15 +3,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="118.0" prefWidth="302.0" spacing="20" xmlns="http://javafx.com/javafx/17.0.6"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="jri.justreadit.pageController.FirstPageController">
-    <Label style="-fx-font-size: 20px;" text="Welcome to First Scenario!"/>
-    <HBox alignment="CENTER" prefHeight="0.0" prefWidth="224.0">
-        <children>
-            <Button fx:id="secondPageButton" text="Move To Second Page"/>
-            <Button fx:id="bookNotePageButton" text="Move To BookNote Page"/>
-        </children>
-    </HBox>
-    <Button fx:id="exitButton" text="Exit"/>
+<VBox alignment="CENTER" prefHeight="118.0" prefWidth="302.0" spacing="20" xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="jri.justreadit.pageController.FirstPageController">
+  <Label style="-fx-font-size: 20px;" text="Welcome to First Scenario!"/>
+  <HBox alignment="CENTER" prefHeight="0.0" prefWidth="224.0">
+    <children>
+      <Button fx:id="secondPageButton" text="Move To BookShelf"/>
+      <Button fx:id="bookNotePageButton" text="Move To BookNote Page"/>
+    </children>
+  </HBox>
+  <Button fx:id="exitButton" text="Exit"/>
 </VBox>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="700.0" prefWidth="1200.0" styleClass="root" stylesheets="@style.css"
+      xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="jri.justreadit.pageController.BookShelfPageController">
+  <children>
+    <VBox prefHeight="400.0" prefWidth="250.0">
+      <children>
+        <AnchorPane fx:id="side_ankerPlane" prefHeight="700.0" prefWidth="300.0" styleClass="side_ankerpane"
+                    stylesheets="@style.css">
+          <children>
+            <Pane fx:id="inner_pane" layoutX="8.0" layoutY="20.0" prefHeight="44.0" prefWidth="230.0"
+                  styleClass="inner_pane" stylesheets="@style.css">
+              <children>
+                <ImageView fitHeight="29.0" fitWidth="34.0" layoutX="18.0" layoutY="8.0" pickOnBounds="true"
+                           preserveRatio="true">
+                  <image>
+                    <Image url="@image/098f563424cb32a1e9f1a9e9505110cb.png"/>
+                  </image>
+                </ImageView>
+                <Pane layoutX="189.0" layoutY="6.0" prefHeight="33.0" prefWidth="33.0" styleClass="most_inner_pane"
+                      stylesheets="@style.css">
+                  <children>
+                    <ImageView fitHeight="17.0" fitWidth="22.0" layoutX="9.0" layoutY="8.0" pickOnBounds="true"
+                               preserveRatio="true">
+                      <image>
+                        <Image url="@image/menu_2948037.png"/>
+                      </image>
+                    </ImageView>
+                  </children>
+                </Pane>
+                <Text fill="WHITE" layoutX="67.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="JustReadIt" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="102.47306060791016">
+                  <font>
+                    <Font name="Arial Bold" size="18.0"/>
+                  </font>
+                </Text>
+              </children>
+            </Pane>
+            <Button alignment="CENTER" layoutX="10.0" layoutY="113.0" mnemonicParsing="false" prefHeight="40.0"
+                    prefWidth="230.0" styleClass="pane_111" stylesheets="@style.css" text=" Bookshelf"
+                    textAlignment="CENTER" textFill="WHITE">
+              <graphic>
+                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@image/bookshelf.png"/>
+                  </image>
+                </ImageView>
+              </graphic>
+              <font>
+                <Font name="Arial" size="16.0"/>
+              </font>
+            </Button>
+            <Button alignment="CENTER" layoutX="10.0" layoutY="163.0" mnemonicParsing="false" prefHeight="40.0"
+                    prefWidth="230.0" styleClass="btn_workbench11" stylesheets="@style.css" text=" Book Detail"
+                    textAlignment="CENTER" textFill="WHITE" fx:id="goToBookDetailPageButton">
+              <graphic>
+                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@image/write.png"/>
+                  </image>
+                </ImageView>
+              </graphic>
+              <font>
+                <Font name="Arial" size="16.0"/>
+              </font>
+            </Button>
+            <Button alignment="CENTER" layoutX="10.0" layoutY="213.0" mnemonicParsing="false" prefHeight="40.0"
+                    prefWidth="230.0" styleClass="btn_workbench11" text=" My Page" textAlignment="CENTER"
+                    textFill="WHITE">
+              <graphic>
+                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@image/access.png"/>
+                  </image>
+                </ImageView>
+              </graphic>
+              <font>
+                <Font name="Arial" size="16.0"/>
+              </font>
+            </Button>
+            <ImageView fitHeight="193.0" fitWidth="212.0" layoutX="19.0" layoutY="523.0" pickOnBounds="true"
+                       preserveRatio="true">
+              <image>
+                <Image url="@image/2863046.jpg"/>
+              </image>
+            </ImageView>
+          </children>
+        </AnchorPane>
+      </children>
+    </VBox>
+    <Pane prefHeight="700.0" prefWidth="964.0" styleClass="progress" stylesheets="@style.css">
+      <children>
+        <Pane layoutY="20.0" prefHeight="60.0" prefWidth="960.0">
+          <children>
+            <TextField layoutX="670.0" layoutY="15.0" prefHeight="30.0" prefWidth="239.0" promptText="Search">
+              <font>
+                <Font name="Arial" size="12.0"/>
+              </font>
+            </TextField>
+            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="614.0" layoutY="5.0" pickOnBounds="true"
+                       preserveRatio="true">
+              <image>
+                <Image url="@image/search_17867802.png"/>
+              </image>
+            </ImageView>
+          </children>
+        </Pane>
+        <Text layoutX="46.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hello! ">
+          <font>
+            <Font name="Arial" size="36.0"/>
+          </font>
+        </Text>
+        <Text layoutX="151.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min Ah Kim">
+          <font>
+            <Font name="Arial Bold" size="40.0"/>
+          </font>
+        </Text>
+        <Text layoutX="51.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="Let's read books together and expand our thoughts!">
+          <font>
+            <Font name="Arial Hebrew Light" size="18.0"/>
+          </font>
+        </Text>
+      </children>
+    </Pane>
+  </children>
+</HBox>
