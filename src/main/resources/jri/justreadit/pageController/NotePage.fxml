@@ -3,6 +3,7 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,10 +12,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 <?import javafx.scene.web.HTMLEditor?>
 
-
-<AnchorPane prefHeight="1117.0" prefWidth="1728.0" styleClass="root" stylesheets="@css/BootNote.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jri.justreadit.pageController.NotePageController">
+<AnchorPane prefHeight="1117.0" prefWidth="1728.0" styleClass="root" stylesheets="@css/BootNote.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jri.justreadit.pageController.NotePageController">
    <children>
       <VBox prefHeight="1117.0" prefWidth="1728.0">
          <children>
@@ -52,9 +53,9 @@
                         </Button>
                      </children>
                   </Pane>
-                  <VBox prefHeight="200.0" prefWidth="1628.0">
+                  <VBox prefHeight="200.0" prefWidth="1623.0">
                      <children>
-                        <Pane prefHeight="100.0" prefWidth="1628.0">
+                        <Pane prefHeight="99.0" prefWidth="1103.0">
                            <children>
                               <Text layoutX="751.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just Read It" textAlignment="CENTER" textOrigin="CENTER">
                                  <font>
@@ -68,9 +69,9 @@
                               </ImageView>
                            </children>
                         </Pane>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <HBox prefHeight="207.0" prefWidth="1628.0">
+                              <HBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="600.0">
                                  <children>
                                     <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -99,6 +100,11 @@
                                           <Insets left="20.0" />
                                        </HBox.margin>
                                     </VBox>
+                                    <Button fx:id="addBtn" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#showSlide" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/BootNote.css" text="Add" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Arial" size="18.0" />
+                                       </font>
+                                    </Button>
                                  </children>
                                  <VBox.margin>
                                     <Insets left="40.0" />
@@ -106,11 +112,11 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <Pane prefHeight="800.0" prefWidth="1628.0">
+                        <Pane prefHeight="799.0" prefWidth="1600.0">
                            <children>
-                              <HTMLEditor fx:id="htmlEditor" layoutX="37.0" layoutY="17.0" prefHeight="750.0" prefWidth="1550.0" styleClass="note" stylesheets="@css/BootNote.css">
+                              <HTMLEditor fx:id="htmlEditor" layoutX="37.0" layoutY="17.0" prefHeight="750.0" prefWidth="1500.0" styleClass="note" stylesheets="@css/BootNote.css">
                                  <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    <Insets bottom="20.0" left="30.0" right="20.0" top="20.0" />
                                  </padding>
                               </HTMLEditor>
                            </children>
@@ -120,6 +126,66 @@
                         </Pane>
                      </children>
                   </VBox>
+                  <AnchorPane fx:id="SIDE_NOTE" prefHeight="1117.0" prefWidth="600.0">
+                     <children>
+                        <ScrollPane AnchorPane.topAnchor="0.0">
+                           <content>
+                              <VBox prefHeight="1117.0" prefWidth="600.0">
+                                 <children>
+                                    <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="600.0">
+                                       <children>
+                                          <Text layoutX="238.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Side Note" textAlignment="CENTER" textOrigin="CENTER">
+                                             <font>
+                                                <Font name="Apple SD Gothic Neo ExtraBold" size="30.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </Pane>
+                                    <HBox alignment="CENTER" prefHeight="170.0" prefWidth="560.0">
+                                       <children>
+                                          <ImageView fitHeight="150.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@image/book1.jpeg" />
+                                             </image>
+                                          </ImageView>
+                                          <VBox alignment="CENTER_LEFT" prefHeight="187.0" prefWidth="417.0" spacing="10.0">
+                                             <children>
+                                                <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER" wrappingWidth="416.43829345703125">
+                                                   <font>
+                                                      <Font name="Apple SD Gothic Neo Bold" size="24.0" />
+                                                   </font>
+                                                </Text>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul " textOrigin="CENTER">
+                                                   <font>
+                                                      <Font name="Apple SD Gothic Neo Regular" size="14.0" />
+                                                   </font>
+                                                </Text>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune" textOrigin="CENTER" wrappingWidth="380.7176513671875">
+                                                   <font>
+                                                      <Font name="Apple SD Gothic Neo Regular" size="14.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets left="20.0" />
+                                             </HBox.margin>
+                                          </VBox>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="20.0" right="20.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <Pane prefHeight="824.0" prefWidth="600.0">
+                                       <children>
+                                          <TextFlow layoutX="21.0" layoutY="30.0" prefHeight="781.0" prefWidth="559.0" />
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
                </children>
             </HBox>
          </children>
