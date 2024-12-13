@@ -1,6 +1,7 @@
 package jri.justreadit.pageController;
 
 import jri.justreadit.JRIApp;
+import jri.justreadit.scenario.BookShelfScenario;
 import jri.justreadit.scenario.FirstScenario;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

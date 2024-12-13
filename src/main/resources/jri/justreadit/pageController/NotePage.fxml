@@ -14,7 +14,7 @@
 <?import javafx.scene.web.HTMLEditor?>
 
 
-<AnchorPane prefHeight="1117.0" prefWidth="1728.0" styleClass="root" stylesheets="@css/BootNote.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jri.justreadit.pageController.NotePage">
+<AnchorPane prefHeight="1117.0" prefWidth="1728.0" styleClass="root" stylesheets="@css/BootNote.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jri.justreadit.pageController.NotePageController">
    <children>
       <VBox prefHeight="1117.0" prefWidth="1728.0">
          <children>

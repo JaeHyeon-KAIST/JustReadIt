@@ -2,26 +2,27 @@ package jri.justreadit.scenario;
 
 import jri.justreadit.JRIScene;
 import jri.justreadit.pageController.FirstPageController;
+import jri.justreadit.pageController.NotePageController;
 import x.XApp;
 import x.XCmdToChangeScene;
 import x.XScenario;
 
-public class FirstScenario extends XScenario {
+public class NotePageScenario extends XScenario {
   // singleton pattern
-  private static FirstScenario mSingleton = null;
+  private static NotePageScenario mSingleton = null;
 
-  public static FirstScenario getSingleton() {
-    assert (FirstScenario.mSingleton != null);
+  public static NotePageScenario getSingleton() {
+    assert (NotePageScenario.mSingleton != null);
     return mSingleton;
   }
 
-  public static FirstScenario createSingleton(XApp app) {
-    assert (FirstScenario.mSingleton == null);
-    FirstScenario.mSingleton = new FirstScenario(app);
-    return FirstScenario.mSingleton;
+  public static NotePageScenario createSingleton(XApp app) {
+    assert (NotePageScenario.mSingleton == null);
+    NotePageScenario.mSingleton = new NotePageScenario(app);
+    return NotePageScenario.mSingleton;
   }
 
-  private FirstScenario(XApp app) {
+  private NotePageScenario(XApp app) {
     super(app);
   }
 
@@ -63,7 +64,7 @@ public class FirstScenario extends XScenario {
 
     public void onMoveToBookNotePageButtonPress() {
       BookNoteScenario.getSingleton().setCurrentBookId(10);
-      XCmdToChangeScene.execute(this.mScenario.getApp(), NotePageScenario.FirstScene.getSingleton(), this);
+      XCmdToChangeScene.execute(this.mScenario.getApp(), BookNoteScenario.ReadyScene.getSingleton(), this);
     }
 
     private FirstScene(XScenario scenario) {
@@ -72,7 +73,7 @@ public class FirstScenario extends XScenario {
 
     @Override
     public void getReady() {
-      this.mScenario.getApp().getPageControllerMgr().switchTo(FirstPageController.PAGE_CONTROLLER_NAME);
+      this.mScenario.getApp().getPageControllerMgr().switchTo(NotePageController.PAGE_CONTROLLER_NAME);
     }
 
     @Override
