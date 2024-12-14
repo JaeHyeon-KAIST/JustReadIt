@@ -60,9 +60,11 @@ public class FirstScenario extends XScenario {
   }
 
   public void dispatchAddNewBookCard(AladdinBookItem selectedItem) {
-    if (this.getApp().getScenarioMgr().getCurScene() == AddBookScene.mSingleton) {
-      AddBookScene.mSingleton.addNewBookCard(selectedItem);
-    }
+    AddBookScene.mSingleton.addNewBookCard(selectedItem);
+  }
+
+  public void dispatchCloseBookSearchModal() {
+    AddBookScene.mSingleton.closeBookSearch();
   }
 
   public static class FirstScene extends JRIScene {
@@ -202,13 +204,13 @@ public class FirstScenario extends XScenario {
     }
 
     private void handleMouseDragged(MouseEvent e) {
-      System.out.println("Mouse dragged in FirstScenario at: " + e.getSceneX() + ", " + e.getSceneY());
     }
 
     private void handleKeyPressed(KeyEvent e) {
       switch (e.getCode()) {
         case B:
           System.out.println("B key pressed");
+          e.consume();
           JRIApp jri = (JRIApp) this.mScenario.getApp();
           JRICanvas2D canvas = jri.getJRICanvas2D();
 
@@ -259,6 +261,11 @@ public class FirstScenario extends XScenario {
       System.out.println("Cover: " + selectedItem.getCover());
       canvas.addBookCard(selectedItem);
       canvas.repaint();
+      XCmdToChangeScene.execute(jri, this.mReturnScene, null);
+    }
+
+    public void closeBookSearch() {
+      JRIApp jri = (JRIApp) this.mScenario.getApp();
       XCmdToChangeScene.execute(jri, this.mReturnScene, null);
     }
 
