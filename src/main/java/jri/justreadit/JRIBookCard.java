@@ -1,6 +1,6 @@
 package jri.justreadit;
 
-import jri.justreadit.AladdinOpenAPI.AladdinBookItem;
+import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 
 import java.awt.*;
 

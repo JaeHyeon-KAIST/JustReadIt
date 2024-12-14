@@ -1,4 +1,4 @@
-package jri.justreadit.AladdinOpenAPI;
+package jri.justreadit.utils.AladdinOpenAPI;
 
 public class AladdinBookItem {
 

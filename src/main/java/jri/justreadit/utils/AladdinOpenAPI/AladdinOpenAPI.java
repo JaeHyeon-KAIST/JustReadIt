@@ -1,4 +1,4 @@
-package jri.justreadit.AladdinOpenAPI;
+package jri.justreadit.utils.AladdinOpenAPI;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

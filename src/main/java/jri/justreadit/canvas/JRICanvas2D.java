@@ -1,7 +1,7 @@
 package jri.justreadit.canvas;
 
 import jri.justreadit.JRIBookCard;
-import jri.justreadit.AladdinOpenAPI.AladdinBookItem;
+import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -27,6 +27,10 @@ public class JRICanvas2D extends JPanel {
   private JRIBookCard mSelectedBookCard;     // 선택된 북 카드
   private Point previousMousePosition; // 이전 마우스 좌표
 
+  public void initBookCards() {
+    this.mBookCards = new ArrayList<>();
+  }
+
   public void setSelectedBookCard(JRIBookCard selectedBookCard) {
     this.mSelectedBookCard = selectedBookCard;
   }
@@ -41,6 +45,10 @@ public class JRICanvas2D extends JPanel {
   public void addBookCard(AladdinBookItem bookItem) {
     this.mBookCards.add(new JRIBookCard(bookItem, mNewBookCardPosition));
     mNewBookCardPosition = null;
+  }
+
+  public void initializeBookCards(JRIBookCard bookCard) {
+    this.mBookCards.add(bookCard);
   }
 
   public void setNewBookCardPosition(Point position) {
