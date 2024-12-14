@@ -15,9 +15,10 @@
 <?import javafx.scene.text.TextFlow?>
 <?import javafx.scene.web.HTMLEditor?>
 
+
 <AnchorPane prefHeight="1117.0" prefWidth="1728.0" styleClass="root" stylesheets="@css/bookNote.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jri.justreadit.pageController.BookNotePageController">
-  <children>
-    <VBox layoutX="-2.0" prefHeight="1119.0" prefWidth="1730.0">
+   <children>
+      <VBox prefHeight="1117.0" prefWidth="1728.0">
       <children>
         <HBox prefHeight="1117.0" prefWidth="1728.0">
           <children>
@@ -27,7 +28,7 @@
                 <String fx:value="menu" />
               </styleClass>
               <children>
-                <Button fx:id="goToBookShelfPageButton" alignment="CENTER" layoutX="13.0" layoutY="365.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
+                <Button fx:id="goToBookShelfPageButton" alignment="CENTER" layoutX="12.0" layoutY="365.0" mnemonicParsing="false" onMouseClicked="#goToBookShelfPage" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
                   <graphic>
                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                       <image>
@@ -39,7 +40,7 @@
                     <Font name="Arial" size="16.0" />
                   </font>
                 </Button>
-                <Button fx:id="goToHomePageButton" alignment="CENTER" layoutX="11.0" layoutY="265.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
+                <Button fx:id="goToHomePageButton" alignment="CENTER" layoutX="12.0" layoutY="265.0" mnemonicParsing="false" onMouseClicked="#goToHomePage" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
                   <font>
                     <Font name="Arial" size="16.0" />
                   </font>
@@ -53,7 +54,7 @@
                 </Button>
               </children>
             </Pane>
-            <VBox prefHeight="200.0" prefWidth="1623.0">
+            <VBox prefHeight="200.0" prefWidth="1623.0" spacing="20.0">
               <children>
                 <Pane prefHeight="99.0" prefWidth="1014.0">
                   <children>
@@ -119,7 +120,7 @@
                 </VBox>
                 <Pane prefHeight="799.0" prefWidth="800.0">
                   <children>
-                    <HTMLEditor fx:id="htmlEditor" layoutX="37.0" layoutY="17.0" prefHeight="750.0" prefWidth="1400.0" styleClass="note" stylesheets="@css/bookNote.css">
+                    <HTMLEditor fx:id="htmlEditor" layoutX="37.0" layoutY="17.0" prefHeight="750.0" prefWidth="1466.0" styleClass="note" stylesheets="@css/bookNote.css">
                       <padding>
                         <Insets bottom="20.0" left="30.0" right="20.0" top="20.0" />
                       </padding>
@@ -137,13 +138,13 @@
                         <Insets left="20.0" right="20.0" />
                      </padding>
             </VBox>
-            <AnchorPane fx:id="SIDE_NOTE" prefHeight="1117.0" prefWidth="600.0" stylesheets="@css/bookNote.css">
+            <AnchorPane fx:id="SIDE_NOTE" prefHeight="1117.0" prefWidth="600.0" styleClass="side_note" stylesheets="@css/bookNote.css">
               <children>
-                <ScrollPane stylesheets="@css/bookNote.css" AnchorPane.topAnchor="0.0">
+                <ScrollPane prefHeight="1117.0" prefWidth="650.0" stylesheets="@css/bookNote.css" AnchorPane.topAnchor="0.0">
                   <content>
-                    <VBox prefHeight="1117.0" prefWidth="600.0" styleClass="side_note" stylesheets="@css/bookNote.css">
+                    <VBox prefHeight="1117.0" prefWidth="600.0" stylesheets="@css/bookNote.css">
                       <children>
-                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="600.0" styleClass="side_note" stylesheets="@css/bookNote.css">
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="600.0" stylesheets="@css/bookNote.css">
                           <children>
                             <Text layoutX="238.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Side Note" textAlignment="CENTER" textOrigin="CENTER">
                               <font>
@@ -200,6 +201,6 @@
           </children>
         </HBox>
       </children>
-    </VBox>
-  </children>
+      </VBox>
+   </children>
 </AnchorPane>
