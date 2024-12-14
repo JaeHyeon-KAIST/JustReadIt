@@ -146,6 +146,7 @@ public class FirstScenario extends XScenario {
 
                   String id = String.valueOf(book.get("id"));
                   String title = (String) book.get("title");
+                  String author = (String) book.get("author");
                   String publisher = (String) book.get("publisher");
                   String cover = (String) book.get("cover");
                   int positionX = (int) book.get("positionX");
@@ -154,6 +155,7 @@ public class FirstScenario extends XScenario {
                   AladdinBookItem bookItem = new AladdinBookItem();
                   bookItem.setItemId(id);
                   bookItem.setTitle(title);
+                  bookItem.setAuthor(author);
                   bookItem.setPublisher(publisher);
                   bookItem.setCover(cover);
                   JRIBookCard bookCard = new JRIBookCard(bookItem, new Point(positionX, positionY));
@@ -205,12 +207,12 @@ public class FirstScenario extends XScenario {
       if (e.getClickCount() == 2) {
         isDoubleClickInProgress = true;
         System.out.println("Double-clicked on book card: " + clickedCard.getBookItem().getItemId());
-        BookDetailScenario.getSingleton().setCurrentBook(clickedCard);
+        jri.getSelectedBookAndNoteMgr().setSelectedBookCard(clickedCard);
         XCmdToChangeScene.execute(jri, BookDetailScenario.BookDetailScene.getSingleton(), this);
       } else if (!isDoubleClickInProgress) {
         // 단일 클릭 처리
         Timeline singleClickTimeline = new Timeline(new KeyFrame(
-          Duration.millis(300), // 더블 클릭 간격 대기
+          Duration.millis(150), // 더블 클릭 간격 대기
           ev -> {
             if (!isDoubleClickInProgress) { // 더블 클릭이 아닌 경우에만 실행
               System.out.println("Clicked on book card: " + clickedCard.getBookItem().getItemId());
@@ -226,7 +228,7 @@ public class FirstScenario extends XScenario {
 
       // 300ms 후 더블 클릭 플래그 초기화
       Timeline resetFlagTimeline = new Timeline(new KeyFrame(
-        Duration.millis(300),
+        Duration.millis(150),
         ev -> isDoubleClickInProgress = false
       ));
       resetFlagTimeline.setCycleCount(1);

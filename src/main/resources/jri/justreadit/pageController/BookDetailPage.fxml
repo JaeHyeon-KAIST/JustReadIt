@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1117.0" prefWidth="1728.0"
-            styleClass="root" stylesheets="@css/bookNote.css" xmlns="http://javafx.com/javafx/23.0.1"
+            styleClass="root" stylesheets="@css/bookNote.css" xmlns="http://javafx.com/javafx/22.0.2"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="jri.justreadit.pageController.BookDetailPageController">
   <children>
     <VBox prefHeight="1117.0" prefWidth="1728.0">
@@ -87,27 +87,29 @@
                           <children>
                             <HBox alignment="CENTER_LEFT" prefHeight="220.0" prefWidth="734.0" spacing="10.0">
                               <children>
-                                <ImageView fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="bookCoverImageView" fitHeight="250.0" fitWidth="250.0"
+                                           pickOnBounds="true" preserveRatio="true">
                                   <image>
                                     <Image url="@image/book1.jpeg"/>
                                   </image>
                                 </ImageView>
                                 <VBox alignment="CENTER_LEFT" prefHeight="250.0" prefWidth="1062.0" spacing="20.0">
                                   <children>
-                                    <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                                    <Text fx:id="bookTitleText" lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0"
                                           text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER"
                                           wrappingWidth="1009.76416015625">
                                       <font>
                                         <Font name="Apple SD Gothic Neo Bold" size="48.0"/>
                                       </font>
                                     </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul "
+                                    <Text fx:id="bookAuthorText" strokeType="OUTSIDE" strokeWidth="0.0"
+                                          text="Gawande, Atul "
                                           textOrigin="CENTER">
                                       <font>
                                         <Font name="Apple SD Gothic Neo Regular" size="24.0"/>
                                       </font>
                                     </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                    <Text fx:id="bookPublisherText" strokeType="OUTSIDE" strokeWidth="0.0"
                                           text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune"
                                           textOrigin="CENTER" wrappingWidth="1021.6163940429688">
                                       <font>

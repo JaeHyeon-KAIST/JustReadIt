@@ -18,7 +18,8 @@ public class JRIApp extends XApp {
   private Stage primaryStage;
   private StackPane rootPane; // 대신 CardLayout 역할 수행
   private JRIScenarioMgr scenarioMgr;
-  private JRIPageControllerMgr pageControllerMgr; // 추가된 필드
+  private JRIPageControllerMgr pageControllerMgr;
+  private JRISelectedBookAndNoteMgr selectedBookAndNoteMgr;
   private XLogMgr mLogMgr;
 
   private JRICanvas2D mCanvas2D = null;
@@ -52,12 +53,17 @@ public class JRIApp extends XApp {
     return this.pageControllerMgr;
   }
 
+  public JRISelectedBookAndNoteMgr getSelectedBookAndNoteMgr() {
+    return this.selectedBookAndNoteMgr;
+  }
+
   // Constructor or Initialization Logic
   public JRIApp() {
     // Initialize components and managers
     this.rootPane = new StackPane();
     this.mLogMgr = new XLogMgr();
     this.mLogMgr.setPrintOn(true);
+    this.selectedBookAndNoteMgr = new JRISelectedBookAndNoteMgr();
     this.mCanvas2D = new JRICanvas2D();
 
     // Initialize Page Controller Manager

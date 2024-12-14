@@ -2,9 +2,12 @@ package jri.justreadit.pageController;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import jri.justreadit.JRIApp;
 import jri.justreadit.scenario.BookDetailScenario;
+import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import x.XPageController;
 
 
@@ -26,11 +29,30 @@ public class BookDetailPageController extends XPageController {
   private Text bookPublisherText;
 
   @FXML
+  private ImageView bookCoverImageView;
+
+  @FXML
   private Button goToBookShelfPageButton;
 
   @FXML
   public void initialize() {
-    
+    System.out.println("BookDetailPageController initialized");
+    JRIApp jri = (JRIApp) this.mApp;
+    AladdinBookItem bookItem = jri.getSelectedBookAndNoteMgr().getSelectedBookCard().getBookItem();
+
+    bookTitleText.setText(bookItem.getTitle());
+    bookAuthorText.setText(bookItem.getAuthor());
+    bookPublisherText.setText(bookItem.getPublisher());
+    if (bookItem.getCover() != null && !bookItem.getCover().isEmpty()) {
+      try {
+        // URL로부터 Image 객체 생성
+        Image coverImage = new Image(bookItem.getCover(), true); // true로 설정하면 background-loading
+        bookCoverImageView.setImage(coverImage);
+      } catch (Exception e) {
+        System.err.println("Error loading book cover image: " + e.getMessage());
+      }
+    }
+
     goToBookShelfPageButton.setOnAction(e -> {
       // Scenario와 Scene을 통한 동작 위임
       BookDetailScenario scenario = (BookDetailScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
