@@ -18,8 +18,7 @@ public class JRICanvas2D extends JPanel {
   private static final Color BOOK_CARD_DEFULT_COLOR = Color.white;
   private static final Color SELECTED_CARD_COLOR = new Color(0x00B0FF);
 
-  private static final Color BACKGROUND_COLOR = new Color(0xd0edfa);
-  private static final Color BORDER_COLOR = new Color(0x78b3ce);
+  private static final Color BACKGROUND_COLOR = new Color(0xB3D0EDFA, true);;
 
   private ArrayList<JRIBookCard> mBookCards; // 저장된 북 카드 리스트
   private Point mNewBookCardPosition;        // 임시 북 카드
@@ -64,10 +63,10 @@ public class JRICanvas2D extends JPanel {
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D) g;
     g2.setColor(BACKGROUND_COLOR);
-    g2.fillRoundRect(0, 0, getWidth(), getHeight(), 50, 50);
-    g2.setColor(BORDER_COLOR);
-    g2.setStroke(new BasicStroke(5.0f));
-    g2.drawRoundRect(2, 2, getWidth()-4, getHeight()-4, 50, 50);
+    g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+    g2.setColor(BACKGROUND_COLOR);
+    g2.setStroke(new BasicStroke(2.0f));
+    g2.drawRoundRect(2, 2, getWidth()-3, getHeight()-3, 15, 15);
 
 
     // 활성화된 카드 그리기
