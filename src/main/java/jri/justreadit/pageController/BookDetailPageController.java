@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import jri.justreadit.JRIApp;
 import jri.justreadit.scenario.BookDetailScenario;
+import jri.justreadit.scenario.HomeScenario;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import x.XPageController;
 
@@ -31,9 +32,6 @@ public class BookDetailPageController extends XPageController {
   @FXML
   private ImageView bookCoverImageView;
 
-//  @FXML
-//  private Button goToBookShelfPageButton;
-
   @FXML
   public void initialize() {
     System.out.println("BookDetailPageController initialized");
@@ -52,14 +50,6 @@ public class BookDetailPageController extends XPageController {
         System.err.println("Error loading book cover image: " + e.getMessage());
       }
     }
-
-//    goToBookShelfPageButton.setOnAction(e -> {
-//      System.out.println("Go to BookShelfPage button pressed");
-//      System.out.println("Go to BookShelfPage button pressed by: " + e.getSource());
-//      // Scenario와 Scene을 통한 동작 위임
-//      BookDetailScenario scenario = (BookDetailScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
-//      scenario.dispatchGoToBookShelfPageButtonPress();
-//    });
   }
 
   public void goToBookShelfPage() {
@@ -67,5 +57,12 @@ public class BookDetailPageController extends XPageController {
     // Scenario와 Scene을 통한 동작 위임
     BookDetailScenario scenario = (BookDetailScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
     scenario.dispatchGoToBookShelfPageButtonPress();
+  }
+
+  public void goToHomePage() {
+    System.out.println("Go to BookShelfPage button pressed");
+    // Scenario와 Scene을 통한 동작 위임
+    BookDetailScenario scenario = (BookDetailScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    scenario.dispatchGoToHomePageButtonPress();
   }
 }

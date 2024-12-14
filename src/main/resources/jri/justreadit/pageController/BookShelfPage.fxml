@@ -37,7 +37,7 @@
                     <Font name="Arial" size="16.0" />
                   </font>
                 </Button>
-                <Button fx:id="goToHomePageButton" alignment="CENTER" layoutX="11.0" layoutY="265.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
+                <Button fx:id="goToHomePageButton" onMouseClicked="#goToHomePage" alignment="CENTER" layoutX="11.0" layoutY="265.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
                   <font>
                     <Font name="Arial" size="16.0" />
                   </font>
@@ -62,7 +62,7 @@
                     </Text>
                     <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="686.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" translateX="-60.0">
                       <image>
-                        <Image url="@image/098f563424cb32a1e9f1a9e9505110cb.png" />
+                        <Image url="@image/icon.png" />
                       </image>
                     </ImageView>
                   </children>

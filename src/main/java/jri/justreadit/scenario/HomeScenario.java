@@ -57,12 +57,6 @@ public class HomeScenario extends XScenario {
     }
   }
 
-  public void dispatchMoveToBookNotePageButtonPress() {
-    if (this.getApp().getScenarioMgr().getCurScene() == FirstScene.mSingleton) {
-      FirstScene.mSingleton.onMoveToBookNotePageButtonPress();
-    }
-  }
-
   public void dispatchAddNewBookCard(AladdinBookItem selectedItem) {
     AddBookScene.mSingleton.addNewBookCard(selectedItem);
   }
@@ -95,17 +89,8 @@ public class HomeScenario extends XScenario {
       return FirstScene.mSingleton;
     }
 
-//    public void onMoveToSecondPageButtonPress() {
-//      XCmdToChangeScene.execute(this.mScenario.getApp(), BookShelfScenario.BookShelfScene.getSingleton(), this);
-//    }
-
     public void onMoveToBookShelfPageButtonPress() {
       XCmdToChangeScene.execute(this.mScenario.getApp(), BookShelfScenario.BookShelfScene.getSingleton(), this);
-    }
-
-    public void onMoveToBookNotePageButtonPress() {
-      BookNotePageScenario.getSingleton().setCurrentBookId(10);
-      XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.NoteScene.getSingleton(), this);
     }
 
     private FirstScene(XScenario scenario) {

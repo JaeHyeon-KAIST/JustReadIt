@@ -3,6 +3,7 @@ package jri.justreadit.pageController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import jri.justreadit.JRIApp;
+import jri.justreadit.scenario.BookDetailScenario;
 import jri.justreadit.scenario.BookShelfScenario;
 import x.XPageController;
 
@@ -19,10 +20,12 @@ public class BookShelfPageController extends XPageController {
 
   @FXML
   public void initialize() {
-    goToHomePageButton.setOnAction(e -> {
-      // Scenario와 Scene을 통한 동작 위임
-      BookShelfScenario scenario = (BookShelfScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
-      scenario.dispatchGoToHomePageButtonPress();
-    });
+  }
+
+  public void goToHomePage() {
+    System.out.println("Go to BookShelfPage button pressed");
+    // Scenario와 Scene을 통한 동작 위임
+    BookShelfScenario scenario = (BookShelfScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    scenario.dispatchGoToHomePageButtonPress();
   }
 }

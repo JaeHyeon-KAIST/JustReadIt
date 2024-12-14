@@ -40,15 +40,9 @@ public class BookNotePageScenario extends XScenario {
     this.addScene(NoteScene.createSingleton(this));
   }
 
-  public void dispatchMoveToSecondPageButtonPress() {
+  public void dispatchMoveToHomePageButtonPress() {
     if (this.getApp().getScenarioMgr().getCurScene() == NoteScene.mSingleton) {
-      NoteScene.mSingleton.onMoveToSecondPageButtonPress();
-    }
-  }
-
-  public void dispatchMoveToBookNotePageButtonPress() {
-    if (this.getApp().getScenarioMgr().getCurScene() == NoteScene.mSingleton) {
-      NoteScene.mSingleton.onMoveToBookNotePageButtonPress();
+      NoteScene.mSingleton.onMoveToHomePageButtonPress();
     }
   }
 
@@ -77,13 +71,9 @@ public class BookNotePageScenario extends XScenario {
       XCmdToChangeScene.execute(this.mScenario.getApp(), BookShelfScenario.BookShelfScene.getSingleton(), this);
     }
 
-    public void onMoveToSecondPageButtonPress() {
-      XCmdToChangeScene.execute(this.mScenario.getApp(), BookShelfScenario.BookShelfScene.getSingleton(), this);
-    }
-
-    public void onMoveToBookNotePageButtonPress() {
-//      BookNoteScenario.getSingleton().setCurrentBookId(10);
-//      XCmdToChangeScene.execute(this.mScenario.getApp(), BookNoteScenario.ReadyScene.getSingleton(), this);
+    public void onMoveToHomePageButtonPress() {
+      BookNotePageScenario.getSingleton().setCurrentBookId(10);
+      XCmdToChangeScene.execute(this.mScenario.getApp(), HomeScenario.FirstScene.getSingleton(), this);
     }
 
     private NoteScene(XScenario scenario) {

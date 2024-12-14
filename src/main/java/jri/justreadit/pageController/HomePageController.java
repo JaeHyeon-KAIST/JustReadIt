@@ -4,12 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import jri.justreadit.scenario.BookDetailScenario;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinOpenAPI;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinResponse;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
@@ -26,9 +26,6 @@ public class HomePageController extends XPageController {
   public HomePageController(JRIApp app, String fxmlBasePath) {
     super(PAGE_CONTROLLER_NAME, fxmlBasePath, FXML_NAME, app);
   }
-
-  @FXML
-  private Button goToBookShelfPageButton;
 
   @FXML
   private SwingNode swingNode;
@@ -70,18 +67,13 @@ public class HomePageController extends XPageController {
         }
       }
     });
-
-    goToBookShelfPageButton.setOnAction(e -> {
-      // Scenario와 Scene을 통한 동작 위임
-      HomeScenario scenario = (HomeScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
-      scenario.dispatchMoveToBookShelfPageButtonPress();
-    });
   }
 
-  @FXML
-  public void moveToBookNotePage() {
-    HomeScenario scenario = (HomeScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
-    scenario.dispatchMoveToBookNotePageButtonPress();
+  public void goToBookShelfPage() {
+    System.out.println("Go to BookShelfPage button pressed");
+    // Scenario와 Scene을 통한 동작 위임
+   HomeScenario scenario = (HomeScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    scenario.dispatchMoveToBookShelfPageButtonPress();
   }
 
   @FXML

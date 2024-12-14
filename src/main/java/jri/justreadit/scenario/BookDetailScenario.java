@@ -37,6 +37,12 @@ public class BookDetailScenario extends XScenario {
     }
   }
 
+  public void dispatchGoToHomePageButtonPress() {
+    if (this.getApp().getScenarioMgr().getCurScene() == BookDetailScene.mSingleton) {
+      BookDetailScene.mSingleton.dispatchGoToHomePageButtonPress();
+    }
+  }
+
   public static class BookDetailScene extends JRIScene {
     // singleton
     private static BookDetailScene mSingleton = null;
@@ -54,6 +60,10 @@ public class BookDetailScenario extends XScenario {
 
     public void dispatchGoToBookShelfPageButtonPress() {
       XCmdToChangeScene.execute(this.mScenario.getApp(), BookShelfScenario.BookShelfScene.getSingleton(), this);
+    }
+
+    public void dispatchGoToHomePageButtonPress() {
+      XCmdToChangeScene.execute(this.mScenario.getApp(), HomeScenario.FirstScene.getSingleton(), this);
     }
 
     private BookDetailScene(XScenario scenario) {

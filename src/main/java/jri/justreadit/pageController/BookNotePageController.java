@@ -18,6 +18,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.util.Duration;
 import jri.justreadit.JRIApp;
+import jri.justreadit.scenario.BookDetailScenario;
 import jri.justreadit.scenario.BookNotePageScenario;
 import netscape.javascript.JSObject;
 import x.XPageController;
@@ -32,9 +33,6 @@ import java.util.regex.Pattern;
 public class BookNotePageController extends XPageController {
   public static final String PAGE_CONTROLLER_NAME = "NotePageController";
   public static final String FXML_NAME = "BookNotePage";
-
-  @FXML
-  private Button goToBookShelfPageButton;
 
   @FXML
   private AnchorPane SIDE_NOTE;
@@ -117,12 +115,21 @@ public class BookNotePageController extends XPageController {
     // 붙여넣기 이벤트 감지
     setupPasteEventListener();
 
-    goToBookShelfPageButton.setOnAction(e -> {
-      // Scenario와 Scene을 통한 동작 위임
-      BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
-      scenario.dispatchGoToBookShelfPageButtonPress();
-    });
     SIDE_NOTE.setTranslateX(800);
+  }
+
+  public void goToBookShelfPage() {
+    System.out.println("Go to BookShelfPage button pressed");
+    // Scenario와 Scene을 통한 동작 위임
+    BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    scenario.dispatchGoToBookShelfPageButtonPress();
+  }
+
+  public void goToHomePage() {
+    System.out.println("Go to BookShelfPage button pressed");
+    // Scenario와 Scene을 통한 동작 위임
+    BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    scenario.dispatchMoveToHomePageButtonPress();
   }
 
   public static class JavaLogger {
