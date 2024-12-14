@@ -10,18 +10,21 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class JRICanvas2D extends JPanel {
   // constants
   private static final int CARD_WIDTH = 100;
   private static final int CARD_HEIGHT = 150;
+  private static final int CARD_CATEGORY_DISTANCE = 250;
   private static final Color BOOK_CARD_DEFULT_COLOR = Color.white;
   private static final Color SELECTED_CARD_COLOR = new Color(0x00B0FF);
-
-  private static final Color BACKGROUND_COLOR = new Color(0xB3D0EDFA, true);;
+  private static final Color BACKGROUND_COLOR = new Color(0xB3D0EDFA, true);
+  private static final Color CATRGORY_BORDER_COLOR = new Color(0xCEE37D);
 
   private ArrayList<JRIBookCard> mBookCards; // 저장된 북 카드 리스트
-  private Point mNewBookCardPosition;        // 임시 북 카드
+  private Point mNewBookCardPosition; // 임시 북 카드
+  private ArrayList<HashSet<JRIBookCard>> mCategoryGroups;
 
   public Point getNewBookCardPosition() {
     return mNewBookCardPosition;
@@ -32,6 +35,7 @@ public class JRICanvas2D extends JPanel {
 
   public void initBookCards() {
     this.mBookCards = new ArrayList<>();
+    this.mCategoryGroups = new ArrayList<>();
   }
 
   public JRIBookCard getSelectedBookCard() {
@@ -52,10 +56,16 @@ public class JRICanvas2D extends JPanel {
   public void addBookCard(AladdinBookItem bookItem) {
     this.mBookCards.add(new JRIBookCard(bookItem, mNewBookCardPosition));
     mNewBookCardPosition = null;
+
+    //그룸 간 거리 비교 카테고리 업데이트
+    updateCategoryCardGroups();
   }
 
   public void initializeBookCards(JRIBookCard bookCard) {
     this.mBookCards.add(bookCard);
+
+    //그룸 간 거리 비교 카테고리 업데이트
+    updateCategoryCardGroups();
   }
 
   public void setNewBookCardPosition(Point position) {
@@ -76,9 +86,15 @@ public class JRICanvas2D extends JPanel {
     g2.setStroke(new BasicStroke(2.0f));
     g2.drawRoundRect(2, 2, getWidth()-3, getHeight()-3, 15, 15);
 
-
     // 활성화된 카드 그리기
     this.drawBookCards(g2);
+
+    // 그룹 카드 간 연결선 그리기
+    for(HashSet<JRIBookCard> group : mCategoryGroups){
+      if(group.size() > 1){
+        drawCategoryBorder(g2, group);
+      }
+    }
 
     // Anti-aliasing 설정
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -119,6 +135,27 @@ public class JRICanvas2D extends JPanel {
       g2.setStroke(new BasicStroke(5.0f));
       g2.drawRoundRect(x, y, CARD_WIDTH, CARD_HEIGHT, 10, 10);
     }
+  }
+
+  private void drawCategoryBorder(Graphics2D g2, HashSet<JRIBookCard> group) {
+    if(group.isEmpty()) return;
+
+    int minX = Integer.MAX_VALUE;
+    int minY = Integer.MAX_VALUE;
+    int maxX = Integer.MIN_VALUE;
+    int maxY = Integer.MIN_VALUE;
+
+    for(JRIBookCard card : group){
+      Point position = card.getPosition();
+      minX = Math.min(minX, position.x - CARD_WIDTH / 2);
+      minY = Math.min(minY, position.y - CARD_HEIGHT / 2);
+      maxX = Math.max(maxX, position.x + CARD_WIDTH / 2);
+      maxY = Math.max(maxY, position.y + CARD_HEIGHT / 2);
+    }
+
+    g2.setColor(CATRGORY_BORDER_COLOR);
+    g2.setStroke(new BasicStroke(5.0f));
+    g2.drawRoundRect(minX - 10, minY - 10, maxX - minX + 20, maxY - minY + 20, 20, 20);
   }
 
   public Point screenPointToCanvasPoint(Point screenLocation) {
@@ -172,8 +209,38 @@ public class JRICanvas2D extends JPanel {
       // 제한된 위치로 카드 이동
       mSelectedBookCard.setPosition(new Point(limitedX, limitedY));
 
+      // 그룹 업데이트 로직
+      updateCategoryCardGroups();
+
       // 이전 마우스 좌표를 현재 좌표로 갱신
       previousMousePosition = currentMousePosition;
+    }
+  }
+
+  private void updateCategoryCardGroups() {
+    this.mCategoryGroups.clear(); // 기존 그룹 초기화
+
+    for (JRIBookCard card : mBookCards) {
+      boolean addedToGroup = false;
+
+      // 기존 그룹 검사
+      for (HashSet<JRIBookCard> group : this.mCategoryGroups) {
+        for (JRIBookCard groupCard : group) {
+          if (card.getPosition().distance(groupCard.getPosition()) < CARD_CATEGORY_DISTANCE) {
+            group.add(card);
+            addedToGroup = true;
+            break;
+          }
+        }
+        if (addedToGroup) break;
+      }
+
+      // 그룹에 속하지 않았다면 새 그룹 생성
+      if (!addedToGroup) {
+        HashSet<JRIBookCard> newGroup = new HashSet<>();
+        newGroup.add(card);
+        this.mCategoryGroups.add(newGroup);
+      }
     }
   }
 }
