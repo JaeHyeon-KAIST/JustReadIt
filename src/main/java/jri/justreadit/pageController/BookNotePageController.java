@@ -285,7 +285,7 @@ public class BookNotePageController extends XPageController {
     // HTMLEditor 크기 줄이기 애니메이션
     Timeline editorResize = new Timeline();
     KeyValue widthKey = new KeyValue(htmlEditor.prefWidthProperty(), 850); // 목표 넓이
-    KeyValue heightKey = new KeyValue(htmlEditor.prefHeightProperty(), 750); // 목표 높이
+    KeyValue heightKey = new KeyValue(htmlEditor.prefHeightProperty(), 730); // 목표 높이
     KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.5), widthKey, heightKey);
     editorResize.getKeyFrames().add(keyFrame);
     editorResize.play();
@@ -301,8 +301,8 @@ public class BookNotePageController extends XPageController {
 
     // HTMLEditor 크기 복원 애니메이션
     Timeline editorResize = new Timeline();
-    KeyValue widthKey = new KeyValue(htmlEditor.prefWidthProperty(), 1400); // 원래 넓이
-    KeyValue heightKey = new KeyValue(htmlEditor.prefHeightProperty(), 750); // 원래 높이
+    KeyValue widthKey = new KeyValue(htmlEditor.prefWidthProperty(), 1466); // 원래 넓이
+    KeyValue heightKey = new KeyValue(htmlEditor.prefHeightProperty(), 730); // 원래 높이
     KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.5), widthKey, heightKey);
     editorResize.getKeyFrames().add(keyFrame);
     editorResize.play();

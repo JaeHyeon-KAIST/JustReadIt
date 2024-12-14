@@ -137,9 +137,9 @@
                         <Insets left="20.0" right="20.0" />
                      </padding>
             </VBox>
-            <AnchorPane fx:id="SIDE_NOTE" prefHeight="1117.0" prefWidth="600.0" styleClass="side_note" stylesheets="@css/bookNote.css">
+            <AnchorPane fx:id="SIDE_NOTE" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1117.0" prefWidth="600.0" styleClass="side_note" stylesheets="@css/bookNote.css">
               <children>
-                <ScrollPane prefHeight="1117.0" prefWidth="650.0" stylesheets="@css/bookNote.css" AnchorPane.topAnchor="0.0">
+                <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1110.0" prefWidth="650.0" stylesheets="@css/bookNote.css" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="5.0">
                   <content>
                     <VBox prefHeight="1117.0" prefWidth="600.0" stylesheets="@css/bookNote.css">
                       <children>
