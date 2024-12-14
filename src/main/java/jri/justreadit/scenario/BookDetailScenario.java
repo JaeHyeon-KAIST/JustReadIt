@@ -1,13 +1,23 @@
 package jri.justreadit.scenario;
 
+import jri.justreadit.JRIBookCard;
 import jri.justreadit.JRIScene;
 import jri.justreadit.pageController.BookDetailPageController;
-import jri.justreadit.pageController.BookShelfPageController;
 import x.XApp;
 import x.XCmdToChangeScene;
 import x.XScenario;
 
 public class BookDetailScenario extends XScenario {
+  private JRIBookCard mSelectedBookCard;
+
+  public void setCurrentBook(JRIBookCard bookCard) {
+    this.mSelectedBookCard = bookCard;
+  }
+
+  public JRIBookCard getCurrentBook() {
+    return this.mSelectedBookCard;
+  }
+
   // singleton pattern
   private static BookDetailScenario mSingleton = null;
 

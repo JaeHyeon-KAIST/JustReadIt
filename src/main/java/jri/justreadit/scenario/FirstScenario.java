@@ -1,5 +1,7 @@
 package jri.justreadit.scenario;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -7,6 +9,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Scene;
 
+import javafx.util.Duration;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import jri.justreadit.JRIApp;
 import jri.justreadit.JRIBookCard;
@@ -69,12 +72,13 @@ public class FirstScenario extends XScenario {
   }
 
   public static class FirstScene extends JRIScene {
-    private static FirstScene mSingleton = null;
-    // singleton
+    private boolean isDoubleClickInProgress = false;
     private final EventHandler<MouseEvent> mousePressedHandler;
     private final EventHandler<MouseEvent> mouseDraggedHandler;
     private final EventHandler<KeyEvent> keyPressedHandler;
     private final EventHandler<KeyEvent> keyReleasedHandler;
+    // singleton
+    private static FirstScene mSingleton = null;
 
     public static FirstScene getSingleton() {
       assert (FirstScene.mSingleton != null);
@@ -194,14 +198,39 @@ public class FirstScenario extends XScenario {
       int relativeX = screenLocation.x - canvasLocation.x;
       int relativeY = screenLocation.y - canvasLocation.y;
 
-      // check selected book card
       JRIBookCard clickedCard = canvas.getClickedBookCard(new Point(relativeX, relativeY));
-      if (clickedCard != null) {
-        System.out.println("Clicked on book card: " + clickedCard.getBookItem().getItemId());
-        canvas.setSelectedBookCard(clickedCard);
-        canvas.setPreviousMousePosition(new Point(relativeX, relativeY));
-        XCmdToChangeScene.execute(jri, MoveBookScene.getSingleton(), this);
+      if (clickedCard == null) return;
+
+      // 더블 클릭 처리 우선
+      if (e.getClickCount() == 2) {
+        isDoubleClickInProgress = true;
+        System.out.println("Double-clicked on book card: " + clickedCard.getBookItem().getItemId());
+        BookDetailScenario.getSingleton().setCurrentBook(clickedCard);
+        XCmdToChangeScene.execute(jri, BookDetailScenario.BookDetailScene.getSingleton(), this);
+      } else if (!isDoubleClickInProgress) {
+        // 단일 클릭 처리
+        Timeline singleClickTimeline = new Timeline(new KeyFrame(
+          Duration.millis(300), // 더블 클릭 간격 대기
+          ev -> {
+            if (!isDoubleClickInProgress) { // 더블 클릭이 아닌 경우에만 실행
+              System.out.println("Clicked on book card: " + clickedCard.getBookItem().getItemId());
+              canvas.setSelectedBookCard(clickedCard);
+              canvas.setPreviousMousePosition(new Point(relativeX, relativeY));
+              XCmdToChangeScene.execute(jri, MoveBookScene.getSingleton(), this);
+            }
+          }
+        ));
+        singleClickTimeline.setCycleCount(1);
+        singleClickTimeline.play();
       }
+
+      // 300ms 후 더블 클릭 플래그 초기화
+      Timeline resetFlagTimeline = new Timeline(new KeyFrame(
+        Duration.millis(300),
+        ev -> isDoubleClickInProgress = false
+      ));
+      resetFlagTimeline.setCycleCount(1);
+      resetFlagTimeline.play();
     }
 
     private void handleMouseDragged(MouseEvent e) {
