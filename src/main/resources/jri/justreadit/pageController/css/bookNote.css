@@ -2,7 +2,7 @@
   -fx-background-color: #ffffff;
 }
 
-.html-editor.tool-bar {
+.html-editor .tool-bar {
   -fx-visible: false;
   -fx-managed: false;
   -fx-pref-height: 0;

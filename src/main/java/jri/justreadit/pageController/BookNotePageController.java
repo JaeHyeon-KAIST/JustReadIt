@@ -279,12 +279,12 @@ public class BookNotePageController extends XPageController {
     TranslateTransition sideNoteSlide = new TranslateTransition();
     sideNoteSlide.setDuration(Duration.seconds(0.5));
     sideNoteSlide.setNode(SIDE_NOTE);
-    sideNoteSlide.setToX(100); // 열릴 위치
+    sideNoteSlide.setToX(40); // 열릴 위치
     sideNoteSlide.play();
 
     // HTMLEditor 크기 줄이기 애니메이션
     Timeline editorResize = new Timeline();
-    KeyValue widthKey = new KeyValue(htmlEditor.prefWidthProperty(), 1050); // 목표 넓이
+    KeyValue widthKey = new KeyValue(htmlEditor.prefWidthProperty(), 1000); // 목표 넓이
     KeyValue heightKey = new KeyValue(htmlEditor.prefHeightProperty(), 750); // 목표 높이
     KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.5), widthKey, heightKey);
     editorResize.getKeyFrames().add(keyFrame);
