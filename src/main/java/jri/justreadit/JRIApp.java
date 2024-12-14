@@ -83,6 +83,8 @@ public class JRIApp extends XApp {
     // Configure and show the main stage
     Scene scene = new Scene(rootPane, 1728, 1117);
     primaryStage.setScene(scene);
+    primaryStage.setFullScreen(true);
+    primaryStage.setFullScreenExitHint("");
 
     primaryStage.setOnCloseRequest(event -> {
       System.out.println("Closing application...");
