@@ -20,8 +20,8 @@ import x.XPageController;
 import javax.swing.*;
 
 public class HomePageController extends XPageController {
-  public static final String PAGE_CONTROLLER_NAME = "FirstPageController";
-  public static final String FXML_NAME = "FirstPage";
+  public static final String PAGE_CONTROLLER_NAME = "HomePageController";
+  public static final String FXML_NAME = "HomePage";
 
   public HomePageController(JRIApp app, String fxmlBasePath) {
     super(PAGE_CONTROLLER_NAME, fxmlBasePath, FXML_NAME, app);
