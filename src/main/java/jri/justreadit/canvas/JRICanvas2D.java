@@ -56,10 +56,10 @@ public class JRICanvas2D extends JPanel {
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D) g;
     g2.setColor(BACKGROUND_COLOR);
-    g2.fillRoundRect(0, 0, getWidth(), getHeight(), 45, 45);
+    g2.fillRoundRect(0, 0, getWidth(), getHeight(), 50, 50);
     g2.setColor(BORDER_COLOR);
     g2.setStroke(new BasicStroke(5.0f));
-    g2.drawRoundRect(0, 0, getWidth(), getHeight(), 50, 50);
+    g2.drawRoundRect(2, 2, getWidth()-4, getHeight()-4, 50, 50);
 
 
     // 활성화된 카드 그리기

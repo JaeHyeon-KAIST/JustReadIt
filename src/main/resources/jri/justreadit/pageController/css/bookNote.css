@@ -2,7 +2,7 @@
   -fx-background-color: #ffffff;
 }
 
-.html-editor .tool-bar {
+.html-editor.tool-bar {
   -fx-visible: false;
   -fx-managed: false;
   -fx-pref-height: 0;
@@ -26,19 +26,11 @@
   -fx-background-radius: 30px;
 }
 
-.close_btn{
-  -fx-background-color: rgb(255, 255, 255);
-  -fx-border-width: 2px 2px 2px 2px;
-  -fx-border-radius: 30px;
-  -fx-background-radius: 30px;
-  -fx-border-color: #78b3ce;
-}
-
 .note{
   -fx-background-color: #ffffff;
-  -fx-border-width: 4px 4px 4px 4px;
-  -fx-border-radius: 20px;
-  -fx-background-radius: 20px;
+  -fx-border-width: 5px 5px 5px 5px;
+  -fx-border-radius: 25px;
+  -fx-background-radius: 25px;
   -fx-border-style: solid;
   -fx-border-color: #78b3ce;
 }
@@ -53,11 +45,23 @@
 
 .book_map{
   -fx-background-color: #d0edfa;
-  -fx-border-width: 4px 4px 4px 4px;
-  -fx-border-radius: 20px;
-  -fx-background-radius: 20px;
+  -fx-border-width: 5px 5px 5px 5px;
+  -fx-border-radius: 25px;
+  -fx-background-radius: 25px;
   -fx-border-color: #78b3ce;
   -fx-border-style: solid;
 }
 
+.stack_pane{
+  -fx-background-color: rgba(0, 0, 0, 0.3);
+  -fx-background-radius: 30px;
+}
 
+.search{
+    -fx-background-color: #ffffff;
+    -fx-border-width: 4px 4px 4px 4px;
+    -fx-border-radius: 18px;
+    -fx-background-radius: 20px;
+    -fx-border-style: solid;
+    -fx-border-color: #5da8ca;
+}

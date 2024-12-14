@@ -14,6 +14,7 @@ import jri.justreadit.AladdinOpenAPI.AladdinOpenAPI;
 import jri.justreadit.AladdinOpenAPI.AladdinResponse;
 import jri.justreadit.AladdinOpenAPI.AladdinBookItem;
 import jri.justreadit.JRIApp;
+import jri.justreadit.scenario.BookNotePageScenario;
 import jri.justreadit.scenario.FirstScenario;
 import x.XPageController;
 
@@ -28,7 +29,8 @@ public class FirstPageController extends XPageController {
   }
 
   @FXML
-  private Button CLOSE_BTN;
+  private Button goToBookShelfPageButton;
+
   @FXML
   private SwingNode swingNode;
 
@@ -69,12 +71,12 @@ public class FirstPageController extends XPageController {
         }
       }
     });
-  }
 
-  @FXML
-  public void moveToSecondPage() {
-    FirstScenario scenario = (FirstScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
-    scenario.dispatchMoveToSecondPageButtonPress();
+    goToBookShelfPageButton.setOnAction(e -> {
+      // Scenario와 Scene을 통한 동작 위임
+      FirstScenario scenario = (FirstScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+      scenario.dispatchMoveToBookShelfPageButtonPress();
+    });
   }
 
   @FXML

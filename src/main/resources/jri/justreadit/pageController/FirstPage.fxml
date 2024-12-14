@@ -89,20 +89,18 @@
                               <SwingNode fx:id="swingNode" accessibleRole="BUTTON" styleClass="book_map" />
                               
                                                                  <!-- Modal Overlay -->
-                                <StackPane fx:id="modalOverlay" onMouseClicked="#onModalOverlayClicked" prefHeight="723.0" prefWidth="1588.0" style="-fx-background-color: rgba(0, 0, 0, 0.5);" visible="false">
+                                <StackPane fx:id="modalOverlay" onMouseClicked="#onModalOverlayClicked" prefHeight="723.0" prefWidth="1588.0" styleClass="stack_pane" stylesheets="@css/bookNote.css" visible="false">
                                   <children>
-                                    <VBox alignment="CENTER" maxHeight="400" maxWidth="500" spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: black; -fx-border-width: 1;">
-                                      <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Search Results">
+                                    <VBox alignment="CENTER" maxHeight="400" maxWidth="500" spacing="15" styleClass="search" stylesheets="@css/bookNote.css">
+                                      <Label text="Search Results">
                                              <font>
-                                                <Font name="Apple SD Gothic Neo Regular" size="13.0" />
+                                                <Font name="Apple SD Gothic Neo Regular" size="18.0" />
                                              </font></Label>
-                                      <TextField fx:id="modalInputField" onKeyPressed="#onModalInputKeyPressed" promptText="Enter something..." />
+                                      <TextField fx:id="modalInputField" onKeyPressed="#onModalInputKeyPressed" promptText="Enter something..." text="Search Books" />
                                       <ListView fx:id="searchResultsList" onMouseClicked="#onSearchResultClicked" visible="false" />
-                                          <Button fx:id="CLOSE_BTN" mnemonicParsing="false" styleClass="close_btn" stylesheets="@css/bookNote.css" text="close">
-                                             <font>
-                                                <Font name="Apple SD Gothic Neo Regular" size="13.0" />
-                                             </font>
-                                          </Button>
+                                          <padding>
+                                             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                          </padding>
                                     </VBox>
                                   </children>
                                 </StackPane>

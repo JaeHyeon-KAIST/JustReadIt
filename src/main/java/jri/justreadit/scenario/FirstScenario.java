@@ -44,9 +44,9 @@ public class FirstScenario extends XScenario {
     this.addScene(MoveBookScene.createSingleton(this));
   }
 
-  public void dispatchMoveToSecondPageButtonPress() {
+  public void dispatchMoveToBookShelfPageButtonPress() {
     if (this.getApp().getScenarioMgr().getCurScene() == FirstScene.mSingleton) {
-      FirstScene.mSingleton.onMoveToSecondPageButtonPress();
+      FirstScene.mSingleton.onMoveToBookShelfPageButtonPress();
     }
   }
 
@@ -81,7 +81,11 @@ public class FirstScenario extends XScenario {
       return FirstScene.mSingleton;
     }
 
-    public void onMoveToSecondPageButtonPress() {
+//    public void onMoveToSecondPageButtonPress() {
+//      XCmdToChangeScene.execute(this.mScenario.getApp(), BookShelfScenario.BookShelfScene.getSingleton(), this);
+//    }
+
+    public void onMoveToBookShelfPageButtonPress() {
       XCmdToChangeScene.execute(this.mScenario.getApp(), BookShelfScenario.BookShelfScene.getSingleton(), this);
     }
 

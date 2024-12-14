@@ -30,9 +30,15 @@ public class BookShelfScenario extends XScenario {
     this.addScene(BookShelfScene.createSingleton(this));
   }
 
-  public void dispatchGoToBookDetailPageButtonPress() {
-    if (this.getApp().getScenarioMgr().getCurScene() == BookShelfScene.mSingleton) {
-      BookShelfScene.mSingleton.dispatchGoToBookDetailPageButtonPress();
+//  public void dispatchGoToBookDetailPageButtonPress() {
+//    if (this.getApp().getScenarioMgr().getCurScene() == BookShelfScene.mSingleton) {
+//      BookShelfScene.mSingleton.dispatchGoToBookDetailPageButtonPress();
+//    }
+//  }
+
+  public void dispatchGoToHomePageButtonPress() {
+    if (this.getApp().getScenarioMgr().getCurScene() == BookShelfScenario.BookShelfScene.mSingleton) {
+      BookShelfScenario.BookShelfScene.mSingleton.onMoveToHomePageButtonPress();
     }
   }
 
@@ -51,8 +57,12 @@ public class BookShelfScenario extends XScenario {
       return BookShelfScene.mSingleton;
     }
 
-    public void dispatchGoToBookDetailPageButtonPress() {
-      XCmdToChangeScene.execute(this.mScenario.getApp(), BookDetailScenario.BookDetailScene.getSingleton(), this.mReturnScene);
+//    public void dispatchGoToBookDetailPageButtonPress() {
+//      XCmdToChangeScene.execute(this.mScenario.getApp(), BookDetailScenario.BookDetailScene.getSingleton(), this.mReturnScene);
+//    }
+
+    public void onMoveToHomePageButtonPress() {
+      XCmdToChangeScene.execute(this.mScenario.getApp(), FirstScenario.FirstScene.getSingleton(), this.mReturnScene);
     }
 
     private BookShelfScene(XScenario scenario) {
