@@ -206,7 +206,7 @@ public class HomeScenario extends XScenario {
           isSceneChanging = true;
           System.out.println("Double-clicked on book card: " + clickedCard.getBookItem().getItemId());
           jri.getSelectedBookAndNoteMgr().setSelectedBookCard(clickedCard);
-          XCmdToChangeScene.execute(jri, BookDetailScenario.BookDetailScene.getSingleton(), this);
+          XCmdToChangeScene.execute(jri, BookDetailScenario.DefaultScene.getSingleton(), this);
           lastClickTime = 0;
         } else {
           // 첫 번째 클릭
