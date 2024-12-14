@@ -1,39 +1,47 @@
 package jri.justreadit.canvas;
 
 import jri.justreadit.JRIBookCard;
+import jri.justreadit.AladdinOpenAPI.AladdinBookItem;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
-import javax.swing.JPanel;
 
 public class JRICanvas2D extends JPanel {
-  //constants
-  private static final float CardWidth = 50;
-  private static final float CardHeight = 150;
+  // constants
+  private static final int CARD_WIDTH = 100;
+  private static final int CARD_HEIGHT = 150;
 
+  private ArrayList<JRIBookCard> mBookCards; // 저장된 북 카드 리스트
+  private Point mNewBookCardPosition;        // 임시 북 카드
+  private JRIBookCard mSelectedBookCard;     // 선택된 북 카드
+  private Point previousMousePosition; // 이전 마우스 좌표
 
-  private ArrayList<JRIBookCard> mBookCards = null;
-  private JRIBookCard mTempBookCard = null;
-
-  public void addBookCard(JRIBookCard bookCard) {
-    this.mBookCards.add(bookCard);
+  public void setSelectedBookCard(JRIBookCard selectedBookCard) {
+    this.mSelectedBookCard = selectedBookCard;
   }
 
-  public void createTempBookCard(Point position) {
-    this.mTempBookCard = new JRIBookCard("", position);
-  }
-
-  public void addTempBookCard() {
-    this.mBookCards.add(this.mTempBookCard);
-    this.mTempBookCard = null;
-  }
-
-  //cons
+  // 생성자
   public JRICanvas2D() {
-    this.mBookCards = new ArrayList<JRIBookCard>();
+    this.mBookCards = new ArrayList<>();
+  }
 
-    this.mBookCards.add(new JRIBookCard("The Great Gatsby", new Point(100, 200)));
-    this.mBookCards.add(new JRIBookCard("The Catcher in the Rye", new Point(200, 300)));
+  // 북 카드 추가
+  public void addBookCard(AladdinBookItem bookItem) {
+    this.mBookCards.add(new JRIBookCard(bookItem, mNewBookCardPosition));
+    mNewBookCardPosition = null;
+  }
+
+  public void setNewBookCardPosition(Point position) {
+    this.mNewBookCardPosition = position;
+  }
+
+  public void setPreviousMousePosition(Point position) {
+    this.previousMousePosition = position;
   }
 
   @Override
@@ -41,32 +49,99 @@ public class JRICanvas2D extends JPanel {
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D) g;
 
-    this.drawBookCard(g2);
-    // turn on anti-aliasing.
+    // 활성화된 카드 그리기
+    this.drawBookCards(g2);
+
+    // Anti-aliasing 설정
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
   }
 
-  private void drawBookCard(Graphics2D g2) {
+  private void drawBookCards(Graphics2D g2) {
     for (JRIBookCard bookCard : this.mBookCards) {
       Point position = bookCard.getPosition();
 
-      // 중심점 기준으로 실제 그리기 위치 계산
-      int x = position.x - (int) (CardWidth / 2);
-      int y = position.y - (int) (CardHeight / 2);
+      // 중심점 기준으로 위치 계산
+      int x = position.x - (CARD_WIDTH / 2);
+      int y = position.y - (CARD_HEIGHT / 2);
 
-      // Set the card's color and draw the rectangle
-      g2.setColor(Color.LIGHT_GRAY);
-      g2.fillRect(x, y, (int) CardWidth, (int) CardHeight);
+      BufferedImage bookCover = null;
 
-      // Draw the border of the card
+      // 책 커버 이미지 로드
+      try {
+        URL url = new URL(bookCard.getBookItem().getCover());
+        bookCover = ImageIO.read(url);
+      } catch (IOException e) {
+        System.out.println("Failed to load image for: " + bookCard.getBookItem().getTitle());
+      }
+
+      // 이미지 또는 기본 배경 그리기
+      if (bookCover != null) {
+        g2.drawImage(bookCover, x, y, CARD_WIDTH, CARD_HEIGHT, null);
+      } else {
+        g2.setColor(Color.LIGHT_GRAY);
+        g2.fillRect(x, y, CARD_WIDTH, CARD_HEIGHT);
+      }
+
+      // 카드 테두리 그리기
       g2.setColor(Color.BLACK);
       g2.setStroke(new BasicStroke(2.0f));
-      g2.drawRect(x, y, (int) CardWidth, (int) CardHeight);
+      g2.drawRect(x, y, CARD_WIDTH, CARD_HEIGHT);
+    }
+  }
 
-      // Draw the book title (텍스트도 중심점 기준으로 조정)
-      g2.setColor(Color.BLACK);
-      g2.setFont(new Font("Arial", Font.PLAIN, 12));
-      g2.drawString(bookCard.getTitle(), x + 5, y + 15);
+  public Point screenPointToCanvasPoint(Point screenLocation) {
+    Point canvasLocation = this.getLocationOnScreen();
+
+    int relativeX = screenLocation.x - canvasLocation.x;
+    int relativeY = screenLocation.y - canvasLocation.y;
+
+    return new Point(relativeX, relativeY);
+  }
+
+  // 클릭된 카드 찾기 메서드
+  public JRIBookCard getClickedBookCard(Point clickPoint) {
+    for (JRIBookCard bookCard : this.mBookCards) {
+      Point cardPosition = bookCard.getPosition();
+      int x = cardPosition.x - (CARD_WIDTH / 2);
+      int y = cardPosition.y - (CARD_HEIGHT / 2);
+
+      // 카드의 경계를 Rectangle로 정의
+      Rectangle cardBounds = new Rectangle(x, y, CARD_WIDTH, CARD_HEIGHT);
+
+      // 클릭된 위치가 경계 안에 있는지 확인
+      if (cardBounds.contains(clickPoint)) {
+        return bookCard; // 클릭된 카드 반환
+      }
+    }
+    return null; // 클릭된 카드가 없으면 null 반환
+  }
+
+  public void updateSelectedBookCardPosition(Point currentMousePosition) {
+    if (mSelectedBookCard != null && previousMousePosition != null) {
+      // 현재 마우스 좌표와 이전 좌표의 차이를 계산
+      int deltaX = currentMousePosition.x - previousMousePosition.x;
+      int deltaY = currentMousePosition.y - previousMousePosition.y;
+
+      // 카드의 현재 위치
+      Point currentCardPosition = mSelectedBookCard.getPosition();
+
+      // 새로운 카드 위치 계산
+      int newX = currentCardPosition.x + deltaX;
+      int newY = currentCardPosition.y + deltaY;
+
+      // 화면 경계 제한 적용
+      int canvasWidth = this.getWidth();
+      int canvasHeight = this.getHeight();
+
+      // 카드 중심점이 화면 안에 머물도록 제한
+      int limitedX = Math.max(CARD_WIDTH / 2, Math.min(newX, canvasWidth - CARD_WIDTH / 2));
+      int limitedY = Math.max(CARD_HEIGHT / 2, Math.min(newY, canvasHeight - CARD_HEIGHT / 2));
+
+      // 제한된 위치로 카드 이동
+      mSelectedBookCard.setPosition(new Point(limitedX, limitedY));
+
+      // 이전 마우스 좌표를 현재 좌표로 갱신
+      previousMousePosition = currentMousePosition;
     }
   }
 }

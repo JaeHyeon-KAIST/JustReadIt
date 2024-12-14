@@ -1,22 +1,29 @@
 package jri.justreadit;
 
+import jri.justreadit.AladdinOpenAPI.AladdinBookItem;
+
 import java.awt.*;
 
 public class JRIBookCard {
-  private String mTitle = null;
+  private AladdinBookItem mBookItem; // 책 정보
+  private Point mPosition;          // 책 카드의 위치
 
-  public String getTitle() {
-    return this.mTitle;
+  // 생성자
+  public JRIBookCard(AladdinBookItem bookItem, Point position) {
+    this.mBookItem = bookItem;
+    this.mPosition = position;
   }
 
-  private Point mPosition = null;
+  // 게터와 세터
+  public AladdinBookItem getBookItem() {
+    return this.mBookItem;
+  }
 
   public Point getPosition() {
     return this.mPosition;
   }
 
-  public JRIBookCard(String title, Point position) {
-    this.mTitle = title;
+  public void setPosition(Point position) {
     this.mPosition = position;
   }
 }

@@ -1,20 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.embed.swing.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.embed.swing.SwingNode?>
 
-<VBox alignment="CENTER" prefHeight="118.0" prefWidth="302.0" spacing="20" xmlns="http://javafx.com/javafx/22.0.2"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="jri.justreadit.pageController.FirstPageController">
-  <Label style="-fx-font-size: 20px;" text="Welcome to First Scenario!"/>
-  <HBox alignment="CENTER" prefHeight="0.0" prefWidth="224.0">
+<StackPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="jri.justreadit.pageController.FirstPageController">
+  <!-- Main Content -->
+  <VBox alignment="CENTER" prefHeight="118.0" prefWidth="302.0" spacing="20">
+    <Label style="-fx-font-size: 20px;" text="Welcome to First Scenario!"/>
+    <HBox alignment="CENTER" prefHeight="0.0" prefWidth="224.0">
+      <children>
+        <Button onAction="#moveToSecondPage" text="Move To BookShelf"/>
+        <Button onAction="#moveToBookNotePage" text="Move To BookNote Page"/>
+      </children>
+    </HBox>
+    <Pane prefHeight="600" prefWidth="1728">
+      <SwingNode fx:id="swingNode"/>
+    </Pane>
+    <Button onAction="#exitButton" text="Exit"/>
+    <Button onAction="#openModal" text="Open Modal"/> <!-- 모달 오픈 버튼 추가 -->
+  </VBox>
+
+  <!-- Modal Overlay -->
+  <StackPane fx:id="modalOverlay" onMouseClicked="#onModalOverlayClicked"
+             style="-fx-background-color: rgba(0, 0, 0, 0.5);" visible="false">
     <children>
-      <Button fx:id="secondPageButton" text="Move To BookShelf"/>
-      <Button fx:id="bookNotePageButton" text="Move To BookNote Page"/>
+      <VBox alignment="CENTER" maxHeight="400" maxWidth="500" spacing="15"
+            style="-fx-background-color: white; -fx-padding: 20; -fx-border-color: black; -fx-border-width: 1;">
+        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Search Results"/>
+        <TextField fx:id="modalInputField" onKeyPressed="#onModalInputKeyPressed" promptText="Enter something..."/>
+        <ListView fx:id="searchResultsList" visible="false" onMouseClicked="#onSearchResultClicked"/>
+      </VBox>
     </children>
-  </HBox>
-  <Pane fx:id="swingNodePane" prefHeight="600" prefWidth="1728">
-    <SwingNode fx:id="swingNode"/>
-  </Pane>
-  <Button fx:id="exitButton" text="Exit"/>
-</VBox>
+  </StackPane>
+</StackPane>

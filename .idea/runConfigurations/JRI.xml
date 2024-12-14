@@ -1,5 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="JRI" type="Application" factoryName="Application" activateToolWindowBeforeRun="false">
+    <option name="envFilePaths">
+      <option value="$PROJECT_DIR$/.env" />
+    </option>
     <option name="MAIN_CLASS_NAME" value="jri.justreadit.JRIApp" />
     <module name="JustReadIt" />
     <option name="VM_PARAMETERS" value="-Dfile.encoding=UTF-8 -Dconsole.encoding=UTF-8 -Duser.language=ko -Duser.country=KR" />
