@@ -1,6 +1,7 @@
 package jri.justreadit;
 
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import jri.justreadit.canvas.JRICanvas2D;
@@ -8,7 +9,9 @@ import x.XApp;
 import x.XLogMgr;
 import x.XScenarioMgr;
 
-import javax.swing.*;
+import java.awt.Taskbar;
+import java.awt.Toolkit;
+import java.awt.Taskbar.Feature;
 
 public class JRIApp extends XApp {
   // fields
@@ -66,6 +69,16 @@ public class JRIApp extends XApp {
   public void start(Stage primaryStage) throws Exception {
     this.primaryStage = primaryStage;
     primaryStage.setTitle("Just Read It");
+
+    primaryStage.getIcons().add(new Image("file:src/main/resources/icon/icon.png")); // 앱 타이틀 바 아이콘 설정
+    if (Taskbar.isTaskbarSupported()) {
+      var taskbar = Taskbar.getTaskbar();
+      if (taskbar.isSupported(Feature.ICON_IMAGE)) {
+        final Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
+        var dockIcon = defaultToolkit.getImage(getClass().getResource("/icon/icon.png"));
+        taskbar.setIconImage(dockIcon);
+      }
+    }
 
     // Configure and show the main stage
     Scene scene = new Scene(rootPane, 1728, 1117);
