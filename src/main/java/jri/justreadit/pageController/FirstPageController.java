@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -27,6 +28,8 @@ public class FirstPageController extends XPageController {
   }
 
   @FXML
+  private Button CLOSE_BTN;
+  @FXML
   private SwingNode swingNode;
 
   @FXML
@@ -46,7 +49,7 @@ public class FirstPageController extends XPageController {
 
     SwingUtilities.invokeLater(() -> {
       swingNode.setContent(jri.getJRICanvas2D());
-      jri.getJRICanvas2D().setPreferredSize(new java.awt.Dimension(1728, 600));
+      jri.getJRICanvas2D().setPreferredSize(new java.awt.Dimension(1550, 800));
       jri.getJRICanvas2D().repaint();
     });
 
