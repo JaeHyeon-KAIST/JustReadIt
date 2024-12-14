@@ -62,7 +62,7 @@ public class BookShelfScenario extends XScenario {
 //    }
 
     public void onMoveToHomePageButtonPress() {
-      XCmdToChangeScene.execute(this.mScenario.getApp(), FirstScenario.FirstScene.getSingleton(), this.mReturnScene);
+      XCmdToChangeScene.execute(this.mScenario.getApp(), HomeScenario.FirstScene.getSingleton(), this.mReturnScene);
     }
 
     private BookShelfScene(XScenario scenario) {

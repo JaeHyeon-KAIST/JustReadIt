@@ -14,17 +14,16 @@ import jri.justreadit.utils.AladdinOpenAPI.AladdinOpenAPI;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinResponse;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import jri.justreadit.JRIApp;
-import jri.justreadit.scenario.BookNotePageScenario;
-import jri.justreadit.scenario.FirstScenario;
+import jri.justreadit.scenario.HomeScenario;
 import x.XPageController;
 
 import javax.swing.*;
 
-public class FirstPageController extends XPageController {
+public class HomePageController extends XPageController {
   public static final String PAGE_CONTROLLER_NAME = "FirstPageController";
   public static final String FXML_NAME = "FirstPage";
 
-  public FirstPageController(JRIApp app, String fxmlBasePath) {
+  public HomePageController(JRIApp app, String fxmlBasePath) {
     super(PAGE_CONTROLLER_NAME, fxmlBasePath, FXML_NAME, app);
   }
 
@@ -74,14 +73,14 @@ public class FirstPageController extends XPageController {
 
     goToBookShelfPageButton.setOnAction(e -> {
       // Scenario와 Scene을 통한 동작 위임
-      FirstScenario scenario = (FirstScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+      HomeScenario scenario = (HomeScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
       scenario.dispatchMoveToBookShelfPageButtonPress();
     });
   }
 
   @FXML
   public void moveToBookNotePage() {
-    FirstScenario scenario = (FirstScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    HomeScenario scenario = (HomeScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
     scenario.dispatchMoveToBookNotePageButtonPress();
   }
 
@@ -99,7 +98,7 @@ public class FirstPageController extends XPageController {
     System.out.println("Modal overlay clicked!");
     if (event.getTarget() == modalOverlay) { // 배경 영역인지 확인
       modalOverlay.setVisible(false); // 모달 창 숨김
-      FirstScenario scenario = (FirstScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+      HomeScenario scenario = (HomeScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
       scenario.dispatchCloseBookSearchModal();
     }
   }
@@ -144,7 +143,7 @@ public class FirstPageController extends XPageController {
       AladdinBookItem selectedItem = searchResultsList.getSelectionModel().getSelectedItem();
       if (selectedItem != null) {
         modalOverlay.setVisible(false); // 모달 창 숨김
-        FirstScenario scenario = (FirstScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+        HomeScenario scenario = (HomeScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
         scenario.dispatchAddNewBookCard(selectedItem);
       }
     }

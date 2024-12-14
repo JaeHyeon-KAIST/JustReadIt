@@ -12,7 +12,7 @@ public class JRIPageControllerMgr extends XPageControllerMgr {
 
   @Override
   protected void initializeControllers() {
-    this.addController(new FirstPageController((JRIApp) this.mApp, BASE_FXML_PATH));
+    this.addController(new HomePageController((JRIApp) this.mApp, BASE_FXML_PATH));
     this.addController(new BookShelfPageController((JRIApp) this.mApp, BASE_FXML_PATH));
     this.addController(new BookDetailPageController((JRIApp) this.mApp, BASE_FXML_PATH));
     this.addController(new BookNotePageController((JRIApp) this.mApp, BASE_FXML_PATH));

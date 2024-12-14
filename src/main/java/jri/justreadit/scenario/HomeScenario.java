@@ -15,7 +15,7 @@ import jri.justreadit.JRIApp;
 import jri.justreadit.JRIBookCard;
 import jri.justreadit.JRIScene;
 import jri.justreadit.canvas.JRICanvas2D;
-import jri.justreadit.pageController.FirstPageController;
+import jri.justreadit.pageController.HomePageController;
 import jri.justreadit.utils.ServerAPI;
 import x.XApp;
 import x.XCmdToChangeScene;
@@ -25,22 +25,22 @@ import java.awt.*;
 import java.util.List;
 import java.util.Map;
 
-public class FirstScenario extends XScenario {
+public class HomeScenario extends XScenario {
   // singleton pattern
-  private static FirstScenario mSingleton = null;
+  private static HomeScenario mSingleton = null;
 
-  public static FirstScenario getSingleton() {
-    assert (FirstScenario.mSingleton != null);
+  public static HomeScenario getSingleton() {
+    assert (HomeScenario.mSingleton != null);
     return mSingleton;
   }
 
-  public static FirstScenario createSingleton(XApp app) {
-    assert (FirstScenario.mSingleton == null);
-    FirstScenario.mSingleton = new FirstScenario(app);
-    return FirstScenario.mSingleton;
+  public static HomeScenario createSingleton(XApp app) {
+    assert (HomeScenario.mSingleton == null);
+    HomeScenario.mSingleton = new HomeScenario(app);
+    return HomeScenario.mSingleton;
   }
 
-  private FirstScenario(XApp app) {
+  private HomeScenario(XApp app) {
     super(app);
   }
 
@@ -129,7 +129,7 @@ public class FirstScenario extends XScenario {
       });
 
       String currentPage = jri.getPageControllerMgr().getCurrentPageName();
-      if (!FirstPageController.PAGE_CONTROLLER_NAME.equals(currentPage)) {
+      if (!HomePageController.PAGE_CONTROLLER_NAME.equals(currentPage)) {
         System.out.println("Switching to FirstPageController");
         // ServerAPI.getBookList() 호출 및 데이터 처리
         new Thread(() -> {
@@ -176,7 +176,7 @@ public class FirstScenario extends XScenario {
 
 
         Platform.runLater(() -> {
-          jri.getPageControllerMgr().switchTo(FirstPageController.PAGE_CONTROLLER_NAME);
+          jri.getPageControllerMgr().switchTo(HomePageController.PAGE_CONTROLLER_NAME);
         });
       }
     }
@@ -254,7 +254,7 @@ public class FirstScenario extends XScenario {
           canvas.setNewBookCardPosition(new Point(relativeX, relativeY));
 
 //          FirstPageController.openModal();
-          FirstPageController controller = (FirstPageController) jri.getPageControllerMgr().getController(FirstPageController.PAGE_CONTROLLER_NAME);
+          HomePageController controller = (HomePageController) jri.getPageControllerMgr().getController(HomePageController.PAGE_CONTROLLER_NAME);
           // 모달 창 열기
           Platform.runLater(controller::openModal);
 
