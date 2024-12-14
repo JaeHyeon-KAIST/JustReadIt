@@ -1,6 +1,7 @@
 package jri.justreadit.scenario;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -254,13 +255,42 @@ public class FirstScenario extends XScenario {
     public void addNewBookCard(AladdinBookItem selectedItem) {
       JRIApp jri = (JRIApp) this.mScenario.getApp();
       JRICanvas2D canvas = jri.getJRICanvas2D();
+      Point position = canvas.getNewBookCardPosition();
+
       System.out.println("Selected Item Details:");
       System.out.println("Title: " + selectedItem.getTitle());
       System.out.println("Author: " + selectedItem.getAuthor());
       System.out.println("Publisher: " + selectedItem.getPublisher());
       System.out.println("Cover: " + selectedItem.getCover());
+
+      // UI에 새 책 카드 추가
       canvas.addBookCard(selectedItem);
       canvas.repaint();
+
+      // 서버에 책 추가 요청 (비동기)
+      Task<Boolean> addBookTask = new Task<>() {
+        @Override
+        protected Boolean call() throws Exception {
+          return ServerAPI.addBook(selectedItem, position.x, position.y);
+        }
+      };
+
+      addBookTask.setOnSucceeded(event -> {
+        if (addBookTask.getValue()) {
+          System.out.println("Book added to the server successfully.");
+        } else {
+          System.err.println("Failed to add the book to the server.");
+        }
+      });
+
+      addBookTask.setOnFailed(event -> {
+        System.err.println("Error while adding book to the server.");
+        addBookTask.getException().printStackTrace();
+      });
+
+      new Thread(addBookTask).start();
+
+      // Scene 변경
       XCmdToChangeScene.execute(jri, this.mReturnScene, null);
     }
 
@@ -340,6 +370,41 @@ public class FirstScenario extends XScenario {
       JRIApp jri = (JRIApp) this.mScenario.getApp();
       JRICanvas2D canvas = jri.getJRICanvas2D();
 
+      JRIBookCard selectedCard = canvas.getSelectedBookCard();
+
+      if (selectedCard != null) {
+        String id = selectedCard.getBookItem().getItemId();
+        Point position = selectedCard.getPosition();
+
+        System.out.println("Updating position for book ID: " + id + " to " + position);
+
+        // 비동기로 서버에 위치 업데이트 요청
+        Task<Boolean> updatePositionTask = new Task<>() {
+          @Override
+          protected Boolean call() throws Exception {
+            return ServerAPI.updateBookPosition(id, position.x, position.y);
+          }
+        };
+
+        updatePositionTask.setOnSucceeded(event -> {
+          if (updatePositionTask.getValue()) {
+            System.out.println("Book position updated successfully on the server.");
+          } else {
+            System.err.println("Failed to update book position on the server.");
+          }
+        });
+
+        updatePositionTask.setOnFailed(event -> {
+          System.err.println("Error while updating book position on the server.");
+          updatePositionTask.getException().printStackTrace();
+        });
+
+        new Thread(updatePositionTask).start();
+      } else {
+        System.err.println("No book card selected for position update.");
+      }
+
+      // Reset selection and change scene
       canvas.setSelectedBookCard(null);
       canvas.setPreviousMousePosition(null);
 

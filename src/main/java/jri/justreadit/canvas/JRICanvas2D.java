@@ -24,11 +24,19 @@ public class JRICanvas2D extends JPanel {
   private ArrayList<JRIBookCard> mBookCards; // 저장된 북 카드 리스트
   private Point mNewBookCardPosition;        // 임시 북 카드
 
+  public Point getNewBookCardPosition() {
+    return mNewBookCardPosition;
+  }
+
   private JRIBookCard mSelectedBookCard;     // 선택된 북 카드
   private Point previousMousePosition; // 이전 마우스 좌표
 
   public void initBookCards() {
     this.mBookCards = new ArrayList<>();
+  }
+
+  public JRIBookCard getSelectedBookCard() {
+    return mSelectedBookCard;
   }
 
   public void setSelectedBookCard(JRIBookCard selectedBookCard) {
@@ -67,7 +75,7 @@ public class JRICanvas2D extends JPanel {
     g2.fillRoundRect(0, 0, getWidth(), getHeight(), 50, 50);
     g2.setColor(BORDER_COLOR);
     g2.setStroke(new BasicStroke(5.0f));
-    g2.drawRoundRect(2, 2, getWidth()-4, getHeight()-4, 50, 50);
+    g2.drawRoundRect(2, 2, getWidth() - 4, getHeight() - 4, 50, 50);
 
 
     // 활성화된 카드 그리기
