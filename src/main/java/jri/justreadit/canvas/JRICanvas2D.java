@@ -54,6 +54,8 @@ public class JRICanvas2D extends JPanel {
   // 생성자
   public JRICanvas2D() {
     this.mBookCards = new ArrayList<>();
+    this.mCategoryGroups = new ArrayList<>();
+    this.mCategoryGroupColors = new HashMap<>();
     setBackground(Color.white);
   }
 
@@ -159,7 +161,12 @@ public class JRICanvas2D extends JPanel {
     }
 
     // 그룹별 고유 색상 가져오기
-    Color groupColor = mCategoryGroupColors.getOrDefault(group, new Color(0xCEE37D)); // 기본 색상 설정
+    Color groupColor = mCategoryGroupColors.get(group);
+    if (groupColor == null) {
+      groupColor = GreenRandomColor.getGreenRandomColor();
+      mCategoryGroupColors.put(group, groupColor); // 누락된 경우 보충
+    }
+
     g2.setColor(groupColor);
     g2.setStroke(new BasicStroke(5.0f));
     g2.drawRoundRect(minX - 10, minY - 10, maxX - minX + 20, maxY - minY + 20, 20, 20);
@@ -260,5 +267,6 @@ public class JRICanvas2D extends JPanel {
         }
       }
     }
+    mCategoryGroupColors.putAll(newGroupColors);
   }
 }
