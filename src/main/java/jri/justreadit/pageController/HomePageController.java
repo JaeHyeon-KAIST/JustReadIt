@@ -10,7 +10,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import jri.justreadit.scenario.BookDetailScenario;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinOpenAPI;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinResponse;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
@@ -75,7 +74,7 @@ public class HomePageController extends XPageController {
   public void goToBookShelfPage() {
     System.out.println("Go to BookShelfPage button pressed");
     // Scenario와 Scene을 통한 동작 위임
-   HomeScenario scenario = (HomeScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    HomeScenario scenario = (HomeScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
     scenario.dispatchMoveToBookShelfPageButtonPress();
   }
 

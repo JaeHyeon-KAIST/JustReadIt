@@ -1,13 +1,11 @@
 package jri.justreadit.pageController;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import jri.justreadit.JRIApp;
 import jri.justreadit.scenario.BookDetailScenario;
-import jri.justreadit.scenario.HomeScenario;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import x.XPageController;
 

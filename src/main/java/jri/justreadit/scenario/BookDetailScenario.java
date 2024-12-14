@@ -1,6 +1,5 @@
 package jri.justreadit.scenario;
 
-import jri.justreadit.JRIBookCard;
 import jri.justreadit.JRIScene;
 import jri.justreadit.pageController.BookDetailPageController;
 import x.XApp;
