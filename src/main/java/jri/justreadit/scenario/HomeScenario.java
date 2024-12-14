@@ -353,7 +353,6 @@ public class HomeScenario extends XScenario {
   public static class MoveBookScene extends JRIScene {
     private final EventHandler<MouseEvent> mouseDraggedHandler;
     private final EventHandler<MouseEvent> mouseReleasedHandler;
-    private Point lastMousePosition; // 이전 마우스 위치 저장 변수
     // singleton
     private static MoveBookScene mSingleton = null;
 
@@ -382,8 +381,6 @@ public class HomeScenario extends XScenario {
       // 이벤트 핸들러 추가
       scene.addEventFilter(MouseEvent.MOUSE_DRAGGED, mouseDraggedHandler);
       scene.addEventFilter(MouseEvent.MOUSE_RELEASED, mouseReleasedHandler);
-
-      lastMousePosition = null; // 초기화
     }
 
     @Override
