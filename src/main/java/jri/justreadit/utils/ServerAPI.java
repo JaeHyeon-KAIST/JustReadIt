@@ -157,4 +157,63 @@ public class ServerAPI {
     }
     return false;
   }
+
+  public static int createNote(int bookId, String type) {
+    String endpoint = BASE_URL + "createNote";
+    HttpURLConnection connection = null;
+
+    try {
+      // URL 객체 생성
+      URL url = new URL(endpoint);
+      connection = (HttpURLConnection) url.openConnection();
+
+      // HTTP POST 설정
+      connection.setRequestMethod("POST");
+      connection.setRequestProperty("Content-Type", "application/json");
+      connection.setDoOutput(true);
+
+      // JSON 데이터 생성
+      Map<String, Object> noteData = new HashMap<>();
+      noteData.put("bookId", bookId);
+      noteData.put("type", type);  // "during" 또는 "after"
+
+      ObjectMapper objectMapper = new ObjectMapper();
+      String jsonInputString = objectMapper.writeValueAsString(noteData);
+
+      // POST 요청에 JSON 데이터 쓰기
+      try (OutputStream os = connection.getOutputStream()) {
+        byte[] input = jsonInputString.getBytes("utf-8");
+        os.write(input, 0, input.length);
+      }
+
+      // HTTP 응답 코드 확인
+      int responseCode = connection.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        // 응답 읽기
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+          response.append(line);
+        }
+        reader.close();
+
+        // JSON 응답 파싱하여 noteId 추출
+        Map<String, Object> responseMap = objectMapper.readValue(response.toString(), Map.class);
+        if (responseMap.containsKey("noteId")) {
+          return ((Number) responseMap.get("noteId")).intValue();
+        }
+      } else {
+        System.err.println("Failed to create note. Response code: " + responseCode);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
+    }
+    return -1;  // 실패시 -1 반환
+  }
 }

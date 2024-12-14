@@ -5,8 +5,11 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import jri.justreadit.JRIApp;
+import jri.justreadit.JRIBookCard;
+import jri.justreadit.JRIBookNoteInfo;
 import jri.justreadit.JRIScene;
 import jri.justreadit.pageController.BookDetailPageController;
+import jri.justreadit.utils.ServerAPI;
 import x.XApp;
 import x.XCmdToChangeScene;
 import x.XScenario;
@@ -108,7 +111,36 @@ public class BookDetailScenario extends XScenario {
         case A:
           System.out.println("A key pressed");
           e.consume();
+//          createNewNote("after");
+          JRIApp jri = (JRIApp) this.mScenario.getApp();
+          JRIBookCard selectedBook = jri.getSelectedBookAndNoteMgr().getSelectedBookCard();
+          JRIBookNoteInfo newNote = new JRIBookNoteInfo(1, selectedBook.getBookItem().getItemId(), "Untitled", "during", "");
+          jri.getSelectedBookAndNoteMgr().setSelectedBookNote(newNote);
+          XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.NoteScene.getSingleton(), this);
           break;
+      }
+    }
+
+    private void createNewNote(String type) {
+      JRIApp jri = (JRIApp) this.mScenario.getApp();
+      JRIBookCard selectedBook = jri.getSelectedBookAndNoteMgr().getSelectedBookCard();
+
+      if (selectedBook != null) {
+        // 선택된 책의 ID로 새 노트 생성
+        int bookId = Integer.parseInt(selectedBook.getBookItem().getItemId());
+        int noteId = ServerAPI.createNote(bookId, type);
+
+        if (noteId != -1) {
+          System.out.println("Created new note with ID: " + noteId);
+          // 노트 생성 성공 후 노트 씬으로 전환
+          JRIBookNoteInfo newNote = new JRIBookNoteInfo(noteId, selectedBook.getBookItem().getItemId(), "Untitled", type, "");
+          jri.getSelectedBookAndNoteMgr().setSelectedBookNote(newNote);
+          XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.NoteScene.getSingleton(), this);
+        } else {
+          System.err.println("Failed to create new note");
+        }
+      } else {
+        System.err.println("No book selected");
       }
     }
   }
