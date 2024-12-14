@@ -55,12 +55,12 @@
                      <children>
                         <Pane prefHeight="99.0" prefWidth="1014.0">
                            <children>
-                              <Text layoutX="751.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just Read It" textAlignment="CENTER" textOrigin="CENTER">
+                              <Text layoutX="751.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just Read It" textAlignment="CENTER" textOrigin="CENTER" translateX="-60.0">
                                  <font>
                                     <Font name="Apple SD Gothic Neo ExtraBold" size="30.0" />
                                  </font>
                               </Text>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="686.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="686.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" translateX="-60.0">
                                  <image>
                                     <Image url="@image/098f563424cb32a1e9f1a9e9505110cb.png" />
                                  </image>
@@ -87,17 +87,17 @@
                                                    <children>
                                                       <Text lineSpacing="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER" wrappingWidth="1009.76416015625">
                                                          <font>
-                                                            <Font name="Apple SD Gothic Neo Bold" size="48.0" />
+                                                            <Font name="Apple SD Gothic Neo Bold" size="30.0" />
                                                          </font>
                                                       </Text>
                                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gawande, Atul " textOrigin="CENTER">
                                                          <font>
-                                                            <Font name="Apple SD Gothic Neo Regular" size="24.0" />
+                                                            <Font name="Apple SD Gothic Neo Regular" size="18.0" />
                                                          </font>
                                                       </Text>
                                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune" textOrigin="CENTER" wrappingWidth="1021.6163940429688">
                                                          <font>
-                                                            <Font name="Apple SD Gothic Neo Regular" size="24.0" />
+                                                            <Font name="Apple SD Gothic Neo Regular" size="18.0" />
                                                          </font>
                                                       </Text>
                                                    </children>

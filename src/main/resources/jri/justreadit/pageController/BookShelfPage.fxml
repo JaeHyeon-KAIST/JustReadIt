@@ -13,7 +13,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="1117.0" prefWidth="1728.0" styleClass="root" stylesheets="@css/bookNote.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jri.justreadit.pageController.BookShelfPageController">
    <children>
       <VBox prefHeight="1117.0" prefWidth="1728.0">
@@ -56,12 +55,12 @@
               <children>
                 <Pane prefHeight="99.0" prefWidth="1014.0">
                   <children>
-                    <Text layoutX="751.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just Read It" textAlignment="CENTER" textOrigin="CENTER">
+                    <Text layoutX="751.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just Read It" textAlignment="CENTER" textOrigin="CENTER" translateX="-60.0">
                       <font>
                         <Font name="Apple SD Gothic Neo ExtraBold" size="30.0" />
                       </font>
                     </Text>
-                    <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="686.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="686.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" translateX="-60.0">
                       <image>
                         <Image url="@image/098f563424cb32a1e9f1a9e9505110cb.png" />
                       </image>
@@ -73,7 +72,7 @@
                 </Pane>
                 <Pane prefHeight="99.0" prefWidth="1014.0">
                   <children>
-                    <Text fill="#78b3ce" layoutX="29.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My Bookshelf" textAlignment="CENTER" textOrigin="CENTER">
+                    <Text fill="#78b3ce" layoutX="29.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My Book Shelf" textAlignment="CENTER" textOrigin="CENTER">
                       <font>
                         <Font name="Apple SD Gothic Neo ExtraBold" size="40.0" />
                       </font>

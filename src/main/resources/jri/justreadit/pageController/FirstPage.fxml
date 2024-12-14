@@ -59,12 +59,12 @@
                      <children>
                         <Pane prefHeight="99.0" prefWidth="1014.0">
                            <children>
-                              <Text layoutX="751.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just Read It" textAlignment="CENTER" textOrigin="CENTER">
+                              <Text layoutX="751.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just Read It" textAlignment="CENTER" textOrigin="CENTER" translateX="-60.0">
                                  <font>
                                     <Font name="Apple SD Gothic Neo ExtraBold" size="30.0" />
                                  </font>
                               </Text>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="686.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="686.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" translateX="-60.0">
                                  <image>
                                     <Image url="@image/098f563424cb32a1e9f1a9e9505110cb.png" />
                                  </image>
@@ -106,9 +106,6 @@
                                 </StackPane>
                               </StackPane>
                            </children>
-                           <padding>
-                              <Insets left="20.0" right="20.0" />
-                           </padding>
                         </VBox>
                      </children>
                      <HBox.margin>
