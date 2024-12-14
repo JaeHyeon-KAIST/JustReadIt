@@ -25,7 +25,9 @@
                 <String fx:value="menu" />
               </styleClass>
               <children>
-                <Button fx:id="goToBookShelfPageButton" alignment="CENTER" layoutX="13.0" layoutY="365.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
+                <Button onMouseClicked="#goToBookShelfPage" alignment="CENTER" layoutX="13.0" layoutY="365.0"
+                        mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn"
+                        stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
                   <graphic>
                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                       <image>

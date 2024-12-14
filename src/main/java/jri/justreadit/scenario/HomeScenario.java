@@ -72,7 +72,11 @@ public class HomeScenario extends XScenario {
   }
 
   public static class FirstScene extends JRIScene {
-    private boolean isDoubleClickInProgress = false;
+    private long lastClickTime = 0;
+    private static final long DOUBLE_CLICK_TIME = 200;
+    private Timeline singleClickTimer;
+    private boolean isSceneChanging = false;
+
     private final EventHandler<MouseEvent> mousePressedHandler;
     private final EventHandler<MouseEvent> mouseDraggedHandler;
     private final EventHandler<KeyEvent> keyPressedHandler;
@@ -116,6 +120,8 @@ public class HomeScenario extends XScenario {
     public void getReady() {
       JRIApp jri = (JRIApp) this.mScenario.getApp();
       Scene scene = jri.getPrimaryStage().getScene();
+
+      isSceneChanging = false;
 
       // 먼저 이벤트 필터 추가
       System.out.println("Adding event filters");
@@ -201,38 +207,39 @@ public class HomeScenario extends XScenario {
       int relativeY = screenLocation.y - canvasLocation.y;
 
       JRIBookCard clickedCard = canvas.getClickedBookCard(new Point(relativeX, relativeY));
-      if (clickedCard == null) return;
+      if (clickedCard != null) {
+        e.consume();
 
-      // 더블 클릭 처리 우선
-      if (e.getClickCount() == 2) {
-        isDoubleClickInProgress = true;
-        System.out.println("Double-clicked on book card: " + clickedCard.getBookItem().getItemId());
-        jri.getSelectedBookAndNoteMgr().setSelectedBookCard(clickedCard);
-        XCmdToChangeScene.execute(jri, BookDetailScenario.BookDetailScene.getSingleton(), this);
-      } else if (!isDoubleClickInProgress) {
-        // 단일 클릭 처리
-        Timeline singleClickTimeline = new Timeline(new KeyFrame(
-          Duration.millis(150), // 더블 클릭 간격 대기
-          ev -> {
-            if (!isDoubleClickInProgress) { // 더블 클릭이 아닌 경우에만 실행
+        // 이전 타이머가 있다면 취소
+        if (singleClickTimer != null) {
+          singleClickTimer.stop();
+        }
+
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastClickTime < DOUBLE_CLICK_TIME) {
+          // 더블 클릭
+          isSceneChanging = true;
+          System.out.println("Double-clicked on book card: " + clickedCard.getBookItem().getItemId());
+          jri.getSelectedBookAndNoteMgr().setSelectedBookCard(clickedCard);
+          XCmdToChangeScene.execute(jri, BookDetailScenario.BookDetailScene.getSingleton(), this);
+          lastClickTime = 0;
+        } else {
+          // 첫 번째 클릭
+          lastClickTime = currentTime;
+
+          singleClickTimer = new Timeline(new KeyFrame(Duration.millis(DOUBLE_CLICK_TIME), event -> {
+            System.out.println(isSceneChanging + " " + (System.currentTimeMillis() - lastClickTime));
+            if (!isSceneChanging && System.currentTimeMillis() - lastClickTime >= DOUBLE_CLICK_TIME) {
+              isSceneChanging = true;  // 씬 전환 시작
               System.out.println("Clicked on book card: " + clickedCard.getBookItem().getItemId());
               canvas.setSelectedBookCard(clickedCard);
               canvas.setPreviousMousePosition(new Point(relativeX, relativeY));
               XCmdToChangeScene.execute(jri, MoveBookScene.getSingleton(), this);
             }
-          }
-        ));
-        singleClickTimeline.setCycleCount(1);
-        singleClickTimeline.play();
+          }));
+          singleClickTimer.play();
+        }
       }
-
-      // 300ms 후 더블 클릭 플래그 초기화
-      Timeline resetFlagTimeline = new Timeline(new KeyFrame(
-        Duration.millis(150),
-        ev -> isDoubleClickInProgress = false
-      ));
-      resetFlagTimeline.setCycleCount(1);
-      resetFlagTimeline.play();
     }
 
     private void handleMouseDragged(MouseEvent e) {
@@ -346,7 +353,6 @@ public class HomeScenario extends XScenario {
   public static class MoveBookScene extends JRIScene {
     private final EventHandler<MouseEvent> mouseDraggedHandler;
     private final EventHandler<MouseEvent> mouseReleasedHandler;
-    private Point lastMousePosition; // 이전 마우스 위치 저장 변수
     // singleton
     private static MoveBookScene mSingleton = null;
 
@@ -375,12 +381,14 @@ public class HomeScenario extends XScenario {
       // 이벤트 핸들러 추가
       scene.addEventFilter(MouseEvent.MOUSE_DRAGGED, mouseDraggedHandler);
       scene.addEventFilter(MouseEvent.MOUSE_RELEASED, mouseReleasedHandler);
-
-      lastMousePosition = null; // 초기화
     }
 
     @Override
     public void wrapUp() {
+      JRIApp jri = (JRIApp) this.mScenario.getApp();
+      Scene scene = jri.getPrimaryStage().getScene();
+      scene.removeEventFilter(MouseEvent.MOUSE_DRAGGED, mouseDraggedHandler);
+      scene.removeEventFilter(MouseEvent.MOUSE_RELEASED, mouseReleasedHandler);
     }
 
     private void handleMouseDragged(MouseEvent e) {
