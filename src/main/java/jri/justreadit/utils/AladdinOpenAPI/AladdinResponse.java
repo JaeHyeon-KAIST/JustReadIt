@@ -1,4 +1,4 @@
-package jri.justreadit.AladdinOpenAPI;
+package jri.justreadit.utils.AladdinOpenAPI;
 
 import java.util.ArrayList;
 import java.util.List;

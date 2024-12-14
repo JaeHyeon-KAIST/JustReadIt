@@ -6,17 +6,20 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Scene;
 
-import jri.justreadit.AladdinOpenAPI.AladdinBookItem;
+import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import jri.justreadit.JRIApp;
 import jri.justreadit.JRIBookCard;
 import jri.justreadit.JRIScene;
 import jri.justreadit.canvas.JRICanvas2D;
 import jri.justreadit.pageController.FirstPageController;
+import jri.justreadit.utils.ServerAPI;
 import x.XApp;
 import x.XCmdToChangeScene;
 import x.XScenario;
 
 import java.awt.*;
+import java.util.List;
+import java.util.Map;
 
 public class FirstScenario extends XScenario {
   // singleton pattern
@@ -117,6 +120,48 @@ public class FirstScenario extends XScenario {
       String currentPage = jri.getPageControllerMgr().getCurrentPageName();
       if (!FirstPageController.PAGE_CONTROLLER_NAME.equals(currentPage)) {
         System.out.println("Switching to FirstPageController");
+        // ServerAPI.getBookList() 호출 및 데이터 처리
+        new Thread(() -> {
+          List<Map<String, Object>> bookList = ServerAPI.getBookList();
+          if (bookList != null) {
+            Platform.runLater(() -> {
+              System.out.println("Fetched book list from server, processing...");
+              JRICanvas2D canvas = jri.getJRICanvas2D();
+              canvas.initBookCards();
+
+              for (Map<String, Object> book : bookList) {
+                try {
+                  System.out.println("Processing book data: " + book);
+
+                  String id = String.valueOf(book.get("id"));
+                  String title = (String) book.get("title");
+                  String publisher = (String) book.get("publisher");
+                  String cover = (String) book.get("cover");
+                  int positionX = (int) book.get("positionX");
+                  int positionY = (int) book.get("positionY");
+
+                  AladdinBookItem bookItem = new AladdinBookItem();
+                  bookItem.setItemId(id);
+                  bookItem.setTitle(title);
+                  bookItem.setPublisher(publisher);
+                  bookItem.setCover(cover);
+                  JRIBookCard bookCard = new JRIBookCard(bookItem, new Point(positionX, positionY));
+
+                  canvas.initializeBookCards(bookCard); // 캔버스에 책 카드 추가
+                } catch (Exception e) {
+                  e.printStackTrace();
+                  System.err.println("Error processing book data: " + book);
+                }
+              }
+
+              canvas.repaint(); // 캔버스 갱신
+            });
+          } else {
+            System.err.println("Failed to fetch book list.");
+          }
+        }).start();
+
+
         Platform.runLater(() -> {
           jri.getPageControllerMgr().switchTo(FirstPageController.PAGE_CONTROLLER_NAME);
         });
@@ -145,7 +190,7 @@ public class FirstScenario extends XScenario {
       // check selected book card
       JRIBookCard clickedCard = canvas.getClickedBookCard(new Point(relativeX, relativeY));
       if (clickedCard != null) {
-        System.out.println("Clicked on book card: " + clickedCard.getBookItem().getTitle());
+        System.out.println("Clicked on book card: " + clickedCard.getBookItem().getItemId());
         canvas.setSelectedBookCard(clickedCard);
         canvas.setPreviousMousePosition(new Point(relativeX, relativeY));
         XCmdToChangeScene.execute(jri, MoveBookScene.getSingleton(), this);
