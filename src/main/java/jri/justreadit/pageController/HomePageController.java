@@ -1,5 +1,6 @@
 package jri.justreadit.pageController;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
@@ -15,9 +16,11 @@ import jri.justreadit.utils.AladdinOpenAPI.AladdinResponse;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import jri.justreadit.JRIApp;
 import jri.justreadit.scenario.HomeScenario;
+import jri.justreadit.utils.ServerAPI;
 import x.XPageController;
 
 import javax.swing.*;
+import java.util.List;
 
 public class HomePageController extends XPageController {
   public static final String PAGE_CONTROLLER_NAME = "HomePageController";
@@ -119,21 +122,30 @@ public class HomePageController extends XPageController {
     try {
       AladdinOpenAPI api = new AladdinOpenAPI();
 
-      try {
-        AladdinResponse response = api.searchItems(keyword, 10, 1);
-        // Clear previous results
+      // 서버에서 저장된 책 목록 가져오기
+      JRIApp jri = (JRIApp) this.mApp;
+      List<String> existingBookIds = ServerAPI.getBookList().stream()
+        .map(book -> String.valueOf(book.get("id"))) // 서버의 책 ID 가져오기
+        .toList();
+
+      // Aladdin API를 사용하여 검색
+      AladdinResponse response = api.searchItems(keyword, 10, 1);
+
+      // 검색 결과 필터링 (이미 추가된 책 제외)
+      List<AladdinBookItem> filteredResults = response.getItems().stream()
+        .filter(book -> !existingBookIds.contains(book.getItemId())) // 이미 추가된 책 제외
+        .toList();
+
+      // ListView에 필터링된 결과 추가
+      Platform.runLater(() -> {
         searchResultsObservable.clear();
-        // Add new results
-        searchResultsObservable.addAll(response.getItems());
-        // Set ListView visibility based on results
+        searchResultsObservable.addAll(filteredResults);
         searchResultsList.setVisible(!searchResultsObservable.isEmpty());
-      } catch (Exception ex) {
-        System.out.println("Exception: " + ex.getMessage());
-        searchResultsList.setVisible(false); // Hide the list on error
-      }
+      });
+
     } catch (Exception ex) {
-      System.out.println("Exception: " + ex.getMessage());
-      searchResultsList.setVisible(false); // Hide the list on error
+      System.out.println("Exception during book search: " + ex.getMessage());
+      Platform.runLater(() -> searchResultsList.setVisible(false)); // 검색 실패 시 ListView 숨기기
     }
   }
 
