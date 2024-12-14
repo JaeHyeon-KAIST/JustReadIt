@@ -88,15 +88,20 @@ public class FirstPageController extends XPageController {
   @FXML
   public void openModal() {
     modalOverlay.setVisible(true); // 모달 창 표시
-    modalInputField.clear();
     searchResultsObservable.clear(); // 검색 기록 초기화
     searchResultsList.setVisible(false); // ListView 숨기기
+    modalInputField.clear();
     modalInputField.requestFocus(); // 검색창에 포커스 설정
   }
 
   @FXML
-  public void onModalOverlayClicked() {
+  public void onModalOverlayClicked(MouseEvent event) {
     System.out.println("Modal overlay clicked!");
+    if (event.getTarget() == modalOverlay) { // 배경 영역인지 확인
+      modalOverlay.setVisible(false); // 모달 창 숨김
+      FirstScenario scenario = (FirstScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+      scenario.dispatchCloseBookSearchModal();
+    }
   }
 
   @FXML
