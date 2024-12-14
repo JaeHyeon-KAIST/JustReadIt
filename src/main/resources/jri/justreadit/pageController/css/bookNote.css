@@ -26,6 +26,14 @@
   -fx-background-radius: 30px;
 }
 
+.close_btn{
+  -fx-background-color: rgb(255, 255, 255);
+  -fx-border-width: 2px 2px 2px 2px;
+  -fx-border-radius: 30px;
+  -fx-background-radius: 30px;
+  -fx-border-color: #78b3ce;
+}
+
 .note{
   -fx-background-color: #ffffff;
   -fx-border-width: 4px 4px 4px 4px;
@@ -41,6 +49,15 @@
     -fx-border-radius: 0px;
     -fx-background-radius: 0px;
     -fx-border-style: solid;
+}
+
+.book_map{
+  -fx-background-color: #d0edfa;
+  -fx-border-width: 4px 4px 4px 4px;
+  -fx-border-radius: 20px;
+  -fx-background-radius: 20px;
+  -fx-border-color: #78b3ce;
+  -fx-border-style: solid;
 }
 
 

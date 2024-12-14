@@ -15,9 +15,15 @@ public class JRICanvas2D extends JPanel {
   // constants
   private static final int CARD_WIDTH = 100;
   private static final int CARD_HEIGHT = 150;
+  private static final Color BOOK_CARD_DEFULT_COLOR = Color.white;
+  private static final Color SELECTED_CARD_COLOR = new Color(0x00B0FF);
+
+  private static final Color BACKGROUND_COLOR = new Color(0xd0edfa);
+  private static final Color BORDER_COLOR = new Color(0x78b3ce);
 
   private ArrayList<JRIBookCard> mBookCards; // 저장된 북 카드 리스트
   private Point mNewBookCardPosition;        // 임시 북 카드
+
   private JRIBookCard mSelectedBookCard;     // 선택된 북 카드
   private Point previousMousePosition; // 이전 마우스 좌표
 
@@ -28,6 +34,7 @@ public class JRICanvas2D extends JPanel {
   // 생성자
   public JRICanvas2D() {
     this.mBookCards = new ArrayList<>();
+    setBackground(Color.white);
   }
 
   // 북 카드 추가
@@ -48,6 +55,12 @@ public class JRICanvas2D extends JPanel {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2 = (Graphics2D) g;
+    g2.setColor(BACKGROUND_COLOR);
+    g2.fillRoundRect(0, 0, getWidth(), getHeight(), 45, 45);
+    g2.setColor(BORDER_COLOR);
+    g2.setStroke(new BasicStroke(5.0f));
+    g2.drawRoundRect(0, 0, getWidth(), getHeight(), 50, 50);
+
 
     // 활성화된 카드 그리기
     this.drawBookCards(g2);
@@ -78,14 +91,18 @@ public class JRICanvas2D extends JPanel {
       if (bookCover != null) {
         g2.drawImage(bookCover, x, y, CARD_WIDTH, CARD_HEIGHT, null);
       } else {
-        g2.setColor(Color.LIGHT_GRAY);
+        g2.setColor(BOOK_CARD_DEFULT_COLOR);
         g2.fillRect(x, y, CARD_WIDTH, CARD_HEIGHT);
       }
 
-      // 카드 테두리 그리기
-      g2.setColor(Color.BLACK);
-      g2.setStroke(new BasicStroke(2.0f));
-      g2.drawRect(x, y, CARD_WIDTH, CARD_HEIGHT);
+      // 카드 테두리 색상 설정 (선택된 카드일 경우 파란색, 아니면 기본 색상)
+      if (bookCard == mSelectedBookCard) {
+        g2.setColor(SELECTED_CARD_COLOR); // 파란색 테두리
+      } else {
+        g2.setColor(BOOK_CARD_DEFULT_COLOR); // 기본 테두리 색상
+      }
+      g2.setStroke(new BasicStroke(5.0f));
+      g2.drawRoundRect(x, y, CARD_WIDTH, CARD_HEIGHT, 10, 10);
     }
   }
 
