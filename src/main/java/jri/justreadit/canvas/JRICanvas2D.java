@@ -2,6 +2,7 @@ package jri.justreadit.canvas;
 
 import jri.justreadit.JRIBookCard;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
+import jri.justreadit.utils.GreenRandomColor;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.HashMap;
 
 public class JRICanvas2D extends JPanel {
   // constants
@@ -20,11 +22,13 @@ public class JRICanvas2D extends JPanel {
   private static final Color BOOK_CARD_DEFULT_COLOR = Color.white;
   private static final Color SELECTED_CARD_COLOR = new Color(0x00B0FF);
   private static final Color BACKGROUND_COLOR = new Color(0xB3D0EDFA, true);
-  private static final Color CATRGORY_BORDER_COLOR = new Color(0xCEE37D);
 
+  // fields
   private ArrayList<JRIBookCard> mBookCards; // 저장된 북 카드 리스트
   private Point mNewBookCardPosition; // 임시 북 카드
+
   private ArrayList<HashSet<JRIBookCard>> mCategoryGroups;
+  private HashMap<HashSet<JRIBookCard>, Color> mCategoryGroupColors;
 
   public Point getNewBookCardPosition() {
     return mNewBookCardPosition;
@@ -36,6 +40,7 @@ public class JRICanvas2D extends JPanel {
   public void initBookCards() {
     this.mBookCards = new ArrayList<>();
     this.mCategoryGroups = new ArrayList<>();
+    this.mCategoryGroupColors = new HashMap<>();
   }
 
   public JRIBookCard getSelectedBookCard() {
@@ -86,15 +91,15 @@ public class JRICanvas2D extends JPanel {
     g2.setStroke(new BasicStroke(2.0f));
     g2.drawRoundRect(2, 2, getWidth()-3, getHeight()-3, 15, 15);
 
-    // 활성화된 카드 그리기
-    this.drawBookCards(g2);
-
     // 그룹 카드 간 연결선 그리기
     for(HashSet<JRIBookCard> group : mCategoryGroups){
       if(group.size() > 1){
-        drawCategoryBorder(g2, group);
+        drawCategory(g2, group);
       }
     }
+
+    // 활성화된 카드 그리기
+    this.drawBookCards(g2);
 
     // Anti-aliasing 설정
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -137,7 +142,7 @@ public class JRICanvas2D extends JPanel {
     }
   }
 
-  private void drawCategoryBorder(Graphics2D g2, HashSet<JRIBookCard> group) {
+  private void drawCategory(Graphics2D g2, HashSet<JRIBookCard> group) {
     if(group.isEmpty()) return;
 
     int minX = Integer.MAX_VALUE;
@@ -153,9 +158,14 @@ public class JRICanvas2D extends JPanel {
       maxY = Math.max(maxY, position.y + CARD_HEIGHT / 2);
     }
 
-    g2.setColor(CATRGORY_BORDER_COLOR);
+    // 그룹별 고유 색상 가져오기
+    Color groupColor = mCategoryGroupColors.getOrDefault(group, new Color(0xCEE37D)); // 기본 색상 설정
+    g2.setColor(groupColor);
     g2.setStroke(new BasicStroke(5.0f));
     g2.drawRoundRect(minX - 10, minY - 10, maxX - minX + 20, maxY - minY + 20, 20, 20);
+
+    g2.setColor(new Color(groupColor.getRed(), groupColor.getGreen(), groupColor.getBlue(), 70)); // 투명도 추가
+    g2.fillRoundRect(minX - 10, minY - 10, maxX - minX + 20, maxY - minY + 20, 20, 20);
   }
 
   public Point screenPointToCanvasPoint(Point screenLocation) {
@@ -220,6 +230,8 @@ public class JRICanvas2D extends JPanel {
   private void updateCategoryCardGroups() {
     this.mCategoryGroups.clear(); // 기존 그룹 초기화
 
+    HashMap<HashSet<JRIBookCard>, Color> newGroupColors = new HashMap<>(); // 새 그룹 색상 매핑
+
     for (JRIBookCard card : mBookCards) {
       boolean addedToGroup = false;
 
@@ -240,6 +252,12 @@ public class JRICanvas2D extends JPanel {
         HashSet<JRIBookCard> newGroup = new HashSet<>();
         newGroup.add(card);
         this.mCategoryGroups.add(newGroup);
+
+        // 새 그룹에 색상 할당
+        if (!mCategoryGroupColors.containsKey(newGroup)) {
+          Color randomColor = GreenRandomColor.getGreenRandomColor();
+          mCategoryGroupColors.put(newGroup, randomColor);
+        }
       }
     }
   }
