@@ -31,8 +31,8 @@ public class BookDetailPageController extends XPageController {
   @FXML
   private ImageView bookCoverImageView;
 
-  @FXML
-  private Button goToBookShelfPageButton;
+//  @FXML
+//  private Button goToBookShelfPageButton;
 
   @FXML
   public void initialize() {
@@ -53,10 +53,19 @@ public class BookDetailPageController extends XPageController {
       }
     }
 
-    goToBookShelfPageButton.setOnAction(e -> {
-      // Scenario와 Scene을 통한 동작 위임
-      BookDetailScenario scenario = (BookDetailScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
-      scenario.dispatchGoToBookShelfPageButtonPress();
-    });
+//    goToBookShelfPageButton.setOnAction(e -> {
+//      System.out.println("Go to BookShelfPage button pressed");
+//      System.out.println("Go to BookShelfPage button pressed by: " + e.getSource());
+//      // Scenario와 Scene을 통한 동작 위임
+//      BookDetailScenario scenario = (BookDetailScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+//      scenario.dispatchGoToBookShelfPageButtonPress();
+//    });
+  }
+
+  public void goToBookShelfPage() {
+    System.out.println("Go to BookShelfPage button pressed");
+    // Scenario와 Scene을 통한 동작 위임
+    BookDetailScenario scenario = (BookDetailScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    scenario.dispatchGoToBookShelfPageButtonPress();
   }
 }
