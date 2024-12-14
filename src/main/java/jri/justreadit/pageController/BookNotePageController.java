@@ -1,19 +1,24 @@
 package jri.justreadit.pageController;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.util.Duration;
 import jri.justreadit.JRIApp;
-import jri.justreadit.scenario.BookNoteScenario;
+import jri.justreadit.scenario.BookNotePageScenario;
 import netscape.javascript.JSObject;
 import x.XPageController;
 
@@ -25,14 +30,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BookNotePageController extends XPageController {
-  public static final String PAGE_CONTROLLER_NAME = "BookNotePageController";
+  public static final String PAGE_CONTROLLER_NAME = "NotePageController";
   public static final String FXML_NAME = "BookNotePage";
 
   @FXML
-  private HTMLEditor htmlEditor;
+  private Button goToBookShelfPageButton;
 
   @FXML
-  private Button goBackButton;
+  private AnchorPane SIDE_NOTE;
+
+  @FXML
+  private HTMLEditor htmlEditor;
 
   public BookNotePageController(JRIApp app, String fxmlBasePath) {
     super(PAGE_CONTROLLER_NAME, fxmlBasePath, FXML_NAME, app);
@@ -40,14 +48,8 @@ public class BookNotePageController extends XPageController {
 
   @FXML
   public void initialize() {
-    int bookId = BookNoteScenario.getSingleton().getCurrentBookId();
+    int bookId = BookNotePageScenario.getSingleton().getCurrentBookId();
     System.out.println("Book ID: " + bookId);
-    // Go Back 버튼 동작
-    goBackButton.setOnAction(event -> {
-      System.out.println("Go back button pressed");
-      BookNoteScenario scenario = (BookNoteScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
-      scenario.dispatchReturnButtonPress();
-    });
 
     WebView webView = (WebView) htmlEditor.lookup(".web-view");
     if (webView != null) {
@@ -59,7 +61,7 @@ public class BookNotePageController extends XPageController {
             try {
               // 브릿지 설정
               JSObject window = (JSObject) engine.executeScript("window");
-              window.setMember("javaLogger", new JavaLogger());
+              window.setMember("javaLogger", new BookNotePageController.JavaLogger());
 
               engine.executeScript(
                 // 먼저 console.log를 Java로 리다이렉션
@@ -114,6 +116,13 @@ public class BookNotePageController extends XPageController {
 
     // 붙여넣기 이벤트 감지
     setupPasteEventListener();
+
+    goToBookShelfPageButton.setOnAction(e -> {
+      // Scenario와 Scene을 통한 동작 위임
+      BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+      scenario.dispatchGoToBookShelfPageButtonPress();
+    });
+    SIDE_NOTE.setTranslateX(800);
   }
 
   public static class JavaLogger {
@@ -258,5 +267,39 @@ public class BookNotePageController extends XPageController {
       .replace(">", "&gt;")
       .replace("\"", "&quot;")
       .replace("'", "&#39;");
+  }
+
+  public void showSlide(MouseEvent mouseEvent) {
+    // SIDE_NOTE 슬라이드 애니메이션
+    TranslateTransition sideNoteSlide = new TranslateTransition();
+    sideNoteSlide.setDuration(Duration.seconds(0.5));
+    sideNoteSlide.setNode(SIDE_NOTE);
+    sideNoteSlide.setToX(100); // 열릴 위치
+    sideNoteSlide.play();
+
+    // HTMLEditor 크기 줄이기 애니메이션
+    Timeline editorResize = new Timeline();
+    KeyValue widthKey = new KeyValue(htmlEditor.prefWidthProperty(), 1050); // 목표 넓이
+    KeyValue heightKey = new KeyValue(htmlEditor.prefHeightProperty(), 750); // 목표 높이
+    KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.5), widthKey, heightKey);
+    editorResize.getKeyFrames().add(keyFrame);
+    editorResize.play();
+  }
+
+  public void hideSlide(MouseEvent mouseEvent) {
+    // SIDE_NOTE 슬라이드 애니메이션
+    TranslateTransition sideNoteSlide = new TranslateTransition();
+    sideNoteSlide.setDuration(Duration.seconds(0.5));
+    sideNoteSlide.setNode(SIDE_NOTE);
+    sideNoteSlide.setToX(800); // 닫힌 위치
+    sideNoteSlide.play();
+
+    // HTMLEditor 크기 복원 애니메이션
+    Timeline editorResize = new Timeline();
+    KeyValue widthKey = new KeyValue(htmlEditor.prefWidthProperty(), 1400); // 원래 넓이
+    KeyValue heightKey = new KeyValue(htmlEditor.prefHeightProperty(), 750); // 원래 높이
+    KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.5), widthKey, heightKey);
+    editorResize.getKeyFrames().add(keyFrame);
+    editorResize.play();
   }
 }

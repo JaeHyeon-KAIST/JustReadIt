@@ -13,8 +13,7 @@ public class JRIScenarioMgr extends XScenarioMgr {
     this.addScenario(FirstScenario.createSingleton(this.mApp));
     this.addScenario(BookShelfScenario.createSingleton(this.mApp));
     this.addScenario(BookDetailScenario.createSingleton(this.mApp));
-    this.addScenario(BookNoteScenario.createSingleton(this.mApp));
-    this.addScenario(NotePageScenario.createSingleton(this.mApp));
+    this.addScenario(BookNotePageScenario.createSingleton(this.mApp));
   }
 
   @Override

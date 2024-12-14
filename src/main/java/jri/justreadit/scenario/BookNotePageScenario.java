@@ -1,27 +1,37 @@
 package jri.justreadit.scenario;
 
 import jri.justreadit.JRIScene;
-import jri.justreadit.pageController.NotePageController;
+import jri.justreadit.pageController.BookNotePageController;
 import x.XApp;
 import x.XCmdToChangeScene;
 import x.XScenario;
 
-public class NotePageScenario extends XScenario {
-  // singleton pattern
-  private static NotePageScenario mSingleton = null;
+public class BookNotePageScenario extends XScenario {
+  private int mCurrentBookId;
 
-  public static NotePageScenario getSingleton() {
-    assert (NotePageScenario.mSingleton != null);
+  public void setCurrentBookId(int bookId) {
+    this.mCurrentBookId = bookId;
+  }
+
+  public int getCurrentBookId() {
+    return this.mCurrentBookId;
+  }
+
+  // singleton pattern
+  private static BookNotePageScenario mSingleton = null;
+
+  public static BookNotePageScenario getSingleton() {
+    assert (BookNotePageScenario.mSingleton != null);
     return mSingleton;
   }
 
-  public static NotePageScenario createSingleton(XApp app) {
-    assert (NotePageScenario.mSingleton == null);
-    NotePageScenario.mSingleton = new NotePageScenario(app);
-    return NotePageScenario.mSingleton;
+  public static BookNotePageScenario createSingleton(XApp app) {
+    assert (BookNotePageScenario.mSingleton == null);
+    BookNotePageScenario.mSingleton = new BookNotePageScenario(app);
+    return BookNotePageScenario.mSingleton;
   }
 
-  private NotePageScenario(XApp app) {
+  private BookNotePageScenario(XApp app) {
     super(app);
   }
 
@@ -72,8 +82,8 @@ public class NotePageScenario extends XScenario {
     }
 
     public void onMoveToBookNotePageButtonPress() {
-      BookNoteScenario.getSingleton().setCurrentBookId(10);
-      XCmdToChangeScene.execute(this.mScenario.getApp(), BookNoteScenario.ReadyScene.getSingleton(), this);
+//      BookNoteScenario.getSingleton().setCurrentBookId(10);
+//      XCmdToChangeScene.execute(this.mScenario.getApp(), BookNoteScenario.ReadyScene.getSingleton(), this);
     }
 
     private NoteScene(XScenario scenario) {
@@ -82,7 +92,7 @@ public class NotePageScenario extends XScenario {
 
     @Override
     public void getReady() {
-      this.mScenario.getApp().getPageControllerMgr().switchTo(NotePageController.PAGE_CONTROLLER_NAME);
+      this.mScenario.getApp().getPageControllerMgr().switchTo(BookNotePageController.PAGE_CONTROLLER_NAME);
     }
 
     @Override

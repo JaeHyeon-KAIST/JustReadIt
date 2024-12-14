@@ -86,8 +86,8 @@ public class FirstScenario extends XScenario {
     }
 
     public void onMoveToBookNotePageButtonPress() {
-      BookNoteScenario.getSingleton().setCurrentBookId(10);
-      XCmdToChangeScene.execute(this.mScenario.getApp(), NotePageScenario.NoteScene.getSingleton(), this);
+      BookNotePageScenario.getSingleton().setCurrentBookId(10);
+      XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.NoteScene.getSingleton(), this);
     }
 
     private FirstScene(XScenario scenario) {

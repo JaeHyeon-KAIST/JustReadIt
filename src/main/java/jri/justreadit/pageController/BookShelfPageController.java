@@ -1,9 +1,7 @@
 package jri.justreadit.pageController;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import jri.justreadit.JRIApp;
-import jri.justreadit.scenario.BookShelfScenario;
 import x.XPageController;
 
 public class BookShelfPageController extends XPageController {
