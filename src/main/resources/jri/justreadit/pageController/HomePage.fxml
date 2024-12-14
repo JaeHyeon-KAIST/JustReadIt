@@ -29,11 +29,11 @@
                         <String fx:value="menu" />
                      </styleClass>
                      <children>
-                        <Button onMouseClicked="#goToBookShelfPage" alignment="CENTER" layoutX="13.0" layoutY="365.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
+                        <Button alignment="CENTER" layoutX="13.0" layoutY="365.0" mnemonicParsing="false" onMouseClicked="#goToBookShelfPage" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@image/bookshelf.png" />
+                                    <Image url="@../../../image/bookshelf.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -48,7 +48,7 @@
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@image/library.png" />
+                                    <Image url="@../../../image/home.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -66,7 +66,7 @@
                               </Text>
                               <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="686.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" translateX="-60.0">
                                  <image>
-                                    <Image url="@image/icon.png" />
+                                    <Image url="@../../../image/icon.png" />
                                  </image>
                               </ImageView>
                            </children>

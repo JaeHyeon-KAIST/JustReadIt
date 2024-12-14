@@ -25,13 +25,11 @@
                 <String fx:value="menu" />
               </styleClass>
               <children>
-                <Button onMouseClicked="#goToBookShelfPage" alignment="CENTER" layoutX="13.0" layoutY="365.0"
-                        mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn"
-                        stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
+                <Button alignment="CENTER" layoutX="13.0" layoutY="365.0" mnemonicParsing="false" onMouseClicked="#goToBookShelfPage" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
                   <graphic>
                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                       <image>
-                        <Image url="@image/bookshelf.png" />
+                        <Image url="@../../../image/bookshelf.png" />
                       </image>
                     </ImageView>
                   </graphic>
@@ -39,14 +37,14 @@
                     <Font name="Arial" size="16.0" />
                   </font>
                 </Button>
-                <Button onMouseClicked="#goToHomePage" alignment="CENTER" layoutX="11.0" layoutY="265.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
+                <Button alignment="CENTER" layoutX="11.0" layoutY="265.0" mnemonicParsing="false" onMouseClicked="#goToHomePage" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
                   <font>
                     <Font name="Arial" size="16.0" />
                   </font>
                   <graphic>
                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                       <image>
-                        <Image url="@image/library.png" />
+                        <Image url="@../../../image/home.png" />
                       </image>
                     </ImageView>
                   </graphic>
@@ -64,7 +62,7 @@
                     </Text>
                     <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="686.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
                       <image>
-                        <Image url="@image/icon.png" />
+                        <Image url="@../../../image/icon.png" />
                       </image>
                     </ImageView>
                   </children>
@@ -82,7 +80,7 @@
                               <children>
                                 <ImageView fx:id="bookCoverImageView" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
                                   <image>
-                                    <Image url="@image/book1.jpeg" />
+                                    <Image url="@../../../image/book1.jpeg" />
                                   </image>
                                 </ImageView>
                                 <VBox alignment="CENTER_LEFT" prefHeight="250.0" prefWidth="1062.0" spacing="20.0">
@@ -130,7 +128,7 @@
                                                                      <children>
                                                                         <ImageView fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                                                                            <image>
-                                                                              <Image url="@image/notepad.png" />
+                                                                              <Image url="@../../../image/during_book.png" />
                                                                            </image>
                                                                         </ImageView>
                                                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Untitled">
@@ -148,29 +146,7 @@
                                                                      <children>
                                                                         <ImageView fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                                                                            <image>
-                                                                              <Image url="@image/notepad-2.png" />
-                                                                           </image>
-                                                                        </ImageView>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Untitled">
-                                                                           <font>
-                                                                              <Font name="Apple SD Gothic Neo Light" size="24.0" />
-                                                                           </font>
-                                                                        </Text>
-                                                                     </children>
-                                                                  </VBox>
-                                                               </graphic>
-                                                            </Button>
-                                                         </children>
-                                                      </VBox>
-                                                      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="250.0">
-                                                         <children>
-                                                            <Button mnemonicParsing="false" prefHeight="300.0" prefWidth="200.0" styleClass="menu_btn" stylesheets="@css/bookNote.css">
-                                                               <graphic>
-                                                                  <VBox alignment="CENTER" spacing="20.0" stylesheets="@css/bookNote.css">
-                                                                     <children>
-                                                                        <ImageView fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                                                                           <image>
-                                                                              <Image url="@image/notepad.png" />
+                                                                              <Image url="@../../../image/during_book.png" />
                                                                            </image>
                                                                         </ImageView>
                                                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Untitled">
@@ -192,7 +168,7 @@
                                                                      <children>
                                                                         <ImageView fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                                                                            <image>
-                                                                              <Image url="@image/notepad-2.png" />
+                                                                              <Image url="@../../../image/after_book.png" />
                                                                            </image>
                                                                         </ImageView>
                                                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Untitled">
@@ -214,7 +190,29 @@
                                                                      <children>
                                                                         <ImageView fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                                                                            <image>
-                                                                              <Image url="@image/notepad.png" />
+                                                                              <Image url="@../../../image/after_book.png" />
+                                                                           </image>
+                                                                        </ImageView>
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Untitled">
+                                                                           <font>
+                                                                              <Font name="Apple SD Gothic Neo Light" size="24.0" />
+                                                                           </font>
+                                                                        </Text>
+                                                                     </children>
+                                                                  </VBox>
+                                                               </graphic>
+                                                            </Button>
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="250.0">
+                                                         <children>
+                                                            <Button mnemonicParsing="false" prefHeight="300.0" prefWidth="200.0" styleClass="menu_btn" stylesheets="@css/bookNote.css">
+                                                               <graphic>
+                                                                  <VBox alignment="CENTER" spacing="20.0" stylesheets="@css/bookNote.css">
+                                                                     <children>
+                                                                        <ImageView fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                                                                           <image>
+                                                                              <Image url="@../../../image/during_book.png" />
                                                                            </image>
                                                                         </ImageView>
                                                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Untitled">
@@ -243,7 +241,22 @@
                               <children>
                                 <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
                                   <image>
-                                    <Image url="@image/book1.jpeg" />
+                                    <Image url="@../../../image/book1.jpeg" />
+                                  </image>
+                                </ImageView>
+                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                    <Image url="@../../../image/book1.jpeg" />
+                                  </image>
+                                </ImageView>
+                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                    <Image url="@../../../image/book1.jpeg" />
+                                  </image>
+                                </ImageView>
+                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                    <Image url="@../../../image/book1.jpeg" />
                                   </image>
                                 </ImageView>
                                 <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
@@ -253,22 +266,7 @@
                                 </ImageView>
                                 <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
                                   <image>
-                                    <Image url="@image/book1.jpeg" />
-                                  </image>
-                                </ImageView>
-                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                  <image>
-                                    <Image url="@image/book1.jpeg" />
-                                  </image>
-                                </ImageView>
-                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                  <image>
-                                    <Image url="@image/book1.jpeg" />
-                                  </image>
-                                </ImageView>
-                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                  <image>
-                                    <Image url="@image/book1.jpeg" />
+                                    <Image url="@../../../image/book1.jpeg" />
                                   </image>
                                 </ImageView>
                               </children>
