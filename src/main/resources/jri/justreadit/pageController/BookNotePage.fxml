@@ -149,12 +149,12 @@
                     </HTMLEditor>
                   </children>
                   <StackPane fx:id="noteSearchModalOverlay" onMouseClicked="#onNoteSearchModalOverlayClicked"
-                             prefHeight="723.0"
-                             prefWidth="1588.0" styleClass="stack_pane" visible="false">
+                             prefHeight="730.0" layoutX="37.0" layoutY="17.0"
+                             prefWidth="1466.0" styleClass="stack_pane" visible="false">
                     <children>
                       <VBox alignment="CENTER" maxHeight="400" maxWidth="500" spacing="15" styleClass="search"
                             stylesheets="@css/bookNote.css">
-                        <Label text="Note Results">
+                        <Label text="Note Search">
                           <font>
                             <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
                           </font>
@@ -170,12 +170,12 @@
                     </children>
                   </StackPane>
                   <StackPane fx:id="bookSearchModalOverlay" onMouseClicked="#onBookSearchModalOverlayClicked"
-                             prefHeight="723.0"
-                             prefWidth="1588.0" styleClass="stack_pane" visible="false">
+                             prefHeight="730.0" layoutX="37.0" layoutY="17.0"
+                             prefWidth="1466.0" styleClass="stack_pane" visible="false">
                     <children>
                       <VBox alignment="CENTER" maxHeight="400" maxWidth="500" spacing="15" styleClass="search"
                             stylesheets="@css/bookNote.css">
-                        <Label text="Book Results">
+                        <Label text="Book Search">
                           <font>
                             <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
                           </font>
