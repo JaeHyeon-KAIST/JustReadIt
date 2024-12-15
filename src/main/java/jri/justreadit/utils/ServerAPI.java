@@ -2,6 +2,7 @@ package jri.justreadit.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jri.justreadit.JRIBookCard;
+import jri.justreadit.JRIBookNoteInfo;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 
 import java.io.BufferedReader;
@@ -9,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -156,6 +158,58 @@ public class ServerAPI {
       }
     }
     return false;
+  }
+
+  public static ArrayList<JRIBookNoteInfo> getBookNotes(String bookId) {
+    String endpoint = BASE_URL + "getBookNotes?bookId=" + bookId;
+    HttpURLConnection connection = null;
+
+    try {
+      URL url = new URL(endpoint);
+      connection = (HttpURLConnection) url.openConnection();
+
+      connection.setRequestMethod("GET");
+      connection.setRequestProperty("Accept", "application/json");
+
+      int responseCode = connection.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+          response.append(line);
+        }
+        reader.close();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Map<String, Object>> rawNotes = objectMapper.readValue(response.toString(), List.class);
+
+        ArrayList<JRIBookNoteInfo> bookNotes = new ArrayList<>();
+        for (Map<String, Object> note : rawNotes) {
+          // 필드 이름 수정 및 Null 체크
+          Integer noteId = note.get("id") != null ? (Integer) note.get("id") : -1;
+          String bookIdValue = note.get("bookId") != null ? String.valueOf(note.get("bookId")) : "Unknown";
+          String title = note.get("title") != null ? (String) note.get("title") : "Untitled";
+          String type = note.get("type") != null ? (String) note.get("type") : "Unknown";
+          String content = note.get("text") != null ? (String) note.get("text") : ""; // "text"로 수정
+
+          // Note 객체 생성 및 추가
+          bookNotes.add(new JRIBookNoteInfo(noteId, bookIdValue, title, type, content));
+        }
+
+        return bookNotes;
+      } else {
+        System.err.println("Failed to get book notes. Response code: " + responseCode);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
+    }
+    return new ArrayList<>();
   }
 
   public static int createNote(int bookId, String type) {

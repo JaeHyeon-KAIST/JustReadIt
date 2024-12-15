@@ -1,8 +1,11 @@
 package jri.justreadit;
 
+import java.util.ArrayList;
+
 public class JRISelectedBookAndNoteMgr {
-  private JRIBookCard mSelectedBookCard = null;
-  private JRIBookNoteInfo mSelectedBookNote = null;
+  private JRIBookCard mSelectedBookCard;
+  private JRIBookNoteInfo mSelectedBookNote;
+  private ArrayList<JRIBookNoteInfo> mBookNotes;
 
   public JRIBookCard getSelectedBookCard() {
     return this.mSelectedBookCard;
@@ -20,8 +23,21 @@ public class JRISelectedBookAndNoteMgr {
     this.mSelectedBookNote = selectedBookNote;
   }
 
+  public ArrayList<JRIBookNoteInfo> getBookNotes() {
+    return this.mBookNotes;
+  }
+
+  public void setBookNotes(ArrayList<JRIBookNoteInfo> bookNotes) {
+    if (this.mBookNotes == null) {
+      this.mBookNotes = new ArrayList<>();
+    }
+    this.mBookNotes.clear();
+    this.mBookNotes.addAll(bookNotes);
+  }
+
   public JRISelectedBookAndNoteMgr() {
     this.mSelectedBookCard = null;
     this.mSelectedBookNote = null;
+    this.mBookNotes = new ArrayList<>();
   }
 }

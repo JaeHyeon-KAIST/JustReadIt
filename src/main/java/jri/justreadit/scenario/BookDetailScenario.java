@@ -1,6 +1,7 @@
 package jri.justreadit.scenario;
 
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
@@ -9,10 +10,15 @@ import jri.justreadit.JRIBookCard;
 import jri.justreadit.JRIBookNoteInfo;
 import jri.justreadit.JRIScene;
 import jri.justreadit.pageController.BookDetailPageController;
+import jri.justreadit.pageController.HomePageController;
 import jri.justreadit.utils.ServerAPI;
 import x.XApp;
 import x.XCmdToChangeScene;
 import x.XScenario;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class BookDetailScenario extends XScenario {
   // singleton pattern
@@ -91,7 +97,30 @@ public class BookDetailScenario extends XScenario {
 
       scene.addEventFilter(KeyEvent.KEY_RELEASED, keyReleasedHandler);
 
-      this.mScenario.getApp().getPageControllerMgr().switchTo(BookDetailPageController.PAGE_CONTROLLER_NAME);
+      String currentPage = jri.getPageControllerMgr().getCurrentPageName();
+      if (!BookDetailPageController.PAGE_CONTROLLER_NAME.equals((currentPage))) {
+        new Thread(() -> {
+          ArrayList<JRIBookNoteInfo> notes = ServerAPI.getBookNotes(
+            jri.getSelectedBookAndNoteMgr().getSelectedBookCard().getBookItem().getItemId()
+          );
+          if (!notes.isEmpty()) {
+            jri.getSelectedBookAndNoteMgr().setBookNotes(notes);
+            for (JRIBookNoteInfo note : notes) {
+              System.out.println("Loaded Note: " + note.getTitle());
+            }
+            Platform.runLater(() -> {
+              BookDetailPageController controller = (BookDetailPageController) jri.getPageControllerMgr().getController(BookDetailPageController.PAGE_CONTROLLER_NAME);
+              controller.populateNotes(notes);
+            });
+          } else {
+            System.out.println("No notes found for this book.");
+          }
+        }).start();
+
+        Platform.runLater(() -> {
+          jri.getPageControllerMgr().switchTo(BookDetailPageController.PAGE_CONTROLLER_NAME);
+        });
+      }
     }
 
     @Override
