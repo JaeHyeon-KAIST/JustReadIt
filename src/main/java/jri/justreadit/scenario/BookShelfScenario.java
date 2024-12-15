@@ -1,10 +1,16 @@
 package jri.justreadit.scenario;
 
+import javafx.application.Platform;
+import jri.justreadit.JRIApp;
 import jri.justreadit.JRIScene;
 import jri.justreadit.pageController.BookShelfPageController;
+import jri.justreadit.utils.ServerAPI;
 import x.XApp;
 import x.XCmdToChangeScene;
 import x.XScenario;
+
+import java.util.List;
+import java.util.Map;
 
 public class BookShelfScenario extends XScenario {
   // singleton pattern
@@ -61,6 +67,18 @@ public class BookShelfScenario extends XScenario {
 
     @Override
     public void getReady() {
+      new Thread(() -> {
+        List<Map<String, Object>> bookList = ServerAPI.getBookList();
+        System.out.println("BookShelfScene getReady() bookList: " + bookList);
+        if (bookList != null) {
+          Platform.runLater(() -> {
+            JRIApp jri = (JRIApp) this.mScenario.getApp();
+            BookShelfPageController controller = (BookShelfPageController) jri.getPageControllerMgr().getController((BookShelfPageController.PAGE_CONTROLLER_NAME));
+            controller.setBookList(bookList);
+          });
+        }
+      }).start();
+
       this.mScenario.getApp().getPageControllerMgr().switchTo(BookShelfPageController.PAGE_CONTROLLER_NAME);
     }
 
