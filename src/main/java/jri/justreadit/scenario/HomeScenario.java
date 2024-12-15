@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.Scene;
 
 import javafx.util.Duration;
+import jri.justreadit.JRIConnectionInfo;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import jri.justreadit.JRIApp;
 import jri.justreadit.JRIBookCard;
@@ -22,6 +23,7 @@ import x.XCmdToChangeScene;
 import x.XScenario;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +49,9 @@ public class HomeScenario extends XScenario {
   @Override
   protected void addScenes() {
     this.addScene(FirstScene.createSingleton(this));
-    this.addScene(AddBookScene.createSingleton(this));
+    this.addScene(SearchBookScene.createSingleton(this));
     this.addScene(MoveBookScene.createSingleton(this));
+    this.addScene(ShowBookConnectionScene.createSingleton(this));
   }
 
   public void dispatchMoveToBookShelfPageButtonPress() {
@@ -58,11 +61,11 @@ public class HomeScenario extends XScenario {
   }
 
   public void dispatchAddNewBookCard(AladdinBookItem selectedItem) {
-    AddBookScene.mSingleton.addNewBookCard(selectedItem);
+    SearchBookScene.mSingleton.addNewBookCard(selectedItem);
   }
 
   public void dispatchCloseBookSearchModal() {
-    AddBookScene.mSingleton.closeBookSearch();
+    SearchBookScene.mSingleton.closeBookSearch();
   }
 
   public static class FirstScene extends JRIScene {
@@ -231,11 +234,11 @@ public class HomeScenario extends XScenario {
     }
 
     private void handleKeyPressed(KeyEvent e) {
+      JRIApp jri = (JRIApp) this.mScenario.getApp();
       switch (e.getCode()) {
-        case B:
-          System.out.println("B key pressed");
+        case S:
+          System.out.println("S key pressed");
           e.consume();
-          JRIApp jri = (JRIApp) this.mScenario.getApp();
           JRICanvas2D canvas = jri.getJRICanvas2D();
 
           Point screenLocation = MouseInfo.getPointerInfo().getLocation();
@@ -245,13 +248,16 @@ public class HomeScenario extends XScenario {
 
           canvas.setNewBookCardPosition(new Point(relativeX, relativeY));
 
-//          FirstPageController.openModal();
           HomePageController controller = (HomePageController) jri.getPageControllerMgr().getController(HomePageController.PAGE_CONTROLLER_NAME);
           // 모달 창 열기
           Platform.runLater(controller::openModal);
 
-          XCmdToChangeScene.execute(jri, AddBookScene.getSingleton(), this);
+          XCmdToChangeScene.execute(jri, SearchBookScene.getSingleton(), this);
           break;
+        case B:
+          e.consume();
+
+          XCmdToChangeScene.execute(jri, ShowBookConnectionScene.getSingleton(), this);
       }
     }
 
@@ -260,19 +266,19 @@ public class HomeScenario extends XScenario {
     }
   }
 
-  public static class AddBookScene extends JRIScene {
+  public static class SearchBookScene extends JRIScene {
     // singleton
-    private static AddBookScene mSingleton = null;
+    private static SearchBookScene mSingleton = null;
 
-    public static AddBookScene getSingleton() {
-      assert (AddBookScene.mSingleton != null);
-      return AddBookScene.mSingleton;
+    public static SearchBookScene getSingleton() {
+      assert (SearchBookScene.mSingleton != null);
+      return SearchBookScene.mSingleton;
     }
 
-    public static AddBookScene createSingleton(XScenario scenario) {
-      assert (AddBookScene.mSingleton == null);
-      AddBookScene.mSingleton = new AddBookScene(scenario);
-      return AddBookScene.mSingleton;
+    public static SearchBookScene createSingleton(XScenario scenario) {
+      assert (SearchBookScene.mSingleton == null);
+      SearchBookScene.mSingleton = new SearchBookScene(scenario);
+      return SearchBookScene.mSingleton;
     }
 
     public void addNewBookCard(AladdinBookItem selectedItem) {
@@ -322,7 +328,7 @@ public class HomeScenario extends XScenario {
       XCmdToChangeScene.execute(jri, this.mReturnScene, null);
     }
 
-    private AddBookScene(XScenario scenario) {
+    private SearchBookScene(XScenario scenario) {
       super(scenario);
     }
 
@@ -433,6 +439,56 @@ public class HomeScenario extends XScenario {
       canvas.setPreviousMousePosition(null);
 
       XCmdToChangeScene.execute(jri, this.mReturnScene, null);
+    }
+  }
+
+  public static class ShowBookConnectionScene extends JRIScene {
+    private final EventHandler<KeyEvent> keyReleasedHandler;
+    // singleton
+    private static ShowBookConnectionScene mSingleton = null;
+
+    public static ShowBookConnectionScene getSingleton() {
+      assert (ShowBookConnectionScene.mSingleton != null);
+      return ShowBookConnectionScene.mSingleton;
+    }
+
+    public static ShowBookConnectionScene createSingleton(XScenario scenario) {
+      assert (ShowBookConnectionScene.mSingleton == null);
+      ShowBookConnectionScene.mSingleton = new ShowBookConnectionScene(scenario);
+      return ShowBookConnectionScene.mSingleton;
+    }
+
+    private ShowBookConnectionScene(XScenario scenario) {
+      super(scenario);
+      keyReleasedHandler = this::handleKeyReleased;
+    }
+
+    @Override
+    public void getReady() {
+      JRIApp jri = (JRIApp) this.mScenario.getApp();
+      Scene scene = jri.getPrimaryStage().getScene();
+
+      ArrayList<JRIConnectionInfo> connections = ServerAPI.getBookConnection();
+      jri.getJRICanvas2D().setConnections(connections);
+
+      // 이벤트 핸들러 추가
+      scene.addEventFilter(KeyEvent.KEY_RELEASED, keyReleasedHandler);
+    }
+
+    @Override
+    public void wrapUp() {
+      JRIApp jri = (JRIApp) this.mScenario.getApp();
+      Scene scene = jri.getPrimaryStage().getScene();
+      scene.removeEventFilter(KeyEvent.KEY_RELEASED, keyReleasedHandler);
+    }
+
+    private void handleKeyReleased(KeyEvent e) {
+      switch (e.getCode()) {
+        case B:
+          JRIApp jri = (JRIApp) this.mScenario.getApp();
+          e.consume();
+          XCmdToChangeScene.execute(jri, this.mReturnScene, null);
+      }
     }
   }
 }

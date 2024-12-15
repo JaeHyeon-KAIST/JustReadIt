@@ -3,6 +3,7 @@ package jri.justreadit.utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jri.justreadit.JRIBookCard;
 import jri.justreadit.JRIBookNoteInfo;
+import jri.justreadit.JRIConnectionInfo;
 import jri.justreadit.JRIVectorResultInfo;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 
@@ -621,5 +622,59 @@ public class ServerAPI {
     }
 
     return null; // 실패 시 null 반환
+  }
+
+  public static ArrayList<JRIConnectionInfo> getBookConnection() {
+    String endpoint = BASE_URL + "getBookConnection";
+    HttpURLConnection connection = null;
+
+    try {
+      // URL 객체 생성
+      URL url = new URL(endpoint);
+      connection = (HttpURLConnection) url.openConnection();
+
+      // HTTP GET 설정
+      connection.setRequestMethod("GET");
+      connection.setRequestProperty("Accept", "application/json");
+
+      // HTTP 응답 코드 확인
+      int responseCode = connection.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        // 응답 데이터 읽기
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+          response.append(line);
+        }
+        reader.close();
+
+        // JSON 파싱
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Map<String, Object>> results = objectMapper.readValue(response.toString(), List.class);
+
+        // JRIConnectionInfo 객체로 변환
+        ArrayList<JRIConnectionInfo> connections = new ArrayList<>();
+        for (Map<String, Object> result : results) {
+          String baseBookId = String.valueOf(result.get("baseBookId"));
+          String targetBookId = String.valueOf(result.get("targetBookId"));
+          int count = (Integer) result.get("count");
+          connections.add(new JRIConnectionInfo(baseBookId, targetBookId, count));
+        }
+
+        return connections;
+      } else {
+        System.err.println("Failed to get book connections. Response code: " + responseCode);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
+    }
+
+    return new ArrayList<>(); // 실패 시 빈 리스트 반환
   }
 }
