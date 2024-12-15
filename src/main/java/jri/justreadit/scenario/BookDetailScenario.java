@@ -136,6 +136,16 @@ public class BookDetailScenario extends XScenario {
           }
         }).start();
 
+        new Thread(() -> {
+          ArrayList<JRIBookCard> books = ServerAPI.getConnectedBook(jri.getSelectedBookAndNoteMgr().getSelectedBookCard().getBookItem().getItemId());
+          if (!books.isEmpty()) {
+            Platform.runLater(() -> {
+              BookDetailPageController controller = (BookDetailPageController) jri.getPageControllerMgr().getController(BookDetailPageController.PAGE_CONTROLLER_NAME);
+              controller.populateConnectedBooks(books);
+            });
+          }
+        }).start();
+
         Platform.runLater(() -> {
           jri.getPageControllerMgr().switchTo(BookDetailPageController.PAGE_CONTROLLER_NAME);
         });

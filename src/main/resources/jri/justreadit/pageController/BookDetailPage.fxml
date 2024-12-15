@@ -284,39 +284,40 @@
                         <ScrollPane maxHeight="-Infinity" minViewportWidth="230.0" prefHeight="953.0" prefWidth="270.0"
                                     stylesheets="@css/bookNote.css">
                           <content>
-                            <VBox alignment="TOP_CENTER" prefHeight="1500.0" prefWidth="230.0" spacing="40.0">
-                              <children>
-                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                  <image>
-                                    <Image url="@../../../image/book1.jpeg"/>
-                                  </image>
-                                </ImageView>
-                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                  <image>
-                                    <Image url="@../../../image/book1.jpeg"/>
-                                  </image>
-                                </ImageView>
-                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                  <image>
-                                    <Image url="@../../../image/book1.jpeg"/>
-                                  </image>
-                                </ImageView>
-                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                  <image>
-                                    <Image url="@../../../image/book1.jpeg"/>
-                                  </image>
-                                </ImageView>
-                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                  <image>
-                                    <Image url="@../../../image/book1.jpeg"/>
-                                  </image>
-                                </ImageView>
-                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">
-                                  <image>
-                                    <Image url="@../../../image/book1.jpeg"/>
-                                  </image>
-                                </ImageView>
-                              </children>
+                            <VBox fx:id="connectedBooksContainer" alignment="TOP_CENTER" prefHeight="1500.0"
+                                  prefWidth="230.0" spacing="40.0">
+                              <!--                              <children>-->
+                              <!--                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">-->
+                              <!--                                  <image>-->
+                              <!--                                    <Image url="@../../../image/book1.jpeg"/>-->
+                              <!--                                  </image>-->
+                              <!--                                </ImageView>-->
+                              <!--                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">-->
+                              <!--                                  <image>-->
+                              <!--                                    <Image url="@../../../image/book1.jpeg"/>-->
+                              <!--                                  </image>-->
+                              <!--                                </ImageView>-->
+                              <!--                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">-->
+                              <!--                                  <image>-->
+                              <!--                                    <Image url="@../../../image/book1.jpeg"/>-->
+                              <!--                                  </image>-->
+                              <!--                                </ImageView>-->
+                              <!--                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">-->
+                              <!--                                  <image>-->
+                              <!--                                    <Image url="@../../../image/book1.jpeg"/>-->
+                              <!--                                  </image>-->
+                              <!--                                </ImageView>-->
+                              <!--                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">-->
+                              <!--                                  <image>-->
+                              <!--                                    <Image url="@../../../image/book1.jpeg"/>-->
+                              <!--                                  </image>-->
+                              <!--                                </ImageView>-->
+                              <!--                                <ImageView fitHeight="190.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true">-->
+                              <!--                                  <image>-->
+                              <!--                                    <Image url="@../../../image/book1.jpeg"/>-->
+                              <!--                                  </image>-->
+                              <!--                                </ImageView>-->
+                              <!--                              </children>-->
                               <padding>
                                 <Insets top="20.0"/>
                               </padding>

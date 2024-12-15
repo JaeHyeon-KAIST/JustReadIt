@@ -677,4 +677,79 @@ public class ServerAPI {
 
     return new ArrayList<>(); // 실패 시 빈 리스트 반환
   }
+
+  public static ArrayList<JRIBookCard> getConnectedBook(String bookId) {
+    String endpoint = BASE_URL + "getConnectedBook";
+    HttpURLConnection connection = null;
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    ArrayList<JRIBookCard> connectedBooks = new ArrayList<>();
+
+    try {
+      URL url = new URL(endpoint);
+      connection = (HttpURLConnection) url.openConnection();
+      connection.setRequestMethod("POST");
+      connection.setRequestProperty("Content-Type", "application/json");
+      connection.setDoOutput(true);
+
+      // 요청 데이터
+      Map<String, Object> requestData = new HashMap<>();
+      requestData.put("bookId", bookId);
+      String jsonInputString = objectMapper.writeValueAsString(requestData);
+
+      // 데이터 전송
+      try (OutputStream os = connection.getOutputStream()) {
+        os.write(jsonInputString.getBytes("utf-8"));
+      }
+
+      // 응답 읽기
+      int responseCode = connection.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
+        StringBuilder response = new StringBuilder();
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+          response.append(line);
+        }
+        reader.close();
+
+        // JSON 파싱
+        Map<String, Object> responseMap = objectMapper.readValue(response.toString(), Map.class);
+
+        if ("success".equals(responseMap.get("status"))) {
+          List<Map<String, Object>> dataList = (List<Map<String, Object>>) responseMap.get("data");
+
+          for (Map<String, Object> book : dataList) {
+            String id = String.valueOf(book.get("id"));
+            String title = (String) book.get("title");
+            String author = (String) book.get("author");
+            String publisher = (String) book.get("publisher");
+            String cover = (String) book.get("cover");
+
+            // AladdinBookItem 생성
+            AladdinBookItem bookItem = new AladdinBookItem();
+            bookItem.setItemId(id);
+            bookItem.setTitle(title);
+            bookItem.setAuthor(author);
+            bookItem.setPublisher(publisher);
+            bookItem.setCover(cover);
+
+            // JRIBookCard 추가
+            connectedBooks.add(new JRIBookCard(bookItem, new Point(0, 0)));
+          }
+        }
+      } else {
+        System.err.println("Failed to fetch connected books. Response code: " + responseCode);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
+    }
+
+    return connectedBooks;
+  }
 }

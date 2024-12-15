@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import jri.justreadit.JRIApp;
+import jri.justreadit.JRIBookCard;
 import jri.justreadit.JRIBookNoteInfo;
 import jri.justreadit.scenario.BookDetailScenario;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
@@ -44,6 +45,9 @@ public class BookDetailPageController extends XPageController {
 
   @FXML
   private ScrollPane notesScrollPane;
+
+  @FXML
+  private VBox connectedBooksContainer;
 
   @FXML
   public void initialize() {
@@ -123,6 +127,34 @@ public class BookDetailPageController extends XPageController {
 
       // notesContainer에 추가
       notesContainer.getChildren().add(noteButton);
+    }
+  }
+
+  public void populateConnectedBooks(ArrayList<JRIBookCard> books) {
+    connectedBooksContainer.getChildren().clear(); // 기존 더미 데이터를 삭제합니다.
+
+    for (JRIBookCard book : books) {
+      // ImageView 생성
+      ImageView bookImageView = new ImageView();
+      bookImageView.setFitWidth(221);
+      bookImageView.setFitHeight(190);
+      bookImageView.setPreserveRatio(true);
+
+      // 표지 이미지 설정
+      try {
+        Image coverImage = new Image(book.getBookItem().getCover(), true);
+        bookImageView.setImage(coverImage);
+      } catch (Exception e) {
+        System.err.println("Failed to load image: " + e.getMessage());
+      }
+
+      // 클릭 이벤트 (선택한 책의 정보 출력 또는 상세 페이지 이동)
+      bookImageView.setOnMouseClicked(event -> {
+        System.out.println("Clicked book: " + book.getBookItem().getTitle());
+        // 상세 페이지 이동 로직 추가 가능
+      });
+
+      connectedBooksContainer.getChildren().add(bookImageView); // VBox에 추가
     }
   }
 
