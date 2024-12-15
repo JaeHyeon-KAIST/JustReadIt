@@ -426,11 +426,11 @@ public class BookNotePageController extends XPageController {
     TranslateTransition sideNoteSlide = new TranslateTransition();
     sideNoteSlide.setDuration(Duration.seconds(0.5));
     sideNoteSlide.setNode(SIDE_NOTE);
-    sideNoteSlide.setToX(-30);
+    sideNoteSlide.setToX(-20);
     sideNoteSlide.play();
 
     Timeline editorResize = new Timeline();
-    KeyValue widthKey = new KeyValue(htmlEditor.prefWidthProperty(), 850);
+    KeyValue widthKey = new KeyValue(htmlEditor.prefWidthProperty(), 800);
     KeyValue heightKey = new KeyValue(htmlEditor.prefHeightProperty(), 730);
     KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.5), widthKey, heightKey);
     editorResize.getKeyFrames().add(keyFrame);
