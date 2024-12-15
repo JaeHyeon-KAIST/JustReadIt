@@ -324,14 +324,19 @@ public class JRICanvas2D extends JPanel {
   }
 
   private void drawArrow(Graphics2D g2, Point start, Point end, int arrowSize) {
+    // 방향 반전: 시작점과 끝점을 교체
+    Point temp = start;
+    start = end;
+    end = temp;
+
     double dx = end.x - start.x;
     double dy = end.y - start.y;
     double angle = Math.atan2(dy, dx);
 
-    // 몸통 선 그리기 (끝점까지)
+    // 몸통 선 그리기 (반대로 그려짐)
     g2.drawLine(start.x, start.y, end.x, end.y);
 
-    // 화살표 머리 그리기 위해 transform 적용
+    // 화살표 머리 그리기
     Graphics2D g2Copy = (Graphics2D) g2.create();
     g2Copy.translate(end.x, end.y);
     g2Copy.rotate(angle);
