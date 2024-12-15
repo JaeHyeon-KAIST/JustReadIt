@@ -17,8 +17,6 @@ import x.XCmdToChangeScene;
 import x.XScenario;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class BookDetailScenario extends XScenario {
   // singleton pattern
@@ -56,6 +54,12 @@ public class BookDetailScenario extends XScenario {
     }
   }
 
+  public void dispatchGoToNotePage(JRIBookNoteInfo note) {
+    if (this.getApp().getScenarioMgr().getCurScene() == DefaultScene.mSingleton) {
+      DefaultScene.mSingleton.goToNotePage(note);
+    }
+  }
+
   public static class DefaultScene extends JRIScene {
     private long lastClickTime = 0;
     private static final long DOUBLE_CLICK_TIME = 200;
@@ -83,6 +87,12 @@ public class BookDetailScenario extends XScenario {
 
     public void dispatchGoToHomePageButtonPress() {
       XCmdToChangeScene.execute(this.mScenario.getApp(), HomeScenario.FirstScene.getSingleton(), this);
+    }
+
+    public void goToNotePage(JRIBookNoteInfo note) {
+      JRIApp jri = (JRIApp) this.mScenario.getApp();
+      jri.getSelectedBookAndNoteMgr().setSelectedBookNote(note);
+      XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.NoteScene.getSingleton(), this);
     }
 
     private DefaultScene(XScenario scenario) {

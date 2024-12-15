@@ -13,7 +13,7 @@ public class JRIBookNoteInfo {
     this.mBookId = bookId;
     this.mTitle = title;
     this.mType = type;
-    this.mText = mText;
+    this.mText = text;
   }
 
   // 게터와 세터

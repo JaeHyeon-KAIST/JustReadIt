@@ -192,10 +192,10 @@ public class ServerAPI {
           String bookIdValue = note.get("bookId") != null ? String.valueOf(note.get("bookId")) : "Unknown";
           String title = note.get("title") != null ? (String) note.get("title") : "Untitled";
           String type = note.get("type") != null ? (String) note.get("type") : "Unknown";
-          String content = note.get("text") != null ? (String) note.get("text") : ""; // "text"로 수정
+          String text = note.get("text") != null ? (String) note.get("text") : ""; // "text"로 수정
 
           // Note 객체 생성 및 추가
-          bookNotes.add(new JRIBookNoteInfo(noteId, bookIdValue, title, type, content));
+          bookNotes.add(new JRIBookNoteInfo(noteId, bookIdValue, title, type, text));
         }
 
         return bookNotes;
@@ -269,5 +269,52 @@ public class ServerAPI {
       }
     }
     return -1;  // 실패시 -1 반환
+  }
+
+  public static boolean saveNote(String bookId, int noteId, String text) {
+    String endpoint = BASE_URL + "saveNote";
+    HttpURLConnection connection = null;
+
+    try {
+      // URL 객체 생성
+      URL url = new URL(endpoint);
+      connection = (HttpURLConnection) url.openConnection();
+
+      // HTTP POST 설정
+      connection.setRequestMethod("POST");
+      connection.setRequestProperty("Content-Type", "application/json");
+      connection.setDoOutput(true);
+
+      // JSON 데이터 생성
+      Map<String, Object> noteData = new HashMap<>();
+      noteData.put("bookId", bookId); // bookId 추가
+      noteData.put("noteId", noteId); // noteId 수정
+      noteData.put("text", text);
+
+      ObjectMapper objectMapper = new ObjectMapper();
+      String jsonInputString = objectMapper.writeValueAsString(noteData);
+
+      // POST 요청에 JSON 데이터 쓰기
+      try (OutputStream os = connection.getOutputStream()) {
+        byte[] input = jsonInputString.getBytes("utf-8");
+        os.write(input, 0, input.length);
+      }
+
+      // HTTP 응답 코드 확인
+      int responseCode = connection.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        System.out.println("Note saved successfully.");
+        return true;
+      } else {
+        System.err.println("Failed to save note. Response code: " + responseCode);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
+    }
+    return false;
   }
 }

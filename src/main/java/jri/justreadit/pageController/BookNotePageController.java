@@ -8,23 +8,28 @@ import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.util.Duration;
 import jri.justreadit.JRIApp;
+import jri.justreadit.JRIBookNoteInfo;
 import jri.justreadit.scenario.BookNotePageScenario;
-import netscape.javascript.JSObject;
+import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
+import jri.justreadit.utils.ServerAPI;
 import x.XPageController;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
+import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,79 +37,83 @@ public class BookNotePageController extends XPageController {
   public static final String PAGE_CONTROLLER_NAME = "NotePageController";
   public static final String FXML_NAME = "BookNotePage";
 
+  private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+  private final StringBuilder pendingNoteData = new StringBuilder();
+  private ScheduledFuture<?> debounceTask;
+
   @FXML
   private AnchorPane SIDE_NOTE;
 
   @FXML
   private HTMLEditor htmlEditor;
 
+  @FXML
+  private Text noteTitleText;
+
+  @FXML
+  private Text bookTitleText;
+
+  @FXML
+  private Text bookAuthorText;
+
+  @FXML
+  private ImageView bookCoverImageView;
+
   public BookNotePageController(JRIApp app, String fxmlBasePath) {
     super(PAGE_CONTROLLER_NAME, fxmlBasePath, FXML_NAME, app);
   }
 
+  private boolean isContentSet = false;
+
   @FXML
   public void initialize() {
-    int bookId = BookNotePageScenario.getSingleton().getCurrentBookId();
-    System.out.println("Book ID: " + bookId);
+    isContentSet = false;
+    JRIApp jri = (JRIApp) this.mApp;
+    AladdinBookItem bookItem = jri.getSelectedBookAndNoteMgr().getSelectedBookCard().getBookItem();
+    bookTitleText.setText(bookItem.getTitle());
+    bookAuthorText.setText(bookItem.getAuthor());
+    if (bookItem.getCover() != null && !bookItem.getCover().isEmpty()) {
+      try {
+        // URL로부터 Image 객체 생성
+        Image coverImage = new Image(bookItem.getCover(), true); // true로 설정하면 background-loading
+        bookCoverImageView.setImage(coverImage);
+      } catch (Exception e) {
+        System.err.println("Error loading book cover image: " + e.getMessage());
+      }
+    }
+
+    JRIBookNoteInfo note = jri.getSelectedBookAndNoteMgr().getSelectedBookNote();
+    noteTitleText.setText(note.getTitle());
+    String noteText = note.getText();
 
     WebView webView = (WebView) htmlEditor.lookup(".web-view");
     if (webView != null) {
+      System.out.println("WebView found in HTMLEditor.");
       WebEngine engine = webView.getEngine();
 
+      // WebEngine 상태 리스너 설정
       engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
-        if (newState == Worker.State.SUCCEEDED) {
-          Platform.runLater(() -> {
-            try {
-              // 브릿지 설정
-              JSObject window = (JSObject) engine.executeScript("window");
-              window.setMember("javaLogger", new BookNotePageController.JavaLogger());
-
-              engine.executeScript(
-                // 먼저 console.log를 Java로 리다이렉션
-                "console.log = function(message) { window.javaLogger.log(message); };" +
-
-                  // 나머지 스크립트
-                  "window.javaLogger.log('Script initialization started...');" +
-
-                  "document.head.innerHTML += '<style>" +
-                  "@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);" +  // Noto Sans Korean 폰트 추가
-                  "* { font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', sans-serif !important; }" +
-                  "body { font-size: 14px; line-height: 1.6; }" +
-                  "</style>';" +
-                  "document.body.setAttribute('lang', 'ko');" +
-
-                  // IME 이벤트 처리
-                  "document.body.addEventListener('keydown', function(e) {" +
-                  "    window.javaLogger.log('KeyDown - key: ' + e.key + ', isComposing: ' + e.isComposing);" +
-                  "    if (e.isComposing || e.keyCode === 229) {" +
-                  "        window.javaLogger.log('IME composition detected');" +
-                  "        e.preventDefault();" +
-                  "        return;" +
-                  "    }" +
-                  "});" +
-
-                  // IME 조합 이벤트
-                  "document.body.addEventListener('compositionstart', function(e) {" +
-                  "    window.javaLogger.log('CompositionStart: ' + e.data);" +
-                  "});" +
-
-                  "document.body.addEventListener('compositionupdate', function(e) {" +
-                  "    window.javaLogger.log('CompositionUpdate: ' + e.data);" +
-                  "});" +
-
-                  "document.body.addEventListener('compositionend', function(e) {" +
-                  "    window.javaLogger.log('CompositionEnd: ' + e.data);" +
-                  "});" +
-
-                  "window.javaLogger.log('Script initialization completed.');"
-              );
-            } catch (Exception e) {
-              System.err.println("JavaScript bridge error: " + e.getMessage());
-              e.printStackTrace();
-            }
-          });
+        if (newState == Worker.State.SUCCEEDED && !isContentSet) {
+          setHtmlContent(noteText);
         }
       });
+
+      // 첫 진입 시 HTML 설정 (즉시 실행)
+      Platform.runLater(() -> {
+        if (!isContentSet) {
+          setHtmlContent(noteText);
+        }
+      });
+
+      // 폰트 및 CSS 설정
+      engine.executeScript(
+        "document.head.innerHTML += '<style>" +
+          "@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);" +
+          "* { font-family: \"Noto Sans KR\", sans-serif; font-size: 14px; line-height: 1.6; }" +
+          "</style>';"
+      );
+    } else {
+      System.err.println("WebView not found in HTMLEditor. HTML content cannot be set.");
     }
 
     // 링크 클릭 이벤트 감지
@@ -114,6 +123,21 @@ public class BookNotePageController extends XPageController {
     setupPasteEventListener();
 
     SIDE_NOTE.setTranslateX(800);
+  }
+
+  private void setHtmlContent(String noteText) {
+    try {
+      if (noteText != null && !noteText.isEmpty()) {
+        htmlEditor.setHtmlText(noteText);
+        System.out.println("HTML content successfully set in HTMLEditor.");
+      } else {
+        htmlEditor.setHtmlText(""); // 기본 빈 값
+        System.out.println("Note text is empty or null.");
+      }
+      isContentSet = true;
+    } catch (Exception e) {
+      System.err.println("Error setting HTML content: " + e.getMessage());
+    }
   }
 
   public void goToBookShelfPage() {
@@ -306,5 +330,54 @@ public class BookNotePageController extends XPageController {
     KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.5), widthKey, heightKey);
     editorResize.getKeyFrames().add(keyFrame);
     editorResize.play();
+  }
+
+  public void saveNote() {
+    String htmlContent = htmlEditor.getHtmlText();
+
+    // HTML 내용이 이전과 동일하면 저장 생략
+    if (pendingNoteData.toString().equals(htmlContent)) {
+      System.out.println("No changes detected. Skipping save.");
+      return;
+    }
+
+    saveNoteWithDebounce(htmlContent);
+  }
+
+  public void saveNoteWithDebounce(String htmlContent) {
+    synchronized (pendingNoteData) {
+      pendingNoteData.setLength(0); // 이전 데이터 초기화
+      pendingNoteData.append(htmlContent);
+    }
+
+    // 이전 스케줄 정확히 취소
+    if (debounceTask != null && !debounceTask.isCancelled() && !debounceTask.isDone()) {
+      debounceTask.cancel(true);
+    }
+
+    // 디바운스 타이머 설정
+    debounceTask = scheduler.schedule(() -> {
+      synchronized (pendingNoteData) {
+        String dataToSave = pendingNoteData.toString();
+        pendingNoteData.setLength(0); // 버퍼 초기화
+        performSaveNoteRequest(dataToSave);
+      }
+    }, 500, TimeUnit.MILLISECONDS);
+  }
+
+  private void performSaveNoteRequest(String htmlContent) {
+    JRIApp jri = (JRIApp) this.mApp;
+    JRIBookNoteInfo note = jri.getSelectedBookAndNoteMgr().getSelectedBookNote();
+
+    // 비동기로 저장 작업 처리
+    CompletableFuture.runAsync(() -> {
+      System.out.println("Saving note asynchronously: " + note.getNoteId());
+      boolean success = ServerAPI.saveNote(note.getBookId(), note.getNoteId(), htmlContent);
+      if (success) {
+        System.out.println("Note saved successfully.");
+      } else {
+        System.err.println("Failed to save note.");
+      }
+    });
   }
 }

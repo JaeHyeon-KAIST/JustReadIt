@@ -7,16 +7,6 @@ import x.XCmdToChangeScene;
 import x.XScenario;
 
 public class BookNotePageScenario extends XScenario {
-  private int mCurrentBookId;
-
-  public void setCurrentBookId(int bookId) {
-    this.mCurrentBookId = bookId;
-  }
-
-  public int getCurrentBookId() {
-    return this.mCurrentBookId;
-  }
-
   // singleton pattern
   private static BookNotePageScenario mSingleton = null;
 
@@ -72,7 +62,6 @@ public class BookNotePageScenario extends XScenario {
     }
 
     public void onMoveToHomePageButtonPress() {
-      BookNotePageScenario.getSingleton().setCurrentBookId(10);
       XCmdToChangeScene.execute(this.mScenario.getApp(), HomeScenario.FirstScene.getSingleton(), this);
     }
 
@@ -87,7 +76,8 @@ public class BookNotePageScenario extends XScenario {
 
     @Override
     public void wrapUp() {
-
+      BookNotePageController controller = (BookNotePageController) this.mScenario.getApp().getPageControllerMgr().getController(BookNotePageController.PAGE_CONTROLLER_NAME);
+      controller.saveNote();
     }
   }
 }

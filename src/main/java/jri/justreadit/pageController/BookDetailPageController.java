@@ -113,6 +113,8 @@ public class BookDetailPageController extends XPageController {
         System.out.println("Selected note content: " + note.getText());
         System.out.println("Selected note id: " + note.getNoteId());
         // 노트 세부 페이지로 이동 로직 추가 가능
+        BookDetailScenario scenario = (BookDetailScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+        scenario.dispatchGoToNotePage(note);
       });
 
       // VBox에 ImageView와 Text 추가
