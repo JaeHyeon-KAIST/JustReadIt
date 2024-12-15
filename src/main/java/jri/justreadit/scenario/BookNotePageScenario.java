@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import jri.justreadit.JRIApp;
+import jri.justreadit.JRIBookCard;
 import jri.justreadit.JRIScene;
 import jri.justreadit.pageController.BookNotePageController;
 import jri.justreadit.utils.ServerAPI;
@@ -37,6 +38,7 @@ public class BookNotePageScenario extends XScenario {
   protected void addScenes() {
     this.addScene(WritingScene.createSingleton(this));
     this.addScene(SearchNoteScene.createSingleton(this));
+    this.addScene(SearchBookScene.createSingleton(this));
   }
 
   public void dispatchMoveToHomePageButtonPress() {
@@ -51,12 +53,20 @@ public class BookNotePageScenario extends XScenario {
     }
   }
 
-  public void dispatchCloseBookSearchModal() {
+  public void dispatchCloseNoteSearchModal() {
     SearchNoteScene.mSingleton.closeNoteSearch();
+  }
+
+  public void dispatchCloseBookSearchModal() {
+    SearchBookScene.mSingleton.closeBookSearch();
   }
 
   public void dispatchOpenLikedBookSideView(int noteId) {
     WritingScene.mSingleton.openLikedBookSideView(noteId);
+  }
+
+  public void dispatchMoveToClickedBook(String bookId) {
+    WritingScene.mSingleton.moveToClickedBook(bookId);
   }
 
   public static class WritingScene extends JRIScene {
@@ -99,6 +109,16 @@ public class BookNotePageScenario extends XScenario {
       }
     }
 
+    public void moveToClickedBook(String bookId) {
+      JRIBookCard bookCard = ServerAPI.searchBookById(bookId);
+      if (bookCard != null) {
+        //
+        JRIApp jri = (JRIApp) this.mScenario.getApp();
+        jri.getSelectedBookAndNoteMgr().setSelectedBookCard(bookCard);
+        XCmdToChangeScene.execute(jri, BookDetailScenario.DefaultScene.getSingleton(), this);
+      }
+    }
+
     private WritingScene(XScenario scenario) {
       super(scenario);
       keyPressedHandler = this::handleKeyPressed;
@@ -129,15 +149,17 @@ public class BookNotePageScenario extends XScenario {
     }
 
     private void handleKeyPressed(KeyEvent e) {
+      JRIApp jri = (JRIApp) this.mScenario.getApp();
+      BookNotePageController controller = (BookNotePageController) jri.getPageControllerMgr().getController(BookNotePageController.PAGE_CONTROLLER_NAME);
       switch (e.getCode()) {
         case ALT:
-          JRIApp jri = (JRIApp) this.mScenario.getApp();
-
-          BookNotePageController controller = (BookNotePageController) jri.getPageControllerMgr().getController(BookNotePageController.PAGE_CONTROLLER_NAME);
           // 검색창 열기
-          Platform.runLater(controller::openModal);
-
+          Platform.runLater(controller::openNoteSearchModal);
           XCmdToChangeScene.execute(jri, SearchNoteScene.getSingleton(), this);
+          break;
+        case CONTROL:
+          Platform.runLater(controller::openBookSearchModal);
+          XCmdToChangeScene.execute(jri, SearchBookScene.getSingleton(), this);
           break;
       }
     }
@@ -173,8 +195,39 @@ public class BookNotePageScenario extends XScenario {
 
     @Override
     public void wrapUp() {
+    }
+  }
+
+  public static class SearchBookScene extends JRIScene {
+    // singleton
+    private static SearchBookScene mSingleton = null;
+
+    public static SearchBookScene getSingleton() {
+      assert (SearchBookScene.mSingleton != null);
+      return SearchBookScene.mSingleton;
+    }
+
+    public static SearchBookScene createSingleton(XScenario scenario) {
+      assert (SearchBookScene.mSingleton == null);
+      SearchBookScene.mSingleton = new SearchBookScene(scenario);
+      return SearchBookScene.mSingleton;
+    }
+
+    private SearchBookScene(XScenario scenario) {
+      super(scenario);
+    }
+
+    public void closeBookSearch() {
       JRIApp jri = (JRIApp) this.mScenario.getApp();
-      Scene scene = jri.getPrimaryStage().getScene();
+      XCmdToChangeScene.execute(jri, this.mReturnScene, null);
+    }
+
+    @Override
+    public void getReady() {
+    }
+
+    @Override
+    public void wrapUp() {
     }
   }
 }

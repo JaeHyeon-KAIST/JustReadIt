@@ -148,19 +148,41 @@
                       </padding>
                     </HTMLEditor>
                   </children>
-                  <StackPane fx:id="modalOverlay" onMouseClicked="#onModalOverlayClicked" prefHeight="723.0"
+                  <StackPane fx:id="noteSearchModalOverlay" onMouseClicked="#onNoteSearchModalOverlayClicked"
+                             prefHeight="723.0"
                              prefWidth="1588.0" styleClass="stack_pane" visible="false">
                     <children>
                       <VBox alignment="CENTER" maxHeight="400" maxWidth="500" spacing="15" styleClass="search"
                             stylesheets="@css/bookNote.css">
-                        <Label text="Search Results">
+                        <Label text="Note Results">
                           <font>
                             <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
                           </font>
                         </Label>
-                        <TextField fx:id="modalInputField" onKeyPressed="#onModalInputKeyPressed"
+                        <TextField fx:id="noteSearchModalInputField" onKeyPressed="#onNoteSearchModalInputKeyPressed"
                                    promptText="Enter something..." text="Search Books"/>
-                        <ListView fx:id="searchResultsList" onMouseClicked="#onSearchResultClicked"
+                        <ListView fx:id="noteSearchResultsList" onMouseClicked="#onNoteSearchResultClicked"
+                                  visible="false"/>
+                        <padding>
+                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                        </padding>
+                      </VBox>
+                    </children>
+                  </StackPane>
+                  <StackPane fx:id="bookSearchModalOverlay" onMouseClicked="#onBookSearchModalOverlayClicked"
+                             prefHeight="723.0"
+                             prefWidth="1588.0" styleClass="stack_pane" visible="false">
+                    <children>
+                      <VBox alignment="CENTER" maxHeight="400" maxWidth="500" spacing="15" styleClass="search"
+                            stylesheets="@css/bookNote.css">
+                        <Label text="Book Results">
+                          <font>
+                            <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                          </font>
+                        </Label>
+                        <TextField fx:id="bookSearchModalInputField" onKeyPressed="#onBookSearchModalInputKeyPressed"
+                                   promptText="Enter something..." text="Search Books"/>
+                        <ListView fx:id="bookSearchResultsList" onMouseClicked="#onBookSearchResultClicked"
                                   visible="false"/>
                         <padding>
                           <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>

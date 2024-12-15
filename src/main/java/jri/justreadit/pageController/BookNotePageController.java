@@ -24,10 +24,7 @@ import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.util.Duration;
-import jri.justreadit.JRIApp;
-import jri.justreadit.JRIBookNoteInfo;
-import jri.justreadit.JRISelectedBookAndNoteMgr;
-import jri.justreadit.JRIVectorResultInfo;
+import jri.justreadit.*;
 import jri.justreadit.scenario.BookNotePageScenario;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import jri.justreadit.utils.ServerAPI;
@@ -71,10 +68,16 @@ public class BookNotePageController extends XPageController {
   private ImageView bookCoverImageView;
 
   @FXML
-  private StackPane modalOverlay; // 모달 오버레이
+  private StackPane noteSearchModalOverlay; // 모달 오버레이
 
   @FXML
-  private TextField modalInputField; // 입력창
+  private TextField noteSearchModalInputField; // 입력창
+
+  @FXML
+  private StackPane bookSearchModalOverlay; // 모달 오버레이
+
+  @FXML
+  private TextField bookSearchModalInputField; // 입력창
 
   @FXML
   private ImageView sideNoteBookCoverImageView;
@@ -92,9 +95,13 @@ public class BookNotePageController extends XPageController {
   private WebView readOnlyWebView;
 
   @FXML
-  private ListView<JRIVectorResultInfo> searchResultsList;
+  private ListView<JRIVectorResultInfo> noteSearchResultsList;
 
-  private ObservableList<JRIVectorResultInfo> searchResultsObservable = FXCollections.observableArrayList();
+  @FXML
+  private ListView<JRIBookCard> bookSearchResultsList;
+
+  private ObservableList<JRIVectorResultInfo> noteSearchResultsObservable = FXCollections.observableArrayList();
+  private ObservableList<JRIBookCard> bookSearchResultsObservable = FXCollections.observableArrayList();
 
   public BookNotePageController(JRIApp app, String fxmlBasePath) {
     super(PAGE_CONTROLLER_NAME, fxmlBasePath, FXML_NAME, app);
@@ -122,10 +129,12 @@ public class BookNotePageController extends XPageController {
     noteTitleText.setText(note.getTitle());
     String noteText = note.getText();
 
-    searchResultsObservable = FXCollections.observableArrayList();
-    searchResultsList.setItems(searchResultsObservable);
+    noteSearchResultsObservable = FXCollections.observableArrayList();
+    bookSearchResultsObservable = FXCollections.observableArrayList();
+    noteSearchResultsList.setItems(noteSearchResultsObservable);
+    bookSearchResultsList.setItems(bookSearchResultsObservable);
 
-    searchResultsList.setCellFactory(listView -> new ListCell<JRIVectorResultInfo>() {
+    noteSearchResultsList.setCellFactory(listView -> new ListCell<JRIVectorResultInfo>() {
       @Override
       protected void updateItem(JRIVectorResultInfo item, boolean empty) {
         super.updateItem(item, empty);
@@ -136,6 +145,19 @@ public class BookNotePageController extends XPageController {
         }
       }
     });
+
+    bookSearchResultsList.setCellFactory(listView -> new ListCell<JRIBookCard>() {
+      @Override
+      protected void updateItem(JRIBookCard item, boolean empty) {
+        super.updateItem(item, empty);
+        if (empty || item == null) {
+          setText(null);
+        } else {
+          setText(item.getBookItem().getTitle() + " - " + item.getBookItem().getAuthor());
+        }
+      }
+    });
+
 
     WebView webView = (WebView) htmlEditor.lookup(".web-view");
     if (webView != null) {
@@ -223,28 +245,41 @@ public class BookNotePageController extends XPageController {
 
     private void handleUrl(String url) {
       if (url.startsWith(JUSTREADIT_PREFIX)) {
-        String noteId = url.substring(JUSTREADIT_PREFIX.length());
-        if (noteId.matches("\\d+")) {
-          System.out.println("[WebView] Internal link detected");
-          System.out.println("[WebView] Note ID: " + noteId);
-          handleInternalLink(noteId);
+        String internalPath = url.substring(JUSTREADIT_PREFIX.length());
+
+        if (internalPath.startsWith("note/") && internalPath.substring(5).matches("\\d+")) {
+          String noteId = internalPath.substring(5);
+          System.out.println("[WebView] Internal note link detected. Note ID: " + noteId);
+          handleInternalLink("note", noteId);
+
+        } else if (internalPath.startsWith("book/") && internalPath.substring(5).matches("\\d+")) {
+          String bookId = internalPath.substring(5);
+          System.out.println("[WebView] Internal book link detected. Book ID: " + bookId);
+          handleInternalLink("book", bookId);
+
         } else {
           System.out.println("[WebView] Invalid internal link format: " + url);
         }
+
       } else if (url.startsWith("http://") || url.startsWith("https://")) {
         System.out.println("[WebView] External link detected: " + url);
         handleExternalLink(url);
+
       } else {
         System.out.println("[WebView] Unknown link type: " + url);
       }
     }
 
-    private void handleInternalLink(String noteId) {
-      System.out.println("[WebView] Processing note ID: " + noteId);
+    private void handleInternalLink(String type, String id) {
       Platform.runLater(() -> {
         BookNotePageScenario scenario = (BookNotePageScenario) controller.mApp.getScenarioMgr().getCurScene().getScenario();
-        scenario.dispatchOpenLikedBookSideView(Integer.parseInt(noteId));
-        // scenario.dispatchMoveToNote(noteId);
+        if ("note".equals(type)) {
+          System.out.println("[WebView] Processing note ID: " + id);
+          scenario.dispatchOpenLikedBookSideView(Integer.parseInt(id));
+        } else if ("book".equals(type)) {
+          System.out.println("[WebView] Processing book ID: " + id);
+          scenario.dispatchMoveToClickedBook(id);
+        }
       });
     }
 
@@ -465,30 +500,63 @@ public class BookNotePageController extends XPageController {
   }
 
   @FXML
-  public void openModal() {
-    modalOverlay.setVisible(true);
-    searchResultsList.setVisible(false);
-    modalInputField.clear();
-    modalInputField.requestFocus();
+  public void openNoteSearchModal() {
+    noteSearchModalOverlay.setVisible(true);
+    noteSearchResultsObservable.clear();
+    noteSearchResultsList.setVisible(false);
+    noteSearchModalInputField.clear();
+    noteSearchModalInputField.requestFocus();
   }
 
   @FXML
-  public void onModalOverlayClicked(MouseEvent event) {
+  public void openBookSearchModal() {
+    bookSearchModalOverlay.setVisible(true);
+    bookSearchResultsObservable.clear();
+    bookSearchResultsList.setVisible(false);
+    bookSearchModalInputField.clear();
+    bookSearchModalInputField.requestFocus();
+  }
+
+  @FXML
+  public void onNoteSearchModalOverlayClicked(MouseEvent event) {
     System.out.println("Modal overlay clicked!");
-    if (event.getTarget() == modalOverlay) {
-      modalOverlay.setVisible(false);
+    if (event.getTarget() == noteSearchModalOverlay) {
+      noteSearchModalOverlay.setVisible(false);
+      BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+      scenario.dispatchCloseNoteSearchModal();
+    }
+  }
+
+  @FXML
+  public void onBookSearchModalOverlayClicked(MouseEvent event) {
+    System.out.println("Modal overlay clicked!");
+    if (event.getTarget() == bookSearchModalOverlay) {
+      bookSearchModalOverlay.setVisible(false);
       BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
       scenario.dispatchCloseBookSearchModal();
     }
   }
 
   @FXML
-  public void onModalInputKeyPressed(javafx.scene.input.KeyEvent event) {
+  public void onNoteSearchModalInputKeyPressed(javafx.scene.input.KeyEvent event) {
     switch (event.getCode()) {
       case ENTER:
-        String inputText = modalInputField.getText();
+        String inputText = noteSearchModalInputField.getText();
         System.out.println("Search input: " + inputText);
         searchNoteByVector(inputText);
+        break;
+      default:
+        break;
+    }
+  }
+
+  @FXML
+  public void onBookSearchModalInputKeyPressed(javafx.scene.input.KeyEvent event) {
+    switch (event.getCode()) {
+      case ENTER:
+        String inputText = bookSearchModalInputField.getText();
+        System.out.println("Search input: " + inputText);
+        searchBook(inputText);
         break;
       default:
         break;
@@ -502,29 +570,63 @@ public class BookNotePageController extends XPageController {
 
       ArrayList<JRIVectorResultInfo> results = ServerAPI.searchNoteByVector(keyword, note.getNoteId());
       Platform.runLater(() -> {
-        searchResultsObservable.clear();
-        searchResultsObservable.addAll(results);
-        searchResultsList.setVisible(!searchResultsObservable.isEmpty());
+        noteSearchResultsObservable.clear();
+        noteSearchResultsObservable.addAll(results);
+        noteSearchResultsList.setVisible(!noteSearchResultsObservable.isEmpty());
       });
     } catch (Exception ex) {
       System.out.println("Exception during book search: " + ex.getMessage());
-      Platform.runLater(() -> searchResultsList.setVisible(false));
+      Platform.runLater(() -> noteSearchResultsList.setVisible(false));
+    }
+  }
+
+  private void searchBook(String keyword) {
+    try {
+      ArrayList<JRIBookCard> books = ServerAPI.searchBook(keyword);
+      for (JRIBookCard book : books) {
+        System.out.println("Title: " + book.getBookItem().getTitle());
+        System.out.println("Author: " + book.getBookItem().getAuthor());
+      }
+      Platform.runLater(() -> {
+        bookSearchResultsObservable.clear();
+        bookSearchResultsObservable.addAll(books);
+        bookSearchResultsList.setVisible(!bookSearchResultsObservable.isEmpty());
+      });
+    } catch (Exception ex) {
+      System.out.println("Exception during book search: " + ex.getMessage());
+      Platform.runLater(() -> bookSearchResultsList.setVisible(false));
     }
   }
 
   @FXML
-  public void onSearchResultClicked(MouseEvent event) {
+  public void onNoteSearchResultClicked(MouseEvent event) {
     if (event.getClickCount() == 2) {
-      JRIVectorResultInfo selectedItem = searchResultsList.getSelectionModel().getSelectedItem();
+      JRIVectorResultInfo selectedItem = noteSearchResultsList.getSelectionModel().getSelectedItem();
       if (selectedItem != null) {
         System.out.println("Selected item: " + selectedItem.getBookTitle() + " : " + selectedItem.getSentence());
         String noteId = String.valueOf(selectedItem.getNoteId());
         String sentence = selectedItem.getSentence();
-        String linkUrl = "/justreadit/" + noteId;
+        String linkUrl = "/justreadit/note/" + noteId;
 
         insertLinkIntoHtmlEditor(linkUrl, sentence);
         BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
-        modalOverlay.setVisible(false);
+        noteSearchModalOverlay.setVisible(false);
+        scenario.dispatchCloseNoteSearchModal();
+      }
+    }
+  }
+
+  @FXML
+  public void onBookSearchResultClicked(MouseEvent event) {
+    if (event.getClickCount() == 2) {
+      JRIBookCard selectedItem = bookSearchResultsList.getSelectionModel().getSelectedItem();
+      if (selectedItem != null) {
+        String sentence = selectedItem.getBookItem().getTitle() + " : " + selectedItem.getBookItem().getAuthor();
+        String linkUrl = "/justreadit/book/" + selectedItem.getBookItem().getItemId();
+
+        insertLinkIntoHtmlEditor(linkUrl, sentence);
+        BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+        bookSearchModalOverlay.setVisible(false);
         scenario.dispatchCloseBookSearchModal();
       }
     }

@@ -6,6 +6,7 @@ import jri.justreadit.JRIBookNoteInfo;
 import jri.justreadit.JRIVectorResultInfo;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -465,6 +466,153 @@ public class ServerAPI {
       }
     } catch (Exception e) {
       System.err.println("Exception during note info request: " + e.getMessage());
+      e.printStackTrace();
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
+    }
+
+    return null; // 실패 시 null 반환
+  }
+
+  public static ArrayList<JRIBookCard> searchBook(String keyword) {
+    String endpoint = BASE_URL + "searchBook"; // 서버의 엔드포인트
+    HttpURLConnection connection = null;
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    ArrayList<JRIBookCard> bookCardList = new ArrayList<>(); // 반환할 리스트
+
+    try {
+      // URL 객체 생성 및 연결 설정
+      URL url = new URL(endpoint);
+      connection = (HttpURLConnection) url.openConnection();
+      connection.setRequestMethod("POST");
+      connection.setRequestProperty("Content-Type", "application/json");
+      connection.setDoOutput(true);
+
+      // 요청 바디 생성
+      Map<String, Object> requestData = new HashMap<>();
+      requestData.put("keyword", keyword);
+      String jsonInputString = objectMapper.writeValueAsString(requestData);
+
+      try (OutputStream os = connection.getOutputStream()) {
+        os.write(jsonInputString.getBytes("utf-8"));
+      }
+
+      // 응답 확인
+      int responseCode = connection.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"))) {
+          StringBuilder response = new StringBuilder();
+          String line;
+          while ((line = reader.readLine()) != null) {
+            response.append(line);
+          }
+
+          // JSON 응답 파싱
+          Map<String, Object> responseMap = objectMapper.readValue(response.toString(), Map.class);
+          if ("success".equals(responseMap.get("status"))) {
+            List<Map<String, Object>> bookList = (List<Map<String, Object>>) responseMap.get("data");
+
+            for (Map<String, Object> book : bookList) {
+              // 데이터 추출
+              String id = String.valueOf(book.get("id"));
+              String title = (String) book.get("title");
+              String author = (String) book.get("author");
+              String publisher = (String) book.get("publisher");
+              String cover = (String) book.get("cover");
+
+              // 객체 생성
+              AladdinBookItem bookItem = new AladdinBookItem();
+              bookItem.setItemId(id);
+              bookItem.setTitle(title);
+              bookItem.setAuthor(author);
+              bookItem.setPublisher(publisher);
+              bookItem.setCover(cover);
+
+              // JRIBookCard에 추가 (positionX, positionY 기본값 0으로 설정)
+              bookCardList.add(new JRIBookCard(bookItem, new Point(0, 0)));
+            }
+          } else {
+            System.err.println("Error: " + responseMap.get("message"));
+          }
+        }
+      } else {
+        System.err.println("Server error. Response code: " + responseCode);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
+    }
+
+    return bookCardList; // ArrayList 반환
+  }
+
+  public static JRIBookCard searchBookById(String id) {
+    String endpoint = BASE_URL + "searchBookById"; // 서버의 엔드포인트
+    HttpURLConnection connection = null;
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    try {
+      // URL 객체 생성 및 연결 설정
+      URL url = new URL(endpoint);
+      connection = (HttpURLConnection) url.openConnection();
+      connection.setRequestMethod("POST");
+      connection.setRequestProperty("Content-Type", "application/json");
+      connection.setDoOutput(true);
+
+      // 요청 바디 생성
+      Map<String, Object> requestData = new HashMap<>();
+      requestData.put("id", id);
+      String jsonInputString = objectMapper.writeValueAsString(requestData);
+
+      try (OutputStream os = connection.getOutputStream()) {
+        os.write(jsonInputString.getBytes("utf-8"));
+      }
+
+      // 응답 확인
+      int responseCode = connection.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"))) {
+          StringBuilder response = new StringBuilder();
+          String line;
+          while ((line = reader.readLine()) != null) {
+            response.append(line);
+          }
+
+          // JSON 응답 파싱
+          Map<String, Object> responseMap = objectMapper.readValue(response.toString(), Map.class);
+          if ("success".equals(responseMap.get("status"))) {
+            Map<String, Object> book = (Map<String, Object>) responseMap.get("data");
+
+            // 데이터 추출
+            String bookId = String.valueOf(book.get("id"));
+            String title = (String) book.get("title");
+            String author = (String) book.get("author");
+            String publisher = (String) book.get("publisher");
+            String cover = (String) book.get("cover");
+
+            // 객체 생성 및 반환
+            AladdinBookItem bookItem = new AladdinBookItem();
+            bookItem.setItemId(bookId);
+            bookItem.setTitle(title);
+            bookItem.setAuthor(author);
+            bookItem.setPublisher(publisher);
+            bookItem.setCover(cover);
+
+            return new JRIBookCard(bookItem, new Point(0, 0));
+          } else {
+            System.err.println("Error: " + responseMap.get("message"));
+          }
+        }
+      } else {
+        System.err.println("Server error. Response code: " + responseCode);
+      }
+    } catch (Exception e) {
       e.printStackTrace();
     } finally {
       if (connection != null) {
