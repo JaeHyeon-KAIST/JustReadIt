@@ -20,6 +20,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ListView?>
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1117.0"
             prefWidth="1728.0" styleClass="root" stylesheets="@css/bookNote.css" xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="jri.justreadit.pageController.BookNotePageController">
@@ -118,20 +119,6 @@
                             <Insets left="20.0"/>
                           </HBox.margin>
                         </VBox>
-                        <Button fx:id="addBtn" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#showSlide"
-                                prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css"
-                                text="Add" textAlignment="CENTER">
-                          <font>
-                            <Font name="Arial" size="14.0"/>
-                          </font>
-                        </Button>
-                        <Button fx:id="hideBtn" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#hideSlide"
-                                prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css"
-                                text="Hide" textAlignment="CENTER">
-                          <font>
-                            <Font name="Arial" size="14.0"/>
-                          </font>
-                        </Button>
                       </children>
                       <VBox.margin>
                         <Insets left="40.0"/>
@@ -203,16 +190,25 @@
               </padding>
             </VBox>
             <AnchorPane fx:id="SIDE_NOTE" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1117.0"
-                        prefWidth="600.0" styleClass="side_note" stylesheets="@css/bookNote.css">
+                        prefWidth="700.0" styleClass="side_note" stylesheets="@css/bookNote.css">
               <children>
-                <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1110.0" prefWidth="650.0"
-                            stylesheets="@css/bookNote.css" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="5.0">
-                  <content>
                     <VBox prefHeight="1117.0" prefWidth="600.0" stylesheets="@css/bookNote.css">
                       <children>
                         <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                              prefHeight="100.0" prefWidth="600.0" stylesheets="@css/bookNote.css">
+                              prefHeight="100.0" prefWidth="700.0" stylesheets="@css/bookNote.css">
                           <children>
+                            <Button fx:id="closeBtn" alignment="CENTER" layoutY="16.0" mnemonicParsing="false" onMouseClicked="#goToBookShelfPage" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
+                              <graphic>
+                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                    <Image url="@../../../image/close.png" />
+                                  </image>
+                                </ImageView>
+                              </graphic>
+                              <font>
+                                <Font name="Arial" size="16.0" />
+                              </font>
+                            </Button>
                             <Text layoutX="238.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Side Note"
                                   textAlignment="CENTER" textOrigin="CENTER">
                               <font>
@@ -263,16 +259,12 @@
                             <Insets left="20.0" right="20.0"/>
                           </VBox.margin>
                         </HBox>
-                        <WebView fx:id="readOnlyWebView" prefWidth="600.0" prefHeight="1000.0"/>
-                        <Pane prefHeight="824.0" prefWidth="600.0">
-                          <children>
-                            <TextFlow layoutX="21.0" layoutY="30.0" prefHeight="781.0" prefWidth="559.0"/>
-                          </children>
-                        </Pane>
+                        <WebView fx:id="readOnlyWebView" prefHeight="800.0" prefWidth="600.0">
+                          <VBox.margin>
+                            <Insets left="20.0" right="20.0" top="20.0" />
+                          </VBox.margin></WebView>
                       </children>
                     </VBox>
-                  </content>
-                </ScrollPane>
               </children>
             </AnchorPane>
           </children>
