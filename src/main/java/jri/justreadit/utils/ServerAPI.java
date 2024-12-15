@@ -271,7 +271,7 @@ public class ServerAPI {
     return -1;  // 실패시 -1 반환
   }
 
-  public static boolean saveNote(String bookId, int noteId, String text) {
+  public static boolean saveNote(String bookId, String bookTitle, int noteId, String text) {
     String endpoint = BASE_URL + "saveNote";
     HttpURLConnection connection = null;
 
@@ -288,6 +288,7 @@ public class ServerAPI {
       // JSON 데이터 생성
       Map<String, Object> noteData = new HashMap<>();
       noteData.put("bookId", bookId); // bookId 추가
+      noteData.put("bookTitle", bookTitle); // bookTitle 추가
       noteData.put("noteId", noteId); // noteId 수정
       noteData.put("text", text);
 

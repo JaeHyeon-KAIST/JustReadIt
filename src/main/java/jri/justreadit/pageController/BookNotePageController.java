@@ -20,6 +20,7 @@ import javafx.scene.web.WebView;
 import javafx.util.Duration;
 import jri.justreadit.JRIApp;
 import jri.justreadit.JRIBookNoteInfo;
+import jri.justreadit.JRISelectedBookAndNoteMgr;
 import jri.justreadit.scenario.BookNotePageScenario;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import jri.justreadit.utils.ServerAPI;
@@ -367,12 +368,14 @@ public class BookNotePageController extends XPageController {
 
   private void performSaveNoteRequest(String htmlContent) {
     JRIApp jri = (JRIApp) this.mApp;
-    JRIBookNoteInfo note = jri.getSelectedBookAndNoteMgr().getSelectedBookNote();
+    JRISelectedBookAndNoteMgr selectedBookAndNoteMgr = jri.getSelectedBookAndNoteMgr();
+    JRIBookNoteInfo note = selectedBookAndNoteMgr.getSelectedBookNote();
+    String bookTitle = selectedBookAndNoteMgr.getSelectedBookCard().getBookItem().getTitle();
 
     // 비동기로 저장 작업 처리
     CompletableFuture.runAsync(() -> {
       System.out.println("Saving note asynchronously: " + note.getNoteId());
-      boolean success = ServerAPI.saveNote(note.getBookId(), note.getNoteId(), htmlContent);
+      boolean success = ServerAPI.saveNote(note.getBookId(), bookTitle, note.getNoteId(), htmlContent);
       if (success) {
         System.out.println("Note saved successfully.");
       } else {

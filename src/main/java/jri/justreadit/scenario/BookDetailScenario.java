@@ -145,17 +145,12 @@ public class BookDetailScenario extends XScenario {
         case D:
           System.out.println("D key pressed");
           e.consume();
-          XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.NoteScene.getSingleton(), this);
+          createNewNote("during");
           break;
         case A:
           System.out.println("A key pressed");
           e.consume();
-//          createNewNote("after");
-          JRIApp jri = (JRIApp) this.mScenario.getApp();
-          JRIBookCard selectedBook = jri.getSelectedBookAndNoteMgr().getSelectedBookCard();
-          JRIBookNoteInfo newNote = new JRIBookNoteInfo(1, selectedBook.getBookItem().getItemId(), "Untitled", "during", "");
-          jri.getSelectedBookAndNoteMgr().setSelectedBookNote(newNote);
-          XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.NoteScene.getSingleton(), this);
+          createNewNote("after");
           break;
       }
     }
