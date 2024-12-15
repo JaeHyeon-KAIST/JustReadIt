@@ -17,107 +17,125 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1117.0" prefWidth="1728.0" styleClass="root" stylesheets="@css/bookNote.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jri.justreadit.pageController.HomePageController">
-   <children>
-      <VBox prefHeight="1117.0" prefWidth="1728.0">
-         <children>
-            <HBox prefHeight="1117.0" prefWidth="1728.0">
-               <children>
-                  <Pane fx:id="menu" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1117.0" prefWidth="100.0" stylesheets="@css/bookNote.css">
-                     <styleClass>
-                        <String fx:value="tool-bar" />
-                        <String fx:value="menu" />
-                     </styleClass>
-                     <children>
-                        <Button alignment="CENTER" layoutX="12.0" layoutY="365.0" mnemonicParsing="false" onMouseClicked="#goToBookShelfPage" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
-                           <graphic>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../image/bookshelf.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="goToHomePageButton" alignment="CENTER" layoutX="12.0" layoutY="265.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font name="Arial" size="16.0" />
-                           </font>
-                           <graphic>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../image/home.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </Pane>
-                  <VBox prefHeight="800.0" prefWidth="1623.0">
-                     <children>
-                        <Pane prefHeight="99.0" prefWidth="1014.0">
-                           <children>
-                              <Text layoutX="751.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just Read It" textAlignment="CENTER" textOrigin="CENTER" translateX="-60.0">
-                                 <font>
-                                    <Font name="Apple SD Gothic Neo ExtraBold" size="30.0" />
-                                 </font>
-                              </Text>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="686.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" translateX="-60.0">
-                                 <image>
-                                    <Image url="@../../../image/icon.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </Pane>
-                        <Pane prefHeight="99.0" prefWidth="1014.0">
-                           <children>
-                              <Text fill="#78b3ce" layoutX="29.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My Book Map" textAlignment="CENTER" textOrigin="CENTER">
-                                 <font>
-                                    <Font name="Apple SD Gothic Neo ExtraBold" size="40.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </Pane>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" stylesheets="@css/bookNote.css">
-                           <children>
-                              <StackPane minHeight="-Infinity" prefHeight="850.0" prefWidth="1588.0" styleClass="root" stylesheets="@css/bookNote.css">
-                              <SwingNode fx:id="swingNode" accessibleRole="BUTTON" styleClass="book_map" />
-                              
-                                                                 <!-- Modal Overlay -->
-                                <StackPane fx:id="modalOverlay" onMouseClicked="#onModalOverlayClicked" prefHeight="723.0" prefWidth="1588.0" styleClass="stack_pane" stylesheets="@css/bookNote.css" visible="false">
-                                  <children>
-                                    <VBox alignment="CENTER" maxHeight="400" maxWidth="500" spacing="15" styleClass="search" stylesheets="@css/bookNote.css">
-                                      <Label text="Search Results">
-                                             <font>
-                                                <Font name="Apple SD Gothic Neo Regular" size="18.0" />
-                                             </font></Label>
-                                      <TextField fx:id="modalInputField" onKeyPressed="#onModalInputKeyPressed" promptText="Enter something..." text="Search Books" />
-                                      <ListView fx:id="searchResultsList" onMouseClicked="#onSearchResultClicked" visible="false" />
-                                          <padding>
-                                             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                          </padding>
-                                    </VBox>
-                                  </children>
-                                </StackPane>
-                              </StackPane>
-                           </children>
-                        </VBox>
-                     </children>
-                     <HBox.margin>
-                        <Insets left="20.0" right="20.0" top="20.0" />
-                     </HBox.margin>
-                     <padding>
-                        <Insets left="20.0" right="20.0" />
-                     </padding>
-                  </VBox>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="1117.0" prefWidth="1728.0" styleClass="root"
+            stylesheets="@css/bookNote.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="jri.justreadit.pageController.HomePageController">
+  <children>
+    <VBox prefHeight="1117.0" prefWidth="1728.0">
+      <children>
+        <HBox prefHeight="1117.0" prefWidth="1728.0">
+          <children>
+            <Pane fx:id="menu" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1117.0" prefWidth="100.0"
+                  stylesheets="@css/bookNote.css">
+              <styleClass>
+                <String fx:value="tool-bar"/>
+                <String fx:value="menu"/>
+              </styleClass>
+              <children>
+                <Button alignment="CENTER" layoutX="12.0" layoutY="365.0" mnemonicParsing="false"
+                        onMouseClicked="#goToBookShelfPage" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn"
+                        stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
+                  <graphic>
+                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                      <image>
+                        <Image url="@../../../image/bookshelf.png"/>
+                      </image>
+                    </ImageView>
+                  </graphic>
+                  <font>
+                    <Font name="Arial" size="16.0"/>
+                  </font>
+                </Button>
+                <Button fx:id="goToHomePageButton" alignment="CENTER" layoutX="12.0" layoutY="265.0"
+                        mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn"
+                        stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
+                  <font>
+                    <Font name="Arial" size="16.0"/>
+                  </font>
+                  <graphic>
+                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                      <image>
+                        <Image url="@../../../image/home.png"/>
+                      </image>
+                    </ImageView>
+                  </graphic>
+                </Button>
+              </children>
+            </Pane>
+            <VBox prefHeight="800.0" prefWidth="1623.0">
+              <children>
+                <Pane prefHeight="99.0" prefWidth="1014.0">
+                  <children>
+                    <Text layoutX="751.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just Read It"
+                          textAlignment="CENTER" textOrigin="CENTER" translateX="-60.0">
+                      <font>
+                        <Font name="Apple SD Gothic Neo ExtraBold" size="30.0"/>
+                      </font>
+                    </Text>
+                    <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="686.0" layoutY="24.0" pickOnBounds="true"
+                               preserveRatio="true" translateX="-60.0">
+                      <image>
+                        <Image url="@../../../image/icon.png"/>
+                      </image>
+                    </ImageView>
+                  </children>
+                  <VBox.margin>
+                    <Insets/>
+                  </VBox.margin>
+                </Pane>
+                <Pane prefHeight="99.0" prefWidth="1014.0">
+                  <children>
+                    <Text fill="#78b3ce" layoutX="29.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                          text="My Book Map" textAlignment="CENTER" textOrigin="CENTER">
+                      <font>
+                        <Font name="Apple SD Gothic Neo ExtraBold" size="40.0"/>
+                      </font>
+                    </Text>
+                  </children>
+                </Pane>
+                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" stylesheets="@css/bookNote.css">
+                  <children>
+                    <StackPane minHeight="-Infinity" prefHeight="850.0" prefWidth="1588.0" styleClass="root"
+                               stylesheets="@css/bookNote.css">
+                      <SwingNode fx:id="swingNode" accessibleRole="BUTTON" styleClass="book_map"/>
+
+                      <!-- Modal Overlay -->
+                      <StackPane fx:id="modalOverlay" onMouseClicked="#onModalOverlayClicked" prefHeight="723.0"
+                                 prefWidth="1588.0" styleClass="stack_pane" stylesheets="@css/bookNote.css"
+                                 visible="false">
+                        <children>
+                          <VBox alignment="CENTER" maxHeight="400" maxWidth="500" spacing="15" styleClass="search"
+                                stylesheets="@css/bookNote.css">
+                            <Label text="Search Results">
+                              <font>
+                                <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                              </font>
+                            </Label>
+                            <TextField fx:id="modalInputField" onKeyPressed="#onModalInputKeyPressed"
+                                       promptText="Enter something..." text="Search Books"/>
+                            <ListView fx:id="searchResultsList" onMouseClicked="#onSearchResultClicked"
+                                      visible="false"/>
+                            <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                            </padding>
+                          </VBox>
+                        </children>
+                      </StackPane>
+                    </StackPane>
+                  </children>
+                </VBox>
+              </children>
+              <HBox.margin>
+                <Insets left="20.0" right="20.0" top="20.0"/>
+              </HBox.margin>
+              <padding>
+                <Insets left="20.0" right="20.0"/>
+              </padding>
+            </VBox>
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
 </AnchorPane>

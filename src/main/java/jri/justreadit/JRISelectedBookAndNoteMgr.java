@@ -1,6 +1,7 @@
 package jri.justreadit;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class JRISelectedBookAndNoteMgr {
   private JRIBookCard mSelectedBookCard;

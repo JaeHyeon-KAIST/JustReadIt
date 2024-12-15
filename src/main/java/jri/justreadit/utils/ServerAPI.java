@@ -3,6 +3,7 @@ package jri.justreadit.utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jri.justreadit.JRIBookCard;
 import jri.justreadit.JRIBookNoteInfo;
+import jri.justreadit.JRIVectorResultInfo;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 
 import java.io.BufferedReader;
@@ -317,5 +318,160 @@ public class ServerAPI {
       }
     }
     return false;
+  }
+
+  public static ArrayList<JRIVectorResultInfo> searchNoteByVector(String keyWord, int noteId) {
+    String endpoint = BASE_URL + "searchNoteByVector"; // 서버 엔드포인트
+    HttpURLConnection connection = null;
+
+    try {
+      // URL 객체 생성
+      URL url = new URL(endpoint);
+      connection = (HttpURLConnection) url.openConnection();
+
+      // HTTP POST 설정
+      connection.setRequestMethod("POST");
+      connection.setRequestProperty("Content-Type", "application/json");
+      connection.setDoOutput(true);
+
+      // JSON 데이터 생성
+      Map<String, Object> searchData = new HashMap<>();
+      searchData.put("searchText", keyWord);      // 검색 키워드
+      searchData.put("excludeNoteId", noteId);    // 제외할 노트 ID
+
+      ObjectMapper objectMapper = new ObjectMapper();
+      String jsonInputString = objectMapper.writeValueAsString(searchData);
+
+      // POST 요청에 JSON 데이터 쓰기
+      try (OutputStream os = connection.getOutputStream()) {
+        byte[] input = jsonInputString.getBytes("utf-8");
+        os.write(input, 0, input.length);
+      }
+
+      // HTTP 응답 코드 확인
+      int responseCode = connection.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        // 응답 데이터 읽기
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
+        StringBuilder response = new StringBuilder();
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+          response.append(line);
+        }
+        reader.close();
+
+        // JSON 응답 파싱
+        Map<String, Object> responseMap = objectMapper.readValue(response.toString(), Map.class);
+
+        // "results" 필드를 추출하여 변환
+        List<Map<String, Object>> resultsList = (List<Map<String, Object>>) responseMap.get("results");
+        ArrayList<JRIVectorResultInfo> results = new ArrayList<>();
+
+        for (Map<String, Object> result : resultsList) {
+          String bookId = (String) result.get("bookId");
+          String bookTitle = (String) result.get("bookTitle");
+          int resultNoteId = (Integer) result.get("noteId");
+          String sentence = (String) result.get("sentence");
+          double similarity = (Double) result.get("similarity");
+
+          results.add(new JRIVectorResultInfo(bookId, bookTitle, resultNoteId, sentence, similarity));
+        }
+
+        return results;
+      } else {
+        System.err.println("Search request failed with response code: " + responseCode);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
+    }
+
+    return new ArrayList<>(); // 실패 시 빈 리스트 반환
+  }
+
+  public static Map<String, Object> getNoteInfo(int noteId) {
+    String endpoint = BASE_URL + "getNoteInfo";
+    HttpURLConnection connection = null;
+
+    try {
+      // URL 객체 생성
+      URL url = new URL(endpoint);
+      connection = (HttpURLConnection) url.openConnection();
+
+      // HTTP POST 설정
+      connection.setRequestMethod("POST");
+      connection.setRequestProperty("Content-Type", "application/json");
+      connection.setDoOutput(true);
+
+      // JSON 데이터 생성
+      Map<String, Object> requestData = new HashMap<>();
+      requestData.put("noteId", noteId);
+
+      ObjectMapper objectMapper = new ObjectMapper();
+      String jsonInputString = objectMapper.writeValueAsString(requestData);
+
+      // POST 요청에 JSON 데이터 쓰기
+      try (OutputStream os = connection.getOutputStream()) {
+        byte[] input = jsonInputString.getBytes("utf-8");
+        os.write(input, 0, input.length);
+      }
+
+      // HTTP 응답 코드 확인
+      int responseCode = connection.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        // 응답 데이터 읽기
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
+        StringBuilder response = new StringBuilder();
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+          response.append(line);
+        }
+        reader.close();
+
+        // JSON 응답 파싱
+        Map<String, Object> responseMap = objectMapper.readValue(response.toString(), Map.class);
+
+        if (responseMap.get("status").equals("success")) {
+          Map<String, Object> data = (Map<String, Object>) responseMap.get("data");
+          Map<String, Object> resultMap = new HashMap<>();
+
+          resultMap.put("noteTitle", data.get("noteTitle"));
+          resultMap.put("text", data.get("text"));
+          resultMap.put("book", data.get("book"));
+
+          return resultMap;
+        } else {
+          System.err.println("Failed to get note info: " + responseMap.get("message"));
+        }
+      } else {
+        System.err.println("Note info request failed with response code: " + responseCode);
+
+        // 에러 응답 읽기
+        BufferedReader errorReader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+        StringBuilder errorResponse = new StringBuilder();
+        String errorLine;
+
+        while ((errorLine = errorReader.readLine()) != null) {
+          errorResponse.append(errorLine);
+        }
+        errorReader.close();
+
+        System.err.println("Error response: " + errorResponse.toString());
+      }
+    } catch (Exception e) {
+      System.err.println("Exception during note info request: " + e.getMessage());
+      e.printStackTrace();
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
+    }
+
+    return null; // 실패 시 null 반환
   }
 }

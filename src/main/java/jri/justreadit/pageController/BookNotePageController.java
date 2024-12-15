@@ -5,14 +5,20 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebEngine;
@@ -21,15 +27,19 @@ import javafx.util.Duration;
 import jri.justreadit.JRIApp;
 import jri.justreadit.JRIBookNoteInfo;
 import jri.justreadit.JRISelectedBookAndNoteMgr;
+import jri.justreadit.JRIVectorResultInfo;
 import jri.justreadit.scenario.BookNotePageScenario;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import jri.justreadit.utils.ServerAPI;
+import netscape.javascript.JSObject;
 import x.XPageController;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Map;
 import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,6 +70,32 @@ public class BookNotePageController extends XPageController {
   @FXML
   private ImageView bookCoverImageView;
 
+  @FXML
+  private StackPane modalOverlay; // 모달 오버레이
+
+  @FXML
+  private TextField modalInputField; // 입력창
+
+  @FXML
+  private ImageView sideNoteBookCoverImageView;
+
+  @FXML
+  private Text sideNoteNoteTitleText;
+
+  @FXML
+  private Text sideNoteBooktTitleTet;
+
+  @FXML
+  private Text sideNoteAuthorText;
+
+  @FXML
+  private WebView readOnlyWebView;
+
+  @FXML
+  private ListView<JRIVectorResultInfo> searchResultsList;
+
+  private ObservableList<JRIVectorResultInfo> searchResultsObservable = FXCollections.observableArrayList();
+
   public BookNotePageController(JRIApp app, String fxmlBasePath) {
     super(PAGE_CONTROLLER_NAME, fxmlBasePath, FXML_NAME, app);
   }
@@ -75,8 +111,7 @@ public class BookNotePageController extends XPageController {
     bookAuthorText.setText(bookItem.getAuthor());
     if (bookItem.getCover() != null && !bookItem.getCover().isEmpty()) {
       try {
-        // URL로부터 Image 객체 생성
-        Image coverImage = new Image(bookItem.getCover(), true); // true로 설정하면 background-loading
+        Image coverImage = new Image(bookItem.getCover(), true);
         bookCoverImageView.setImage(coverImage);
       } catch (Exception e) {
         System.err.println("Error loading book cover image: " + e.getMessage());
@@ -87,12 +122,26 @@ public class BookNotePageController extends XPageController {
     noteTitleText.setText(note.getTitle());
     String noteText = note.getText();
 
+    searchResultsObservable = FXCollections.observableArrayList();
+    searchResultsList.setItems(searchResultsObservable);
+
+    searchResultsList.setCellFactory(listView -> new ListCell<JRIVectorResultInfo>() {
+      @Override
+      protected void updateItem(JRIVectorResultInfo item, boolean empty) {
+        super.updateItem(item, empty);
+        if (empty || item == null) {
+          setText(null);
+        } else {
+          setText(item.getBookTitle() + " : " + item.getSentence());
+        }
+      }
+    });
+
     WebView webView = (WebView) htmlEditor.lookup(".web-view");
     if (webView != null) {
       System.out.println("WebView found in HTMLEditor.");
       WebEngine engine = webView.getEngine();
 
-      // WebEngine 상태 리스너 설정
       engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
         if (newState == Worker.State.SUCCEEDED && !isContentSet) {
           setHtmlContent(noteText);
@@ -132,7 +181,7 @@ public class BookNotePageController extends XPageController {
         htmlEditor.setHtmlText(noteText);
         System.out.println("HTML content successfully set in HTMLEditor.");
       } else {
-        htmlEditor.setHtmlText(""); // 기본 빈 값
+        htmlEditor.setHtmlText("");
         System.out.println("Note text is empty or null.");
       }
       isContentSet = true;
@@ -143,67 +192,119 @@ public class BookNotePageController extends XPageController {
 
   public void goToBookShelfPage() {
     System.out.println("Go to BookShelfPage button pressed");
-    // Scenario와 Scene을 통한 동작 위임
+    saveNote();
     BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
     scenario.dispatchGoToBookShelfPageButtonPress();
   }
 
   public void goToHomePage() {
-    System.out.println("Go to BookShelfPage button pressed");
-    // Scenario와 Scene을 통한 동작 위임
+    System.out.println("Go to HomePage button pressed");
+    saveNote();
     BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
     scenario.dispatchMoveToHomePageButtonPress();
   }
 
-  public static class JavaLogger {
+  public class JavaLogger {
+    private final BookNotePageController controller;
+    private static final String JUSTREADIT_PREFIX = "/justreadit/";
+
+    public JavaLogger(BookNotePageController controller) {
+      this.controller = controller;
+    }
+
     public void log(String message) {
-      System.out.println("[WebView] " + message);
+      if (message.startsWith("Link clicked: ")) {
+        String url = message.substring("Link clicked: ".length());
+        handleUrl(url);
+      } else {
+        System.out.println("[WebView] " + message);
+      }
+    }
+
+    private void handleUrl(String url) {
+      if (url.startsWith(JUSTREADIT_PREFIX)) {
+        String noteId = url.substring(JUSTREADIT_PREFIX.length());
+        if (noteId.matches("\\d+")) {
+          System.out.println("[WebView] Internal link detected");
+          System.out.println("[WebView] Note ID: " + noteId);
+          handleInternalLink(noteId);
+        } else {
+          System.out.println("[WebView] Invalid internal link format: " + url);
+        }
+      } else if (url.startsWith("http://") || url.startsWith("https://")) {
+        System.out.println("[WebView] External link detected: " + url);
+        handleExternalLink(url);
+      } else {
+        System.out.println("[WebView] Unknown link type: " + url);
+      }
+    }
+
+    private void handleInternalLink(String noteId) {
+      System.out.println("[WebView] Processing note ID: " + noteId);
+      Platform.runLater(() -> {
+        BookNotePageScenario scenario = (BookNotePageScenario) controller.mApp.getScenarioMgr().getCurScene().getScenario();
+        scenario.dispatchOpenLikedBookSideView(Integer.parseInt(noteId));
+        // scenario.dispatchMoveToNote(noteId);
+      });
+    }
+
+    private void handleExternalLink(String url) {
+      System.out.println("[WebView] Processing external link: " + url);
+      // 외부 링크 처리 로직
     }
   }
 
   private void setupLinkClickListener() {
-    // HTMLEditor 내부 WebView 가져오기
     WebView webView = (WebView) htmlEditor.lookup(".web-view");
     if (webView != null) {
       WebEngine webEngine = webView.getEngine();
 
-      webView.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-        Platform.runLater(() -> {
-          webEngine.getLoadWorker().cancel();
-          System.out.println("Link clicked: " + webEngine.getLocation());
-        });
-        event.consume(); // 이벤트 소비하여 기본 동작 방지
+      webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+        if (newState == Worker.State.SUCCEEDED) {
+          // 자바 객체를 JS에서 접근 가능하도록 설정
+          JSObject window = (JSObject) webEngine.executeScript("window");
+          window.setMember("javaLogger", new JavaLogger(this));  // this 참조 전달
+
+          // a 태그 클릭 이벤트 리스너 설정 (JS에서)
+          String script = "document.addEventListener('click', function(e) {" +
+            "var target = e.target;" +
+            "while (target && target.tagName !== 'A') {" +
+            "  target = target.parentNode;" +
+            "}" +
+            "if (target && target.tagName === 'A') {" +
+            "  e.preventDefault();" +
+            "  var href = target.getAttribute('href');" +
+            "  window.javaLogger.log('Link clicked: ' + href);" +
+            "}" +
+            "}, false);";
+
+          webEngine.executeScript(script);
+        }
       });
     }
   }
 
   private void setupPasteEventListener() {
     htmlEditor.setOnKeyReleased(event -> {
-      // Ctrl+V 또는 Command+V (붙여넣기 단축키)
-      if (event.isControlDown() && event.getCode().getName().equalsIgnoreCase("V") ||
-        event.isMetaDown() && event.getCode().getName().equalsIgnoreCase("V")) {
+      if ((event.isControlDown() || event.isMetaDown()) && event.getCode().getName().equalsIgnoreCase("V")) {
         handlePaste();
       }
     });
   }
 
   private void handlePaste() {
-    // 현재 HTML 가져오기
     String currentHtml = htmlEditor.getHtmlText();
-
     Clipboard clipboard = Clipboard.getSystemClipboard();
-    // 이미지가 있는 경우에만 처리
+
+    // 이미지가 있는 경우
     if (clipboard.hasImage()) {
       try {
         Image image = clipboard.getImage();
         if (image != null) {
           String base64Image = imageToBase64(image);
-
           WebView webView = (WebView) htmlEditor.lookup(".web-view");
           if (webView != null) {
             WebEngine engine = webView.getEngine();
-
-            // 현재 HTML 내용을 JavaScript를 통해 가져오기
             String script =
               "var selection = window.getSelection();" +
                 "var range = selection.getRangeAt(0);" +
@@ -212,7 +313,6 @@ public class BookNotePageController extends XPageController {
                 "img.style.maxWidth = '100%';" +
                 "range.insertNode(img);" +
                 "range.collapse(false);";
-
             engine.executeScript(script);
           }
         }
@@ -220,7 +320,7 @@ public class BookNotePageController extends XPageController {
         e.printStackTrace();
       }
     } else {
-      // URL 감지 정규식 (파일 확장자 포함, 이미 <a> 태그로 감싸지지 않은 것만 대상)
+      // URL 감지 정규식
       Pattern urlPattern = Pattern.compile(
         "(?<!<a href=\")https?://[\\w.-]+(:\\d+)?(/[\\w~:%+#?=&/\\-]*)?(\\.[a-zA-Z]{2,4})?",
         Pattern.CASE_INSENSITIVE);
@@ -228,25 +328,18 @@ public class BookNotePageController extends XPageController {
       Matcher matcher = urlPattern.matcher(currentHtml);
       StringBuffer processedHtml = new StringBuffer();
 
-      // URL을 HTML 링크로 변환
       while (matcher.find()) {
         String url = matcher.group();
-        // 링크로 변환
         String linkHtml = "<a href=\"" + escapeHtml(url) + "\">" + escapeHtml(url) + "</a>";
         matcher.appendReplacement(processedHtml, linkHtml);
       }
       matcher.appendTail(processedHtml);
 
-      // 변환된 HTML을 HTMLEditor에 다시 설정
       htmlEditor.setHtmlText(processedHtml.toString());
     }
 
-    // 포커스 처리 개선
-    javafx.application.Platform.runLater(() -> {
-      // HTMLEditor에만 포커스 설정
+    Platform.runLater(() -> {
       htmlEditor.requestFocus();
-
-      // 커서를 텍스트 끝으로 이동
       WebView webView = (WebView) htmlEditor.lookup(".web-view");
       if (webView != null) {
         WebEngine engine = webView.getEngine();
@@ -268,9 +361,7 @@ public class BookNotePageController extends XPageController {
       int width = (int) image.getWidth();
       int height = (int) image.getHeight();
 
-      // JavaFX WritableImage를 BufferedImage로 변환
       BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
       PixelReader pixelReader = image.getPixelReader();
       for (int x = 0; x < width; x++) {
         for (int y = 0; y < height; y++) {
@@ -278,10 +369,8 @@ public class BookNotePageController extends XPageController {
         }
       }
 
-      // PNG 형식으로 인코딩
       ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
       ImageIO.write(bufferedImage, "png", byteOutput);
-
       return Base64.getEncoder().encodeToString(byteOutput.toByteArray());
     } catch (Exception e) {
       e.printStackTrace();
@@ -289,7 +378,6 @@ public class BookNotePageController extends XPageController {
     }
   }
 
-  // HTML 특수 문자 escaping (URL에서 안전한 HTML로 변환)
   private String escapeHtml(String text) {
     if (text == null) return null;
     return text.replace("&", "&amp;")
@@ -300,34 +388,30 @@ public class BookNotePageController extends XPageController {
   }
 
   public void showSlide(MouseEvent mouseEvent) {
-    // SIDE_NOTE 슬라이드 애니메이션
     TranslateTransition sideNoteSlide = new TranslateTransition();
     sideNoteSlide.setDuration(Duration.seconds(0.5));
     sideNoteSlide.setNode(SIDE_NOTE);
-    sideNoteSlide.setToX(-30); // 열릴 위치
+    sideNoteSlide.setToX(-30);
     sideNoteSlide.play();
 
-    // HTMLEditor 크기 줄이기 애니메이션
     Timeline editorResize = new Timeline();
-    KeyValue widthKey = new KeyValue(htmlEditor.prefWidthProperty(), 850); // 목표 넓이
-    KeyValue heightKey = new KeyValue(htmlEditor.prefHeightProperty(), 730); // 목표 높이
+    KeyValue widthKey = new KeyValue(htmlEditor.prefWidthProperty(), 850);
+    KeyValue heightKey = new KeyValue(htmlEditor.prefHeightProperty(), 730);
     KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.5), widthKey, heightKey);
     editorResize.getKeyFrames().add(keyFrame);
     editorResize.play();
   }
 
   public void hideSlide(MouseEvent mouseEvent) {
-    // SIDE_NOTE 슬라이드 애니메이션
     TranslateTransition sideNoteSlide = new TranslateTransition();
     sideNoteSlide.setDuration(Duration.seconds(0.5));
     sideNoteSlide.setNode(SIDE_NOTE);
-    sideNoteSlide.setToX(800); // 닫힌 위치
+    sideNoteSlide.setToX(800);
     sideNoteSlide.play();
 
-    // HTMLEditor 크기 복원 애니메이션
     Timeline editorResize = new Timeline();
-    KeyValue widthKey = new KeyValue(htmlEditor.prefWidthProperty(), 1466); // 원래 넓이
-    KeyValue heightKey = new KeyValue(htmlEditor.prefHeightProperty(), 730); // 원래 높이
+    KeyValue widthKey = new KeyValue(htmlEditor.prefWidthProperty(), 1466);
+    KeyValue heightKey = new KeyValue(htmlEditor.prefHeightProperty(), 730);
     KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.5), widthKey, heightKey);
     editorResize.getKeyFrames().add(keyFrame);
     editorResize.play();
@@ -336,7 +420,6 @@ public class BookNotePageController extends XPageController {
   public void saveNote() {
     String htmlContent = htmlEditor.getHtmlText();
 
-    // HTML 내용이 이전과 동일하면 저장 생략
     if (pendingNoteData.toString().equals(htmlContent)) {
       System.out.println("No changes detected. Skipping save.");
       return;
@@ -347,20 +430,18 @@ public class BookNotePageController extends XPageController {
 
   public void saveNoteWithDebounce(String htmlContent) {
     synchronized (pendingNoteData) {
-      pendingNoteData.setLength(0); // 이전 데이터 초기화
+      pendingNoteData.setLength(0);
       pendingNoteData.append(htmlContent);
     }
 
-    // 이전 스케줄 정확히 취소
     if (debounceTask != null && !debounceTask.isCancelled() && !debounceTask.isDone()) {
       debounceTask.cancel(true);
     }
 
-    // 디바운스 타이머 설정
     debounceTask = scheduler.schedule(() -> {
       synchronized (pendingNoteData) {
         String dataToSave = pendingNoteData.toString();
-        pendingNoteData.setLength(0); // 버퍼 초기화
+        pendingNoteData.setLength(0);
         performSaveNoteRequest(dataToSave);
       }
     }, 500, TimeUnit.MILLISECONDS);
@@ -372,7 +453,6 @@ public class BookNotePageController extends XPageController {
     JRIBookNoteInfo note = selectedBookAndNoteMgr.getSelectedBookNote();
     String bookTitle = selectedBookAndNoteMgr.getSelectedBookCard().getBookItem().getTitle();
 
-    // 비동기로 저장 작업 처리
     CompletableFuture.runAsync(() -> {
       System.out.println("Saving note asynchronously: " + note.getNoteId());
       boolean success = ServerAPI.saveNote(note.getBookId(), bookTitle, note.getNoteId(), htmlContent);
@@ -382,5 +462,120 @@ public class BookNotePageController extends XPageController {
         System.err.println("Failed to save note.");
       }
     });
+  }
+
+  @FXML
+  public void openModal() {
+    modalOverlay.setVisible(true);
+    searchResultsList.setVisible(false);
+    modalInputField.clear();
+    modalInputField.requestFocus();
+  }
+
+  @FXML
+  public void onModalOverlayClicked(MouseEvent event) {
+    System.out.println("Modal overlay clicked!");
+    if (event.getTarget() == modalOverlay) {
+      modalOverlay.setVisible(false);
+      BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+      scenario.dispatchCloseBookSearchModal();
+    }
+  }
+
+  @FXML
+  public void onModalInputKeyPressed(javafx.scene.input.KeyEvent event) {
+    switch (event.getCode()) {
+      case ENTER:
+        String inputText = modalInputField.getText();
+        System.out.println("Search input: " + inputText);
+        searchNoteByVector(inputText);
+        break;
+      default:
+        break;
+    }
+  }
+
+  private void searchNoteByVector(String keyword) {
+    try {
+      JRIApp jri = (JRIApp) this.mApp;
+      JRIBookNoteInfo note = jri.getSelectedBookAndNoteMgr().getSelectedBookNote();
+
+      ArrayList<JRIVectorResultInfo> results = ServerAPI.searchNoteByVector(keyword, note.getNoteId());
+      Platform.runLater(() -> {
+        searchResultsObservable.clear();
+        searchResultsObservable.addAll(results);
+        searchResultsList.setVisible(!searchResultsObservable.isEmpty());
+      });
+    } catch (Exception ex) {
+      System.out.println("Exception during book search: " + ex.getMessage());
+      Platform.runLater(() -> searchResultsList.setVisible(false));
+    }
+  }
+
+  @FXML
+  public void onSearchResultClicked(MouseEvent event) {
+    if (event.getClickCount() == 2) {
+      JRIVectorResultInfo selectedItem = searchResultsList.getSelectionModel().getSelectedItem();
+      if (selectedItem != null) {
+        System.out.println("Selected item: " + selectedItem.getBookTitle() + " : " + selectedItem.getSentence());
+        String noteId = String.valueOf(selectedItem.getNoteId());
+        String sentence = selectedItem.getSentence();
+        String linkUrl = "/justreadit/" + noteId;
+
+        insertLinkIntoHtmlEditor(linkUrl, sentence);
+        BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+        modalOverlay.setVisible(false);
+        scenario.dispatchCloseBookSearchModal();
+      }
+    }
+  }
+
+  private void insertLinkIntoHtmlEditor(String url, String displayText) {
+    Platform.runLater(() -> {
+      WebView webView = (WebView) htmlEditor.lookup(".web-view");
+      if (webView != null) {
+        WebEngine engine = webView.getEngine();
+        String script = String.format(
+          "var selection = window.getSelection();" +
+            "if (selection.rangeCount > 0) {" +
+            "    var range = selection.getRangeAt(0);" +
+            "    var a = document.createElement('a');" +
+            "    a.href = '%s';" +
+            "    a.textContent = '%s';" +
+            "    range.deleteContents();" +
+            "    range.insertNode(a);" +
+            "    range.collapse(false);" +
+            "    selection.removeAllRanges();" +
+            "    selection.addRange(range);" +
+            "}", url, displayText
+        );
+        engine.executeScript(script);
+      } else {
+        System.err.println("WebView not found in HTMLEditor.");
+      }
+    });
+  }
+
+  public void setAndOpenLikedBookSideView(String noteTitle, String text, Map<String, Object> book) {
+    sideNoteNoteTitleText.setText(noteTitle);
+    sideNoteBooktTitleTet.setText((String) book.get("title"));
+    sideNoteAuthorText.setText((String) book.get("author"));
+    if (book.get("cover") != null) {
+      try {
+        String coverUrl = (String) book.get("cover"); // 명확하게 String으로 캐스팅
+        Image coverImage = new Image(coverUrl, true);
+        sideNoteBookCoverImageView.setImage(coverImage);
+      } catch (Exception e) {
+        System.err.println("Error loading book cover image: " + e.getMessage());
+      }
+    }
+
+    // WebView에 HTML 내용을 읽기 전용으로 표시
+    Platform.runLater(() -> {
+      WebEngine engine = readOnlyWebView.getEngine();
+      engine.loadContent(text, "text/html"); // HTML 내용 로드
+    });
+
+    showSlide(null);
   }
 }

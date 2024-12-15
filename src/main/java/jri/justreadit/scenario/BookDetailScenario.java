@@ -10,7 +10,6 @@ import jri.justreadit.JRIBookCard;
 import jri.justreadit.JRIBookNoteInfo;
 import jri.justreadit.JRIScene;
 import jri.justreadit.pageController.BookDetailPageController;
-import jri.justreadit.pageController.HomePageController;
 import jri.justreadit.utils.ServerAPI;
 import x.XApp;
 import x.XCmdToChangeScene;
@@ -92,7 +91,7 @@ public class BookDetailScenario extends XScenario {
     public void goToNotePage(JRIBookNoteInfo note) {
       JRIApp jri = (JRIApp) this.mScenario.getApp();
       jri.getSelectedBookAndNoteMgr().setSelectedBookNote(note);
-      XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.NoteScene.getSingleton(), this);
+      XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.WritingScene.getSingleton(), this);
     }
 
     private DefaultScene(XScenario scenario) {
@@ -169,7 +168,7 @@ public class BookDetailScenario extends XScenario {
           // 노트 생성 성공 후 노트 씬으로 전환
           JRIBookNoteInfo newNote = new JRIBookNoteInfo(noteId, selectedBook.getBookItem().getItemId(), "Untitled", type, "");
           jri.getSelectedBookAndNoteMgr().setSelectedBookNote(newNote);
-          XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.NoteScene.getSingleton(), this);
+          XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.WritingScene.getSingleton(), this);
         } else {
           System.err.println("Failed to create new note");
         }
