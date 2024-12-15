@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -39,7 +40,7 @@ public class BookDetailPageController extends XPageController {
   private ImageView bookCoverImageView;
 
   @FXML
-  private HBox notesContainer;
+  private FlowPane notesContainer;
 
   @FXML
   private ScrollPane notesScrollPane;
