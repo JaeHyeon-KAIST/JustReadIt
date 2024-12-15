@@ -59,6 +59,12 @@ public class BookDetailScenario extends XScenario {
     }
   }
 
+  public void dispatchGoBackButtonPressed() {
+    if (this.getApp().getScenarioMgr().getCurScene() == DefaultScene.mSingleton) {
+      DefaultScene.mSingleton.goBack();
+    }
+  }
+
   public static class DefaultScene extends JRIScene {
     private long lastClickTime = 0;
     private static final long DOUBLE_CLICK_TIME = 200;
@@ -92,6 +98,10 @@ public class BookDetailScenario extends XScenario {
       JRIApp jri = (JRIApp) this.mScenario.getApp();
       jri.getSelectedBookAndNoteMgr().setSelectedBookNote(note);
       XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.WritingScene.getSingleton(), this);
+    }
+
+    public void goBack() {
+      XCmdToChangeScene.execute(this.mScenario.getApp(), this.mReturnScene, this);
     }
 
     private DefaultScene(XScenario scenario) {

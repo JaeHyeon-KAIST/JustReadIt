@@ -69,6 +69,10 @@ public class BookNotePageScenario extends XScenario {
     WritingScene.mSingleton.moveToClickedBook(bookId);
   }
 
+  public void dispatchGoBackButtonPress() {
+    XCmdToChangeScene.execute(this.getApp(), BookDetailScenario.DefaultScene.getSingleton(), HomeScenario.FirstScene.getSingleton());
+  }
+
   public static class WritingScene extends JRIScene {
     private final EventHandler<KeyEvent> keyPressedHandler;
     // singleton

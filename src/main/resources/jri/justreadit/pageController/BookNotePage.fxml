@@ -68,18 +68,19 @@
               <children>
                 <Pane prefHeight="99.0" prefWidth="1014.0">
                   <children>
-                    <Button fx:id="backBtn" alignment="CENTER" layoutX="30.0" layoutY="20.0" mnemonicParsing="false"
+                    <Button onMouseClicked="#goBack" alignment="CENTER" layoutX="30.0" layoutY="20.0"
+                            mnemonicParsing="false"
                             prefHeight="40.0" prefWidth="40.0" styleClass="menu_btn" stylesheets="@css/bookNote.css"
                             textAlignment="CENTER" textFill="WHITE">
                       <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                           <image>
-                            <Image url="@../../../image/back.png" />
+                            <Image url="@../../../image/back.png"/>
                           </image>
                         </ImageView>
                       </graphic>
                       <font>
-                        <Font name="Arial" size="16.0" />
+                        <Font name="Arial" size="16.0"/>
                       </font>
                     </Button>
                     <Text layoutX="751.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just Read It"
@@ -204,79 +205,82 @@
             <AnchorPane fx:id="SIDE_NOTE" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1117.0"
                         prefWidth="700.0" styleClass="side_note" stylesheets="@css/bookNote.css">
               <children>
-                    <VBox prefHeight="1117.0" prefWidth="600.0" stylesheets="@css/bookNote.css">
+                <VBox prefHeight="1117.0" prefWidth="600.0" stylesheets="@css/bookNote.css">
+                  <children>
+                    <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                          prefHeight="100.0" prefWidth="700.0" stylesheets="@css/bookNote.css">
                       <children>
-                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                              prefHeight="100.0" prefWidth="700.0" stylesheets="@css/bookNote.css">
+                        <Button fx:id="closeBtn" alignment="CENTER" layoutY="16.0" mnemonicParsing="false"
+                                onMouseClicked="#hideSlide" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn"
+                                stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
+                          <graphic>
+                            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                <Image url="@../../../image/close.png"/>
+                              </image>
+                            </ImageView>
+                          </graphic>
+                          <font>
+                            <Font name="Arial" size="16.0"/>
+                          </font>
+                        </Button>
+                        <Text layoutX="238.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Side Note"
+                              textAlignment="CENTER" textOrigin="CENTER">
+                          <font>
+                            <Font name="Apple SD Gothic Neo ExtraBold" size="30.0"/>
+                          </font>
+                        </Text>
+                      </children>
+                    </Pane>
+                    <HBox alignment="CENTER" prefHeight="170.0" prefWidth="560.0">
+                      <children>
+                        <ImageView fx:id="sideNoteBookCoverImageView" fitHeight="150.0" fitWidth="221.0"
+                                   pickOnBounds="true"
+                                   preserveRatio="true">
+                          <!--                              <image>-->
+                          <!--                                <Image url="@../../../image/book1.jpeg"/>-->
+                          <!--                              </image>-->
+                        </ImageView>
+                        <VBox alignment="CENTER_LEFT" prefHeight="187.0" prefWidth="417.0" spacing="10.0">
                           <children>
-                            <Button fx:id="closeBtn" alignment="CENTER" layoutY="16.0" mnemonicParsing="false" onMouseClicked="#hideSlide" prefHeight="60.0" prefWidth="60.0" styleClass="menu_btn" stylesheets="@css/bookNote.css" textAlignment="CENTER" textFill="WHITE">
-                              <graphic>
-                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                  <image>
-                                    <Image url="@../../../image/close.png" />
-                                  </image>
-                                </ImageView>
-                              </graphic>
+                            <Text fx:id="sideNoteNoteTitleText" lineSpacing="3.0" strokeType="OUTSIDE"
+                                  strokeWidth="0.0"
+                                  text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER"
+                                  wrappingWidth="416.43829345703125">
                               <font>
-                                <Font name="Arial" size="16.0" />
+                                <Font name="Apple SD Gothic Neo Bold" size="24.0"/>
                               </font>
-                            </Button>
-                            <Text layoutX="238.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Side Note"
-                                  textAlignment="CENTER" textOrigin="CENTER">
+                            </Text>
+                            <Text fx:id="sideNoteBooktTitleTet" strokeType="OUTSIDE" strokeWidth="0.0"
+                                  text="Gawande, Atul " textOrigin="CENTER">
                               <font>
-                                <Font name="Apple SD Gothic Neo ExtraBold" size="30.0"/>
+                                <Font name="Apple SD Gothic Neo Regular" size="14.0"/>
+                              </font>
+                            </Text>
+                            <Text fx:id="sideNoteAuthorText" strokeType="OUTSIDE" strokeWidth="0.0"
+                                  text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune"
+                                  textOrigin="CENTER" wrappingWidth="380.7176513671875">
+                              <font>
+                                <Font name="Apple SD Gothic Neo Regular" size="14.0"/>
                               </font>
                             </Text>
                           </children>
-                        </Pane>
-                        <HBox alignment="CENTER" prefHeight="170.0" prefWidth="560.0">
-                          <children>
-                            <ImageView fx:id="sideNoteBookCoverImageView" fitHeight="150.0" fitWidth="221.0"
-                                       pickOnBounds="true"
-                                       preserveRatio="true">
-                              <!--                              <image>-->
-                              <!--                                <Image url="@../../../image/book1.jpeg"/>-->
-                              <!--                              </image>-->
-                            </ImageView>
-                            <VBox alignment="CENTER_LEFT" prefHeight="187.0" prefWidth="417.0" spacing="10.0">
-                              <children>
-                                <Text fx:id="sideNoteNoteTitleText" lineSpacing="3.0" strokeType="OUTSIDE"
-                                      strokeWidth="0.0"
-                                      text="Being Mortal: Medicine and What Matters in the End " textOrigin="CENTER"
-                                      wrappingWidth="416.43829345703125">
-                                  <font>
-                                    <Font name="Apple SD Gothic Neo Bold" size="24.0"/>
-                                  </font>
-                                </Text>
-                                <Text fx:id="sideNoteBooktTitleTet" strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="Gawande, Atul " textOrigin="CENTER">
-                                  <font>
-                                    <Font name="Apple SD Gothic Neo Regular" size="14.0"/>
-                                  </font>
-                                </Text>
-                                <Text fx:id="sideNoteAuthorText" strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="The Washington Post Apple iBooks The New York Times Book Review NPR AmazonChicago Tribune"
-                                      textOrigin="CENTER" wrappingWidth="380.7176513671875">
-                                  <font>
-                                    <Font name="Apple SD Gothic Neo Regular" size="14.0"/>
-                                  </font>
-                                </Text>
-                              </children>
-                              <HBox.margin>
-                                <Insets left="20.0"/>
-                              </HBox.margin>
-                            </VBox>
-                          </children>
-                          <VBox.margin>
-                            <Insets left="20.0" right="20.0"/>
-                          </VBox.margin>
-                        </HBox>
-                        <WebView fx:id="readOnlyWebView" prefHeight="800.0" prefWidth="600.0">
-                          <VBox.margin>
-                            <Insets left="20.0" right="20.0" top="20.0" />
-                          </VBox.margin></WebView>
+                          <HBox.margin>
+                            <Insets left="20.0"/>
+                          </HBox.margin>
+                        </VBox>
                       </children>
-                    </VBox>
+                      <VBox.margin>
+                        <Insets left="20.0" right="20.0"/>
+                      </VBox.margin>
+                    </HBox>
+                    <WebView fx:id="readOnlyWebView" prefHeight="800.0" prefWidth="600.0">
+                      <VBox.margin>
+                        <Insets left="20.0" right="20.0" top="20.0"/>
+                      </VBox.margin>
+                    </WebView>
+                  </children>
+                </VBox>
               </children>
             </AnchorPane>
           </children>

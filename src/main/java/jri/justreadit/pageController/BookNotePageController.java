@@ -680,4 +680,11 @@ public class BookNotePageController extends XPageController {
 
     showSlide(null);
   }
+
+  @FXML
+  public void goBack() {
+    saveNote();
+    BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    scenario.dispatchGoBackButtonPress();
+  }
 }

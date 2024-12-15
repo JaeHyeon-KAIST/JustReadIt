@@ -139,4 +139,10 @@ public class BookDetailPageController extends XPageController {
     BookDetailScenario scenario = (BookDetailScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
     scenario.dispatchGoToHomePageButtonPress();
   }
+
+  @FXML
+  public void goBack() {
+    BookDetailScenario scenario = (BookDetailScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    scenario.dispatchGoBackButtonPressed();
+  }
 }
