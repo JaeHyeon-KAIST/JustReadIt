@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.HashMap;
+import java.util.Map;
 
 public class JRICanvas2D extends JPanel {
   // constants
@@ -30,17 +31,20 @@ public class JRICanvas2D extends JPanel {
   private ArrayList<HashSet<JRIBookCard>> mCategoryGroups;
   private HashMap<HashSet<JRIBookCard>, Color> mCategoryGroupColors;
 
+  private Map<String, BufferedImage> imageCache; // 이미지 캐싱
+
   public Point getNewBookCardPosition() {
     return mNewBookCardPosition;
   }
 
-  private JRIBookCard mSelectedBookCard;     // 선택된 북 카드
+  private JRIBookCard mSelectedBookCard; // 선택된 북 카드
   private Point previousMousePosition; // 이전 마우스 좌표
 
   public void initBookCards() {
     this.mBookCards = new ArrayList<>();
     this.mCategoryGroups = new ArrayList<>();
     this.mCategoryGroupColors = new HashMap<>();
+    this.imageCache = new HashMap<>(); // 캐싱 초기화
   }
 
   public JRIBookCard getSelectedBookCard() {
@@ -56,6 +60,7 @@ public class JRICanvas2D extends JPanel {
     this.mBookCards = new ArrayList<>();
     this.mCategoryGroups = new ArrayList<>();
     this.mCategoryGroupColors = new HashMap<>();
+    this.imageCache = new HashMap<>(); // 캐싱 초기화
     setBackground(Color.white);
   }
 
@@ -91,11 +96,11 @@ public class JRICanvas2D extends JPanel {
     g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
     g2.setColor(BACKGROUND_COLOR);
     g2.setStroke(new BasicStroke(2.0f));
-    g2.drawRoundRect(2, 2, getWidth()-3, getHeight()-3, 15, 15);
+    g2.drawRoundRect(2, 2, getWidth() - 3, getHeight() - 3, 15, 15);
 
     // 그룹 카드 간 연결선 그리기
-    for(HashSet<JRIBookCard> group : mCategoryGroups){
-      if(group.size() > 1){
+    for (HashSet<JRIBookCard> group : mCategoryGroups) {
+      if (group.size() > 1) {
         drawCategory(g2, group);
       }
     }
@@ -115,15 +120,8 @@ public class JRICanvas2D extends JPanel {
       int x = position.x - (CARD_WIDTH / 2);
       int y = position.y - (CARD_HEIGHT / 2);
 
-      BufferedImage bookCover = null;
-
-      // 책 커버 이미지 로드
-      try {
-        URL url = new URL(bookCard.getBookItem().getCover());
-        bookCover = ImageIO.read(url);
-      } catch (IOException e) {
-        System.out.println("Failed to load image for: " + bookCard.getBookItem().getTitle());
-      }
+      // 이미지 로드 (캐싱된 이미지 사용)
+      BufferedImage bookCover = loadImage(bookCard.getBookItem().getCover());
 
       // 이미지 또는 기본 배경 그리기
       if (bookCover != null) {
@@ -144,15 +142,30 @@ public class JRICanvas2D extends JPanel {
     }
   }
 
+  private BufferedImage loadImage(String url) {
+    if (imageCache.containsKey(url)) {
+      return imageCache.get(url); // 캐시에서 이미지 반환
+    }
+
+    try {
+      BufferedImage image = ImageIO.read(new URL(url));
+      imageCache.put(url, image); // 이미지 캐싱
+      return image;
+    } catch (IOException e) {
+      System.err.println("Failed to load image from URL: " + url);
+      return null; // 이미지 로드 실패 시 null 반환
+    }
+  }
+
   private void drawCategory(Graphics2D g2, HashSet<JRIBookCard> group) {
-    if(group.isEmpty()) return;
+    if (group.isEmpty()) return;
 
     int minX = Integer.MAX_VALUE;
     int minY = Integer.MAX_VALUE;
     int maxX = Integer.MIN_VALUE;
     int maxY = Integer.MIN_VALUE;
 
-    for(JRIBookCard card : group){
+    for (JRIBookCard card : group) {
       Point position = card.getPosition();
       minX = Math.min(minX, position.x - CARD_WIDTH / 2);
       minY = Math.min(minY, position.y - CARD_HEIGHT / 2);
