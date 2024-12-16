@@ -277,6 +277,7 @@ public class BookNotePageController extends XPageController {
           System.out.println("[WebView] Processing note ID: " + id);
           scenario.dispatchOpenLikedBookSideView(Integer.parseInt(id));
         } else if ("book".equals(type)) {
+          saveNote();
           System.out.println("[WebView] Processing book ID: " + id);
           scenario.dispatchMoveToClickedBook(id);
         }
