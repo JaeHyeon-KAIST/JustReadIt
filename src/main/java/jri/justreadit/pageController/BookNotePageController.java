@@ -286,7 +286,24 @@ public class BookNotePageController extends XPageController {
 
     private void handleExternalLink(String url) {
       System.out.println("[WebView] Processing external link: " + url);
-      // 외부 링크 처리 로직
+
+      if (url != null && !url.isEmpty()) {
+        try {
+          // 시스템 기본 브라우저에서 링크 열기
+          java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+          if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
+            java.net.URI uri = new java.net.URI(url);
+            desktop.browse(uri); // 링크를 기본 브라우저에서 실행
+          } else {
+            System.err.println("BROWSE action is not supported.");
+          }
+        } catch (Exception e) {
+          System.err.println("Failed to open external link: " + e.getMessage());
+          e.printStackTrace();
+        }
+      } else {
+        System.err.println("URL is null or empty.");
+      }
     }
   }
 
