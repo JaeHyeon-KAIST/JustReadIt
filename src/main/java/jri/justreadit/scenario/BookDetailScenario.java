@@ -70,6 +70,14 @@ public class BookDetailScenario extends XScenario {
     }
   }
 
+  public void dispatchEditNoteTitle(String title) {
+    EditNoteScene.mSingleton.editNoteTitle(title);
+  }
+
+  public void dispatchDeleteNote() {
+    EditNoteScene.mSingleton.deleteNote();
+  }
+
   public void dispatchCloseModal() {
     EditNoteScene.mSingleton.closeModal();
   }
@@ -108,6 +116,10 @@ public class BookDetailScenario extends XScenario {
 
       // 더블 클릭 판단
       if (currentTime - lastClickTime < DOUBLE_CLICK_TIME) {
+        if (singleClickTimer != null) {
+          singleClickTimer.stop(); // 중복 타이머 정지
+        }
+
         // 더블 클릭 이벤트
         isSceneChanging = true;
         System.out.println("Double Clicked on Note: " + note.getTitle());
@@ -118,11 +130,15 @@ public class BookDetailScenario extends XScenario {
       } else {
         // 단일 클릭 타이머 설정
         lastClickTime = currentTime;
+
+        if (singleClickTimer != null) {
+          singleClickTimer.stop(); // 기존 타이머 중복 실행 방지
+        }
+
         singleClickTimer = new Timeline(new KeyFrame(Duration.millis(DOUBLE_CLICK_TIME), event -> {
           System.out.println("Single Clicked on Note: " + note.getTitle());
           if (!isSceneChanging && System.currentTimeMillis() - lastClickTime >= DOUBLE_CLICK_TIME) {
             isSceneChanging = true;  // 씬 전환 시작
-            System.out.println("Single Clicked on Note: " + note.getTitle());
 
             JRIApp jri = (JRIApp) this.mScenario.getApp();
             BookDetailPageController controller = (BookDetailPageController)
@@ -134,7 +150,9 @@ public class BookDetailScenario extends XScenario {
               isSceneChanging = false; // 리셋
             });
 
-            XCmdToChangeScene.execute(this.mScenario.getApp(), EditNoteScene.getSingleton(), this);
+            jri.getSelectedBookAndNoteMgr().setEditingNoteId(note.getNoteId());
+
+            XCmdToChangeScene.execute(this.mScenario.getApp(), EditNoteScene.getSingleton(), this.mReturnScene);
           }
         }));
         singleClickTimer.setCycleCount(1);
@@ -257,7 +275,65 @@ public class BookDetailScenario extends XScenario {
 
     public void closeModal() {
       JRIApp jri = (JRIApp) this.mScenario.getApp();
-      XCmdToChangeScene.execute(jri, this.mReturnScene, null);
+      XCmdToChangeScene.execute(jri, DefaultScene.getSingleton(), this.mReturnScene);
+    }
+
+    public void editNoteTitle(String title) {
+      JRIApp jri = (JRIApp) this.mScenario.getApp();
+      int noteId = jri.getSelectedBookAndNoteMgr().getEditingNoteId();
+
+      boolean success = ServerAPI.editNoteTitle(title, noteId);
+
+      if (success) {
+        new Thread(() -> {
+          ArrayList<JRIBookNoteInfo> notes = ServerAPI.getBookNotes(
+            jri.getSelectedBookAndNoteMgr().getSelectedBookCard().getBookItem().getItemId()
+          );
+          if (!notes.isEmpty()) {
+            jri.getSelectedBookAndNoteMgr().setBookNotes(notes);
+            for (JRIBookNoteInfo note : notes) {
+              System.out.println("Loaded Note: " + note.getTitle());
+            }
+            Platform.runLater(() -> {
+              BookDetailPageController controller = (BookDetailPageController) jri.getPageControllerMgr().getController(BookDetailPageController.PAGE_CONTROLLER_NAME);
+              controller.populateNotes(notes);
+            });
+          } else {
+            System.out.println("No notes found for this book.");
+          }
+        }).start();
+      }
+
+      XCmdToChangeScene.execute(jri, DefaultScene.getSingleton(), this.mReturnScene);
+    }
+
+    public void deleteNote() {
+      JRIApp jri = (JRIApp) this.mScenario.getApp();
+      int noteId = jri.getSelectedBookAndNoteMgr().getEditingNoteId();
+
+      boolean success = ServerAPI.deleteNote(noteId);
+
+      if (success) {
+        new Thread(() -> {
+          ArrayList<JRIBookNoteInfo> notes = ServerAPI.getBookNotes(
+            jri.getSelectedBookAndNoteMgr().getSelectedBookCard().getBookItem().getItemId()
+          );
+          if (!notes.isEmpty()) {
+            jri.getSelectedBookAndNoteMgr().setBookNotes(notes);
+            for (JRIBookNoteInfo note : notes) {
+              System.out.println("Loaded Note: " + note.getTitle());
+            }
+            Platform.runLater(() -> {
+              BookDetailPageController controller = (BookDetailPageController) jri.getPageControllerMgr().getController(BookDetailPageController.PAGE_CONTROLLER_NAME);
+              controller.populateNotes(notes);
+            });
+          } else {
+            System.out.println("No notes found for this book.");
+          }
+        }).start();
+      }
+
+      XCmdToChangeScene.execute(jri, DefaultScene.getSingleton(), this.mReturnScene);
     }
 
     private EditNoteScene(XScenario scenario) {

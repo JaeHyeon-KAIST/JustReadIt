@@ -806,4 +806,96 @@ public class ServerAPI {
 
     return connectedBooks;
   }
+
+  public static boolean editNoteTitle(String title, int noteId) {
+    String endpoint = BASE_URL + "editNoteTitle"; // 서버 엔드포인트
+    HttpURLConnection connection = null;
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    try {
+      // URL 객체 생성 및 연결 설정
+      URL url = new URL(endpoint);
+      connection = (HttpURLConnection) url.openConnection();
+      connection.setRequestMethod("POST");
+      connection.setRequestProperty("Content-Type", "application/json");
+      connection.setDoOutput(true);
+
+      // JSON 데이터 생성
+      Map<String, Object> requestData = new HashMap<>();
+      requestData.put("noteId", noteId);
+      requestData.put("title", title);
+      String jsonInputString = objectMapper.writeValueAsString(requestData);
+
+      // POST 요청에 JSON 데이터 쓰기
+      try (OutputStream os = connection.getOutputStream()) {
+        os.write(jsonInputString.getBytes("utf-8"));
+      }
+
+      // HTTP 응답 코드 확인
+      int responseCode = connection.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        System.out.println("Note title updated successfully.");
+        return true;
+      } else {
+        System.err.println("Failed to update note title. Response code: " + responseCode);
+
+        // 에러 응답 읽기
+        BufferedReader errorReader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+        StringBuilder errorResponse = new StringBuilder();
+        String errorLine;
+        while ((errorLine = errorReader.readLine()) != null) {
+          errorResponse.append(errorLine);
+        }
+        errorReader.close();
+        System.err.println("Error response: " + errorResponse.toString());
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
+    }
+    return false;
+  }
+
+  public static boolean deleteNote(int noteId) {
+    String endpoint = BASE_URL + "deleteNote"; // 서버 엔드포인트
+    HttpURLConnection connection = null;
+
+    try {
+      URL url = new URL(endpoint);
+      connection = (HttpURLConnection) url.openConnection();
+      connection.setRequestMethod("POST");
+      connection.setRequestProperty("Content-Type", "application/json");
+      connection.setDoOutput(true);
+
+      // JSON 데이터 생성
+      Map<String, Object> requestData = new HashMap<>();
+      requestData.put("noteId", noteId);
+
+      ObjectMapper objectMapper = new ObjectMapper();
+      String jsonInputString = objectMapper.writeValueAsString(requestData);
+
+      // POST 요청에 JSON 데이터 쓰기
+      try (OutputStream os = connection.getOutputStream()) {
+        os.write(jsonInputString.getBytes("utf-8"));
+      }
+
+      int responseCode = connection.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        System.out.println("Note deleted successfully.");
+        return true;
+      } else {
+        System.err.println("Failed to delete note. Response code: " + responseCode);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (connection != null) {
+        connection.disconnect();
+      }
+    }
+    return false;
+  }
 }

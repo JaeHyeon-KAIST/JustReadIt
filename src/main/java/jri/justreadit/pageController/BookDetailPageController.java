@@ -101,11 +101,19 @@ public class BookDetailPageController extends XPageController {
     String inputText = modalInputField.getText(); // TextField 값 가져오기
     System.out.println("Save button clicked!");
     System.out.println("Modal Input Field Value: " + inputText);
+    JRIApp jri = (JRIApp) this.mApp;
+    System.out.println(jri.getSelectedBookAndNoteMgr().getEditingNoteId());
+    modalOverlay.setVisible(false);
+    BookDetailScenario scenario = (BookDetailScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    scenario.dispatchEditNoteTitle(inputText);
   }
 
   @FXML
   public void onDeleteButtonClicked() {
-
+    JRIApp jri = (JRIApp) this.mApp;
+    modalOverlay.setVisible(false);
+    BookDetailScenario scenario = (BookDetailScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    scenario.dispatchDeleteNote();
   }
 
   // 노트 데이터를 기반으로 UI 생성

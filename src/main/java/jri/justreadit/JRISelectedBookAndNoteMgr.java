@@ -7,6 +7,7 @@ public class JRISelectedBookAndNoteMgr {
   private JRIBookCard mSelectedBookCard;
   private JRIBookNoteInfo mSelectedBookNote;
   private ArrayList<JRIBookNoteInfo> mBookNotes;
+  private int mEditingNoteId;
 
   public JRIBookCard getSelectedBookCard() {
     return this.mSelectedBookCard;
@@ -40,5 +41,13 @@ public class JRISelectedBookAndNoteMgr {
     this.mSelectedBookCard = null;
     this.mSelectedBookNote = null;
     this.mBookNotes = new ArrayList<>();
+  }
+
+  public void setEditingNoteId(int editingNoteId) {
+    this.mEditingNoteId = editingNoteId;
+  }
+
+  public int getEditingNoteId() {
+    return this.mEditingNoteId;
   }
 }
