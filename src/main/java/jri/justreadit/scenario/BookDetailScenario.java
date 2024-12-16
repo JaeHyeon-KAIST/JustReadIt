@@ -1,20 +1,24 @@
 package jri.justreadit.scenario;
 
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.util.Duration;
 import jri.justreadit.JRIApp;
 import jri.justreadit.JRIBookCard;
 import jri.justreadit.JRIBookNoteInfo;
 import jri.justreadit.JRIScene;
 import jri.justreadit.pageController.BookDetailPageController;
+import jri.justreadit.pageController.HomePageController;
 import jri.justreadit.utils.ServerAPI;
 import x.XApp;
 import x.XCmdToChangeScene;
 import x.XScenario;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class BookDetailScenario extends XScenario {
@@ -39,6 +43,7 @@ public class BookDetailScenario extends XScenario {
   @Override
   protected void addScenes() {
     this.addScene(DefaultScene.createSingleton(this));
+    this.addScene(EditNoteScene.createSingleton(this));
   }
 
   public void dispatchGoToBookShelfPageButtonPress() {
@@ -63,6 +68,10 @@ public class BookDetailScenario extends XScenario {
     if (this.getApp().getScenarioMgr().getCurScene() == DefaultScene.mSingleton) {
       DefaultScene.mSingleton.goBack();
     }
+  }
+
+  public void dispatchCloseModal() {
+    EditNoteScene.mSingleton.closeModal();
   }
 
   public static class DefaultScene extends JRIScene {
@@ -95,9 +104,42 @@ public class BookDetailScenario extends XScenario {
     }
 
     public void goToNotePage(JRIBookNoteInfo note) {
-      JRIApp jri = (JRIApp) this.mScenario.getApp();
-      jri.getSelectedBookAndNoteMgr().setSelectedBookNote(note);
-      XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.WritingScene.getSingleton(), this);
+      long currentTime = System.currentTimeMillis();
+
+      // 더블 클릭 판단
+      if (currentTime - lastClickTime < DOUBLE_CLICK_TIME) {
+        // 더블 클릭 이벤트
+        isSceneChanging = true;
+        System.out.println("Double Clicked on Note: " + note.getTitle());
+        JRIApp jri = (JRIApp) this.mScenario.getApp();
+        jri.getSelectedBookAndNoteMgr().setSelectedBookNote(note);
+        XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.WritingScene.getSingleton(), this);
+        lastClickTime = 0;
+      } else {
+        // 단일 클릭 타이머 설정
+        lastClickTime = currentTime;
+        singleClickTimer = new Timeline(new KeyFrame(Duration.millis(DOUBLE_CLICK_TIME), event -> {
+          System.out.println("Single Clicked on Note: " + note.getTitle());
+          if (!isSceneChanging && System.currentTimeMillis() - lastClickTime >= DOUBLE_CLICK_TIME) {
+            isSceneChanging = true;  // 씬 전환 시작
+            System.out.println("Single Clicked on Note: " + note.getTitle());
+
+            JRIApp jri = (JRIApp) this.mScenario.getApp();
+            BookDetailPageController controller = (BookDetailPageController)
+              jri.getPageControllerMgr().getController(BookDetailPageController.PAGE_CONTROLLER_NAME);
+
+            // 모달 창 열기
+            Platform.runLater(() -> {
+              controller.openModal();
+              isSceneChanging = false; // 리셋
+            });
+
+            XCmdToChangeScene.execute(this.mScenario.getApp(), EditNoteScene.getSingleton(), this);
+          }
+        }));
+        singleClickTimer.setCycleCount(1);
+        singleClickTimer.play();
+      }
     }
 
     public void goBack() {
@@ -195,6 +237,39 @@ public class BookDetailScenario extends XScenario {
       } else {
         System.err.println("No book selected");
       }
+    }
+  }
+
+  public static class EditNoteScene extends JRIScene {
+    // singleton
+    private static EditNoteScene mSingleton = null;
+
+    public static EditNoteScene getSingleton() {
+      assert (EditNoteScene.mSingleton != null);
+      return EditNoteScene.mSingleton;
+    }
+
+    public static EditNoteScene createSingleton(XScenario scenario) {
+      assert (EditNoteScene.mSingleton == null);
+      EditNoteScene.mSingleton = new EditNoteScene(scenario);
+      return EditNoteScene.mSingleton;
+    }
+
+    public void closeModal() {
+      JRIApp jri = (JRIApp) this.mScenario.getApp();
+      XCmdToChangeScene.execute(jri, this.mReturnScene, null);
+    }
+
+    private EditNoteScene(XScenario scenario) {
+      super(scenario);
+    }
+
+    @Override
+    public void getReady() {
+    }
+
+    @Override
+    public void wrapUp() {
     }
   }
 }

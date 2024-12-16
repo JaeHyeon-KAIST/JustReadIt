@@ -4,10 +4,13 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -15,6 +18,7 @@ import jri.justreadit.JRIApp;
 import jri.justreadit.JRIBookCard;
 import jri.justreadit.JRIBookNoteInfo;
 import jri.justreadit.scenario.BookDetailScenario;
+import jri.justreadit.scenario.HomeScenario;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import x.XPageController;
 
@@ -50,6 +54,12 @@ public class BookDetailPageController extends XPageController {
   private VBox connectedBooksContainer;
 
   @FXML
+  private StackPane modalOverlay; // 모달 오버레이
+
+  @FXML
+  private TextField modalInputField; // 입력창
+
+  @FXML
   public void initialize() {
     System.out.println("BookDetailPageController initialized");
     JRIApp jri = (JRIApp) this.mApp;
@@ -67,6 +77,35 @@ public class BookDetailPageController extends XPageController {
         System.err.println("Error loading book cover image: " + e.getMessage());
       }
     }
+  }
+
+  public void openModal() {
+    modalOverlay.setVisible(true); // 모달 창 표시
+//    searchResultsObservable.clear(); // 검색 기록 초기화
+    modalInputField.clear();
+    modalInputField.requestFocus(); // 검색창에 포커스 설정
+  }
+
+  @FXML
+  public void onModalOverlayClicked(MouseEvent event) {
+    System.out.println("Modal overlay clicked!");
+    if (event.getTarget() == modalOverlay) { // 배경 영역인지 확인
+      modalOverlay.setVisible(false); // 모달 창 숨김
+      BookDetailScenario scenario = (BookDetailScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+      scenario.dispatchCloseModal();
+    }
+  }
+
+  @FXML
+  public void onSaveButtonClicked() {
+    String inputText = modalInputField.getText(); // TextField 값 가져오기
+    System.out.println("Save button clicked!");
+    System.out.println("Modal Input Field Value: " + inputText);
+  }
+
+  @FXML
+  public void onDeleteButtonClicked() {
+
   }
 
   // 노트 데이터를 기반으로 UI 생성
