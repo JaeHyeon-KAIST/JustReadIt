@@ -24,14 +24,36 @@ public class JRICanvas2D extends JPanel {
   private static final Color BOOK_CARD_DEFULT_COLOR = Color.white;
   private static final Color SELECTED_CARD_COLOR = new Color(0x00B0FF);
   private static final Color BACKGROUND_COLOR = new Color(0xB3D0EDFA, true);
+  private static final Color BOOK_CONNECTION_COLOR = new Color(0xBA5D5D);
+  private static final Color NOTE_CONNECTION_COLOR = new Color(0x485573);
+  private static final int ARROW_OFFSET = 5; // 화살표 엇갈림 정도
 
   // fields
   private ArrayList<JRIBookCard> mBookCards; // 저장된 북 카드 리스트
   private Point mNewBookCardPosition; // 임시 북 카드
-  private ArrayList<JRIConnectionInfo> mConnections; // 북 카드 연결 정보
+  private ArrayList<JRIConnectionInfo> mBookConnections; // 북 카드 연결 정보
+  private ArrayList<JRIConnectionInfo> mNoteConnections;
 
-  public void setConnections(ArrayList<JRIConnectionInfo> connections) {
-    this.mConnections = connections;
+  private boolean showBookConnections = false;
+  private boolean showNoteConnections = false;
+
+  public void toggleShowBookConnections() {
+    showBookConnections = !showBookConnections;
+    repaint();
+  }
+
+  public void toggleShowNoteConnections() {
+    showNoteConnections = !showNoteConnections;
+    repaint();
+  }
+
+  public void setBookConnections(ArrayList<JRIConnectionInfo> connections) {
+    this.mBookConnections = connections;
+    repaint();
+  }
+
+  public void setNoteConnections(ArrayList<JRIConnectionInfo> connections) {
+    this.mNoteConnections = connections;
     repaint();
   }
 
@@ -293,47 +315,58 @@ public class JRICanvas2D extends JPanel {
   }
 
   private void drawConnections(Graphics2D g2) {
-    if (mConnections == null) return;
-
     int arrowSize = 10;  // 화살표 크기
 
-    for (JRIConnectionInfo connection : mConnections) {
-      JRIBookCard sourceCard = findBookCardById(connection.getBaseBookId());
-      JRIBookCard targetCard = findBookCardById(connection.getTargetBookId());
+    // 책 연결선 그리기
+    if (showBookConnections && mBookConnections != null) {
+      for (JRIConnectionInfo connection : mBookConnections) {
+        JRIBookCard sourceCard = findBookCardById(connection.getBaseBookId());
+        JRIBookCard targetCard = findBookCardById(connection.getTargetBookId());
 
-      if (sourceCard != null && targetCard != null) {
-        Point sourceCenter = sourceCard.getPosition();
-        Point targetCenter = targetCard.getPosition();
+        if (sourceCard != null && targetCard != null) {
+          drawConnectionLine(g2, sourceCard, targetCard, connection.getCount(), BOOK_CONNECTION_COLOR, arrowSize, -ARROW_OFFSET);
+        }
+      }
+    }
 
-        // 카드 가장자리 점 계산
-        Point startEdge = getCardEdgePoint(sourceCenter, targetCenter, true);
-        Point endEdge = getCardEdgePoint(targetCenter, sourceCenter, false);
+    // 노트 연결선 그리기
+    if (showNoteConnections && mNoteConnections != null) {
+      for (JRIConnectionInfo connection : mNoteConnections) {
+        JRIBookCard sourceCard = findBookCardById(connection.getBaseBookId());
+        JRIBookCard targetCard = findBookCardById(connection.getTargetBookId());
 
-        // 선 두께를 count 값에 따라 설정
-        float strokeWidth = Math.min(10.0f, 1.0f + connection.getCount() * 0.5f); // 최대 두께 10.0f로 제한
-        g2.setStroke(new BasicStroke(strokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-
-        // 선 색상 설정 (투명도 유지)
-        int alpha = Math.min(255, 50 + connection.getCount() * 50);
-        g2.setColor(new Color(0, 0, 0, alpha));
-
-        // 화살표와 선 그리기
-        drawArrow(g2, startEdge, endEdge, arrowSize);
+        if (sourceCard != null && targetCard != null) {
+          drawConnectionLine(g2, sourceCard, targetCard, connection.getCount(), NOTE_CONNECTION_COLOR, arrowSize, ARROW_OFFSET);
+        }
       }
     }
   }
 
-  private void drawArrow(Graphics2D g2, Point start, Point end, int arrowSize) {
-    // 방향 반전: 시작점과 끝점을 교체
-    Point temp = start;
-    start = end;
-    end = temp;
+  private void drawConnectionLine(Graphics2D g2, JRIBookCard sourceCard, JRIBookCard targetCard, int count, Color color, int arrowSize, int offsetY) {
+    Point sourceCenter = sourceCard.getPosition();
+    Point targetCenter = targetCard.getPosition();
 
+    // 카드 가장자리 점 계산에 offset 추가
+    Point startEdge = getCardEdgePoint(sourceCenter, targetCenter, true, offsetY);
+    Point endEdge = getCardEdgePoint(targetCenter, sourceCenter, false, offsetY);
+
+    // 선 두께를 count 값에 따라 설정
+    float strokeWidth = Math.min(10.0f, 1.0f + count * 0.5f); // 최대 두께 10.0f로 제한
+    g2.setStroke(new BasicStroke(strokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+
+    // 선 색상 설정
+    g2.setColor(color);
+
+    // 화살표와 선 그리기
+    drawArrow(g2, startEdge, endEdge, arrowSize);
+  }
+
+  private void drawArrow(Graphics2D g2, Point start, Point end, int arrowSize) {
     double dx = end.x - start.x;
     double dy = end.y - start.y;
     double angle = Math.atan2(dy, dx);
 
-    // 몸통 선 그리기 (반대로 그려짐)
+    // 몸통 선 그리기
     g2.drawLine(start.x, start.y, end.x, end.y);
 
     // 화살표 머리 그리기
@@ -352,7 +385,7 @@ public class JRICanvas2D extends JPanel {
     g2Copy.dispose();
   }
 
-  private Point getCardEdgePoint(Point cardCenter, Point otherPoint, boolean isStart) {
+  private Point getCardEdgePoint(Point cardCenter, Point otherPoint, boolean isStart, int offsetY) {
     double angle = Math.atan2(otherPoint.y - cardCenter.y, otherPoint.x - cardCenter.x);
 
     double distX = CARD_WIDTH / 2.0;
@@ -360,17 +393,14 @@ public class JRICanvas2D extends JPanel {
 
     double t;
     if (Math.abs(Math.cos(angle)) * distY > Math.abs(Math.sin(angle)) * distX) {
-      // 수직 가장자리 교차
       t = distX / Math.abs(Math.cos(angle));
     } else {
-      // 수평 가장자리 교차
       t = distY / Math.abs(Math.sin(angle));
     }
 
-    // 마진 조정 (카드 밖으로 조금 더 빼낼 수도 있음)
-    double margin = isStart ? 0 : 5;  // 끝점은 카드 밖으로 5픽셀 정도 나가게
+    double margin = isStart ? 0 : 5; // 끝점은 카드 밖으로 5픽셀 정도 나가게
     int x = cardCenter.x + (int) ((t + margin) * Math.cos(angle));
-    int y = cardCenter.y + (int) ((t + margin) * Math.sin(angle));
+    int y = cardCenter.y + (int) ((t + margin) * Math.sin(angle)) + offsetY;
 
     return new Point(x, y);
   }

@@ -493,6 +493,16 @@ public class BookNotePageController extends XPageController {
       boolean success = ServerAPI.saveNote(note.getBookId(), bookTitle, note.getNoteId(), htmlContent);
       if (success) {
         System.out.println("Note saved successfully.");
+
+        new Thread(() -> {
+          ArrayList<JRIConnectionInfo> connections = ServerAPI.getBookConnection();
+          jri.getJRICanvas2D().setBookConnections(connections);
+        }).start();
+
+        new Thread(() -> {
+          ArrayList<JRIConnectionInfo> connections = ServerAPI.getNoteConnection();
+          jri.getJRICanvas2D().setNoteConnections(connections);
+        }).start();
       } else {
         System.err.println("Failed to save note.");
       }

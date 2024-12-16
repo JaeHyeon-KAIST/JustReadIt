@@ -51,7 +51,6 @@ public class HomeScenario extends XScenario {
     this.addScene(FirstScene.createSingleton(this));
     this.addScene(SearchBookScene.createSingleton(this));
     this.addScene(MoveBookScene.createSingleton(this));
-    this.addScene(ShowBookConnectionScene.createSingleton(this));
   }
 
   public void dispatchMoveToBookShelfPageButtonPress() {
@@ -168,6 +167,15 @@ public class HomeScenario extends XScenario {
           }
         }).start();
 
+        new Thread(() -> {
+          ArrayList<JRIConnectionInfo> connections = ServerAPI.getBookConnection();
+          jri.getJRICanvas2D().setBookConnections(connections);
+        }).start();
+
+        new Thread(() -> {
+          ArrayList<JRIConnectionInfo> connections = ServerAPI.getNoteConnection();
+          jri.getJRICanvas2D().setNoteConnections(connections);
+        }).start();
 
         Platform.runLater(() -> {
           jri.getPageControllerMgr().switchTo(HomePageController.PAGE_CONTROLLER_NAME);
@@ -235,11 +243,11 @@ public class HomeScenario extends XScenario {
 
     private void handleKeyPressed(KeyEvent e) {
       JRIApp jri = (JRIApp) this.mScenario.getApp();
+      JRICanvas2D canvas = jri.getJRICanvas2D();
       switch (e.getCode()) {
         case S:
           System.out.println("S key pressed");
           e.consume();
-          JRICanvas2D canvas = jri.getJRICanvas2D();
 
           Point screenLocation = MouseInfo.getPointerInfo().getLocation();
           Point canvasLocation = canvas.getLocationOnScreen();
@@ -256,9 +264,17 @@ public class HomeScenario extends XScenario {
           break;
         case B:
           e.consume();
-
-          XCmdToChangeScene.execute(jri, ShowBookConnectionScene.getSingleton(), this);
+          canvas.toggleShowBookConnections();
+          break;
+        case N:
+          e.consume();
+          canvas.toggleShowNoteConnections();
+          break;
       }
+    }
+
+    private void toggleShowBookConnection() {
+
     }
 
     private void handleKeyReleased(KeyEvent e) {
@@ -439,56 +455,6 @@ public class HomeScenario extends XScenario {
       canvas.setPreviousMousePosition(null);
 
       XCmdToChangeScene.execute(jri, this.mReturnScene, null);
-    }
-  }
-
-  public static class ShowBookConnectionScene extends JRIScene {
-    private final EventHandler<KeyEvent> keyReleasedHandler;
-    // singleton
-    private static ShowBookConnectionScene mSingleton = null;
-
-    public static ShowBookConnectionScene getSingleton() {
-      assert (ShowBookConnectionScene.mSingleton != null);
-      return ShowBookConnectionScene.mSingleton;
-    }
-
-    public static ShowBookConnectionScene createSingleton(XScenario scenario) {
-      assert (ShowBookConnectionScene.mSingleton == null);
-      ShowBookConnectionScene.mSingleton = new ShowBookConnectionScene(scenario);
-      return ShowBookConnectionScene.mSingleton;
-    }
-
-    private ShowBookConnectionScene(XScenario scenario) {
-      super(scenario);
-      keyReleasedHandler = this::handleKeyReleased;
-    }
-
-    @Override
-    public void getReady() {
-      JRIApp jri = (JRIApp) this.mScenario.getApp();
-      Scene scene = jri.getPrimaryStage().getScene();
-
-      ArrayList<JRIConnectionInfo> connections = ServerAPI.getBookConnection();
-      jri.getJRICanvas2D().setConnections(connections);
-
-      // 이벤트 핸들러 추가
-      scene.addEventFilter(KeyEvent.KEY_RELEASED, keyReleasedHandler);
-    }
-
-    @Override
-    public void wrapUp() {
-      JRIApp jri = (JRIApp) this.mScenario.getApp();
-      Scene scene = jri.getPrimaryStage().getScene();
-      scene.removeEventFilter(KeyEvent.KEY_RELEASED, keyReleasedHandler);
-    }
-
-    private void handleKeyReleased(KeyEvent e) {
-      switch (e.getCode()) {
-        case B:
-          JRIApp jri = (JRIApp) this.mScenario.getApp();
-          e.consume();
-          XCmdToChangeScene.execute(jri, this.mReturnScene, null);
-      }
     }
   }
 }
