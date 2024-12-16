@@ -2,6 +2,8 @@ package jri.justreadit.scenario;
 
 import javafx.application.Platform;
 import jri.justreadit.JRIApp;
+import jri.justreadit.JRIBookCard;
+import jri.justreadit.JRIBookNoteInfo;
 import jri.justreadit.JRIScene;
 import jri.justreadit.pageController.BookShelfPageController;
 import jri.justreadit.utils.ServerAPI;
@@ -42,6 +44,12 @@ public class BookShelfScenario extends XScenario {
     }
   }
 
+  public void dispatchGoToBookDetailPage(JRIBookCard clickedBook) {
+    if (this.getApp().getScenarioMgr().getCurScene() == BookShelfScenario.BookShelfScene.mSingleton) {
+      BookShelfScene.mSingleton.goToBookDetailPage(clickedBook);
+    }
+  }
+
   public static class BookShelfScene extends JRIScene {
     // singleton
     private static BookShelfScene mSingleton = null;
@@ -63,6 +71,12 @@ public class BookShelfScenario extends XScenario {
 
     private BookShelfScene(XScenario scenario) {
       super(scenario);
+    }
+
+    public void goToBookDetailPage(JRIBookCard clickedBook) {
+      JRIApp jri = (JRIApp) this.mScenario.getApp();
+      jri.getSelectedBookAndNoteMgr().setSelectedBookCard(clickedBook);
+      XCmdToChangeScene.execute(jri, BookDetailScenario.DefaultScene.getSingleton(), this);
     }
 
     @Override

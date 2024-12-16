@@ -10,9 +10,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import jri.justreadit.JRIApp;
+import jri.justreadit.JRIBookCard;
+import jri.justreadit.JRIBookNoteInfo;
+import jri.justreadit.scenario.BookDetailScenario;
 import jri.justreadit.scenario.BookShelfScenario;
+import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import x.XPageController;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +51,7 @@ public class BookShelfPageController extends XPageController {
 
     for (Map<String, Object> book : bookList) {
       // 데이터 가져오기
+      String id = String.valueOf(book.get("id"));
       String title = (String) book.get("title");
       String author = (String) book.get("author");
       String publisher = (String) book.get("publisher"); // 출판사 정보 가져오기
@@ -82,6 +88,24 @@ public class BookShelfPageController extends XPageController {
       bookHBox.setPrefHeight(220);
       bookHBox.setPrefWidth(734);
       bookHBox.getChildren().addAll(coverImageView, bookInfoBox);
+
+      bookHBox.setOnMouseClicked(event -> {
+        System.out.println("Clicked Book:");
+        System.out.println("Title: " + title);
+        System.out.println("Author: " + author);
+        System.out.println("Publisher: " + publisher);
+
+        AladdinBookItem bookItem = new AladdinBookItem();
+        bookItem.setItemId(id);
+        bookItem.setTitle(title);
+        bookItem.setAuthor(author);
+        bookItem.setPublisher(publisher);
+        bookItem.setCover(coverUrl);
+        JRIBookCard clickedBook = new JRIBookCard(bookItem, new Point(0, 0));
+
+        BookShelfScenario scenario = (BookShelfScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+        scenario.dispatchGoToBookDetailPage(clickedBook);
+      });
 
       // GridPane에 추가
       bookGrid.add(bookHBox, col, row);
