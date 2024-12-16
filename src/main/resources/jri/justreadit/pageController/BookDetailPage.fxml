@@ -135,8 +135,10 @@
                                 <Insets left="30.0" top="30.0"/>
                               </padding>
                             </HBox>
-                            <ScrollPane fx:id="notesScrollPane" maxHeight="-Infinity" prefHeight="647.0"
-                                        prefWidth="1260.0" stylesheets="@css/bookNote.css">
+                          <Pane prefHeight="1160.0" prefWidth="650.0">
+                          <children>
+                            <ScrollPane fx:id="notesScrollPane" maxHeight="-Infinity" prefHeight="650.0"
+                                        prefWidth="1160.0" stylesheets="@css/bookNote.css">
                               <VBox.margin>
                                 <Insets bottom="10.0" left="20.0" right="20.0" top="10.0"/>
                               </VBox.margin>
@@ -265,10 +267,11 @@
                                 <!--                                      </children>-->
                                 <!--                                    </VBox>-->
                                 <!--                                  </children>-->
+
                               </content>
                             </ScrollPane>
-                            <StackPane fx:id="modalOverlay" onMouseClicked="#onModalOverlayClicked" prefHeight="723.0"
-                                       prefWidth="1588.0" styleClass="stack_pane" stylesheets="@css/bookNote.css"
+                            <StackPane fx:id="modalOverlay" onMouseClicked="#onModalOverlayClicked" prefHeight="650.0"
+                                       prefWidth="1160.0" styleClass="stack_pane" stylesheets="@css/bookNote.css"
                                        visible="false">
                               <children>
                                 <VBox alignment="CENTER" maxHeight="400" maxWidth="500" spacing="15"
@@ -287,6 +290,8 @@
                                 </VBox>
                               </children>
                             </StackPane>
+                          </children>
+                        </Pane>
                           </children>
                           <HBox.margin>
                             <Insets left="30.0" right="30.0"/>
