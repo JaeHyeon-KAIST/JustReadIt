@@ -318,26 +318,32 @@ public class BookNotePageController extends XPageController {
 
       webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
         if (newState == Worker.State.SUCCEEDED) {
-          // 자바 객체를 JS에서 접근 가능하도록 설정
-          JSObject window = (JSObject) webEngine.executeScript("window");
-          window.setMember("javaLogger", new JavaLogger(this));  // this 참조 전달
+          System.out.println("Setting up link click listener.");
 
-          // a 태그 클릭 이벤트 리스너 설정 (JS에서)
-          String script = "document.addEventListener('click', function(e) {" +
-            "var target = e.target;" +
-            "while (target && target.tagName !== 'A') {" +
-            "  target = target.parentNode;" +
+          // Java 객체를 JavaScript에 다시 등록
+          JSObject window = (JSObject) webEngine.executeScript("window");
+          window.setMember("javaLogger", new JavaLogger(this));
+
+          // 기존 이벤트 리스너 제거 및 새 이벤트 리스너 추가
+          String script = "document.removeEventListener('click', linkClickHandler);" +
+            "function linkClickHandler(e) {" +
+            "  var target = e.target;" +
+            "  while (target && target.tagName !== 'A') {" +
+            "    target = target.parentNode;" +
+            "  }" +
+            "  if (target && target.tagName === 'A') {" +
+            "    e.preventDefault();" +
+            "    var href = target.getAttribute('href');" +
+            "    window.javaLogger.log('Link clicked: ' + href);" +
+            "  }" +
             "}" +
-            "if (target && target.tagName === 'A') {" +
-            "  e.preventDefault();" +
-            "  var href = target.getAttribute('href');" +
-            "  window.javaLogger.log('Link clicked: ' + href);" +
-            "}" +
-            "}, false);";
+            "document.addEventListener('click', linkClickHandler);";
 
           webEngine.executeScript(script);
         }
       });
+    } else {
+      System.err.println("WebView not found in HTMLEditor.");
     }
   }
 
@@ -445,10 +451,14 @@ public class BookNotePageController extends XPageController {
   }
 
   public void showSlide(MouseEvent mouseEvent) {
+    SIDE_NOTE.setTranslateX(800);
     TranslateTransition sideNoteSlide = new TranslateTransition();
     sideNoteSlide.setDuration(Duration.seconds(0.5));
     sideNoteSlide.setNode(SIDE_NOTE);
     sideNoteSlide.setToX(-20);
+    sideNoteSlide.setOnFinished(event -> {
+      setupLinkClickListener(); // 다시 링크 클릭 리스너 설정
+    });
     sideNoteSlide.play();
 
     Timeline editorResize = new Timeline();
@@ -464,6 +474,7 @@ public class BookNotePageController extends XPageController {
     sideNoteSlide.setDuration(Duration.seconds(0.5));
     sideNoteSlide.setNode(SIDE_NOTE);
     sideNoteSlide.setToX(800);
+    sideNoteSlide.setOnFinished(event -> SIDE_NOTE.setTranslateX(800));
     sideNoteSlide.play();
 
     Timeline editorResize = new Timeline();
@@ -696,7 +707,7 @@ public class BookNotePageController extends XPageController {
     sideNoteAuthorText.setText((String) book.get("author"));
     if (book.get("cover") != null) {
       try {
-        String coverUrl = (String) book.get("cover"); // 명확하게 String으로 캐스팅
+        String coverUrl = (String) book.get("cover");
         Image coverImage = new Image(coverUrl, true);
         sideNoteBookCoverImageView.setImage(coverImage);
       } catch (Exception e) {
@@ -704,13 +715,38 @@ public class BookNotePageController extends XPageController {
       }
     }
 
-    // WebView에 HTML 내용을 읽기 전용으로 표시
     Platform.runLater(() -> {
       WebEngine engine = readOnlyWebView.getEngine();
-      engine.loadContent(text, "text/html"); // HTML 내용 로드
+      engine.loadContent(text, "text/html");
+      setupReadOnlyWebView(); // 읽기 전용 설정
+      setupLinkClickListener(); // 링크 클릭 리스너 재등록
     });
 
     showSlide(null);
+  }
+
+  private void setupReadOnlyWebView() {
+    WebEngine engine = readOnlyWebView.getEngine();
+
+    // WebView가 로드 완료되면 DOM 수정 방지
+    engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+      if (newState == Worker.State.SUCCEEDED) {
+        System.out.println("Setting WebView to read-only mode.");
+
+        // DOM 수정 방지 스크립트 추가
+        String script = "document.body.contentEditable = 'false';" +  // 편집 비활성화
+          "document.designMode = 'off';" +             // 디자인 모드 비활성화
+          "document.addEventListener('keydown', function(event) {" +
+          "  event.preventDefault();" +               // 키보드 입력 방지
+          "  return false;" +
+          "});" +
+          "document.addEventListener('input', function(event) {" +
+          "  event.preventDefault();" +               // DOM 수정 이벤트 방지
+          "  return false;" +
+          "});";
+        engine.executeScript(script);
+      }
+    });
   }
 
   @FXML
