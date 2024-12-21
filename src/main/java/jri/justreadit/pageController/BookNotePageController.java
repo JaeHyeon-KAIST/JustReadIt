@@ -239,84 +239,54 @@ public class BookNotePageController extends XPageController {
     scenario.dispatchMoveToHomePageButtonPress();
   }
 
-  public class JavaLogger {
-    private final BookNotePageController controller;
-    private static final String JUSTREADIT_PREFIX = "/justreadit/";
+  public void handleInternalLink(String href) {
+    String internalPath = href.substring("/justreadit/".length());
 
-    public JavaLogger(BookNotePageController controller) {
-      this.controller = controller;
+    System.out.println("[WebView] Internal link detected. Path: " + href);
+
+    if (internalPath.startsWith("note/") && internalPath.substring(5).matches("\\d+")) {
+      String noteId = internalPath.substring(5);
+      System.out.println("[WebView] Internal note link detected. Note ID: " + noteId);
+      handleInternalLinkAction("note", noteId);
+    } else if (internalPath.startsWith("book/") && internalPath.substring(5).matches("\\d+")) {
+      String bookId = internalPath.substring(5);
+      System.out.println("[WebView] Internal book link detected. Book ID: " + bookId);
+      handleInternalLinkAction("book", bookId);
+      saveNote();
+    } else {
+      System.err.println("[WebView] Invalid internal link format: " + href);
     }
+  }
 
-    public void log(String message) {
-      if (message.startsWith("Link clicked: ")) {
-        String url = message.substring("Link clicked: ".length());
-        handleUrl(url);
-      } else {
-        System.out.println("[WebView] " + message);
+  private void handleInternalLinkAction(String type, String id) {
+    Platform.runLater(() -> {
+      BookNoteScenario scenario = (BookNoteScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+      if ("note".equals(type)) {
+        scenario.dispatchOpenLikedBookSideView(Integer.parseInt(id));
+      } else if ("book".equals(type)) {
+        saveNote();
+        scenario.dispatchMoveToClickedBook(id);
       }
-    }
+    });
+  }
 
-    private void handleUrl(String url) {
-      if (url.startsWith(JUSTREADIT_PREFIX)) {
-        String internalPath = url.substring(JUSTREADIT_PREFIX.length());
-
-        if (internalPath.startsWith("note/") && internalPath.substring(5).matches("\\d+")) {
-          String noteId = internalPath.substring(5);
-          System.out.println("[WebView] Internal note link detected. Note ID: " + noteId);
-          handleInternalLink("note", noteId);
-
-        } else if (internalPath.startsWith("book/") && internalPath.substring(5).matches("\\d+")) {
-          String bookId = internalPath.substring(5);
-          System.out.println("[WebView] Internal book link detected. Book ID: " + bookId);
-          handleInternalLink("book", bookId);
-
+  public void handleExternalLink(String url) {
+    System.out.println("[WebView] External link detected: " + url);
+    if (url != null && !url.isEmpty()) {
+      try {
+        java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+        if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
+          java.net.URI uri = new java.net.URI(url);
+          desktop.browse(uri);
         } else {
-          System.out.println("[WebView] Invalid internal link format: " + url);
+          System.err.println("BROWSE action is not supported on this platform.");
         }
-
-      } else if (url.startsWith("http://") || url.startsWith("https://")) {
-        System.out.println("[WebView] External link detected: " + url);
-        handleExternalLink(url);
-
-      } else {
-        System.out.println("[WebView] Unknown link type: " + url);
+      } catch (Exception e) {
+        System.err.println("Failed to open external link: " + e.getMessage());
+        e.printStackTrace();
       }
-    }
-
-    private void handleInternalLink(String type, String id) {
-      Platform.runLater(() -> {
-        BookNoteScenario scenario = (BookNoteScenario) controller.mApp.getScenarioMgr().getCurScene().getScenario();
-        if ("note".equals(type)) {
-          System.out.println("[WebView] Processing note ID: " + id);
-          scenario.dispatchOpenLikedBookSideView(Integer.parseInt(id));
-        } else if ("book".equals(type)) {
-          saveNote();
-          System.out.println("[WebView] Processing book ID: " + id);
-          scenario.dispatchMoveToClickedBook(id);
-        }
-      });
-    }
-
-    private void handleExternalLink(String url) {
-      System.out.println("[WebView] Processing external link: " + url);
-
-      if (url != null && !url.isEmpty()) {
-        try {
-          // 시스템 기본 브라우저에서 링크 열기
-          java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
-          if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
-            java.net.URI uri = new java.net.URI(url);
-            desktop.browse(uri); // 링크를 기본 브라우저에서 실행
-          } else {
-            System.err.println("BROWSE action is not supported.");
-          }
-        } catch (Exception e) {
-          System.err.println("Failed to open external link: " + e.getMessage());
-          e.printStackTrace();
-        }
-      } else {
-        System.err.println("URL is null or empty.");
-      }
+    } else {
+      System.err.println("Provided URL is null or empty.");
     }
   }
 
@@ -327,26 +297,34 @@ public class BookNotePageController extends XPageController {
 
       webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
         if (newState == Worker.State.SUCCEEDED) {
-          System.out.println("Setting up link click listener.");
+          System.out.println("[DEBUG] Setting up JavaScript link listener.");
 
-          // Java 객체를 JavaScript에 다시 등록
+          // Java 객체를 JavaScript에 등록
           JSObject window = (JSObject) webEngine.executeScript("window");
-          window.setMember("javaLogger", new JavaLogger(this));
+          window.setMember("javaBridge", this);
 
-          // 기존 이벤트 리스너 제거 및 새 이벤트 리스너 추가
-          String script = "document.removeEventListener('click', linkClickHandler);" +
-            "function linkClickHandler(e) {" +
-            "  var target = e.target;" +
-            "  while (target && target.tagName !== 'A') {" +
-            "    target = target.parentNode;" +
-            "  }" +
-            "  if (target && target.tagName === 'A') {" +
-            "    e.preventDefault();" +
-            "    var href = target.getAttribute('href');" +
-            "    window.javaLogger.log('Link clicked: ' + href);" +
-            "  }" +
-            "}" +
-            "document.addEventListener('click', linkClickHandler);";
+          // JavaScript로 링크 클릭 이벤트 처리
+          String script = """
+            document.removeEventListener('click', linkClickHandler);
+            function linkClickHandler(e) {
+              var target = e.target;
+              while (target && target.tagName !== 'A') {
+                target = target.parentNode;
+              }
+              if (target && target.tagName === 'A') {
+                e.preventDefault();
+                var href = target.getAttribute('href');
+                if (href.startsWith('/justreadit/')) {
+                  // 내부 링크 처리: Java로 전달
+                  window.javaBridge.handleInternalLink(href);
+                } else {
+                  // 외부 링크 처리
+                  window.javaBridge.handleExternalLink(href);
+                }
+              }
+            }
+            document.addEventListener('click', linkClickHandler);
+            """;
 
           webEngine.executeScript(script);
         }
