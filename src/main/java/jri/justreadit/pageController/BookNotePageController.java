@@ -204,7 +204,11 @@ public class BookNotePageController extends XPageController {
   private void setHtmlContent(String noteText) {
     try {
       if (noteText != null && !noteText.isEmpty()) {
-        htmlEditor.setHtmlText(noteText);
+        // 기존 내용에 style 태그를 추가
+        String styledContent = "<style>" +
+          "body { margin-right: 2px !important; padding-right: 20px !important; }" +
+          "</style>" + noteText;
+        htmlEditor.setHtmlText(styledContent);
         System.out.println("HTML content successfully set in HTMLEditor.");
       } else {
         htmlEditor.setHtmlText("");
