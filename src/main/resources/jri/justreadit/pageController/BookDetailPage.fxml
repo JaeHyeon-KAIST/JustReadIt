@@ -135,163 +135,46 @@
                                 <Insets left="30.0" top="30.0"/>
                               </padding>
                             </HBox>
-                          <Pane prefHeight="1160.0" prefWidth="650.0">
-                          <children>
-                            <ScrollPane fx:id="notesScrollPane" maxHeight="-Infinity" prefHeight="650.0"
-                                        prefWidth="1160.0" stylesheets="@css/bookNote.css">
-                              <VBox.margin>
-                                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0"/>
-                              </VBox.margin>
-                              <content>
-                                <FlowPane fx:id="notesContainer" alignment="TOP_LEFT" hgap="20.0" prefHeight="1000.0"
-                                          prefWidth="1111.0" vgap="20.0">
-                                  <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                                  </padding>
-                                </FlowPane>
-                                <!--                                  <children>-->
-                                <!--                                    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="250.0">-->
-                                <!--                                      <children>-->
-                                <!--                                        <Button mnemonicParsing="false" prefHeight="300.0" prefWidth="200.0"-->
-                                <!--                                                styleClass="menu_btn" stylesheets="@css/bookNote.css">-->
-                                <!--                                          <graphic>-->
-                                <!--                                            <VBox alignment="CENTER" spacing="20.0" stylesheets="@css/bookNote.css">-->
-                                <!--                                              <children>-->
-                                <!--                                                <ImageView fitHeight="200.0" fitWidth="150.0" pickOnBounds="true"-->
-                                <!--                                                           preserveRatio="true">-->
-                                <!--                                                  <image>-->
-                                <!--                                                    <Image url="@../../../image/during_book.png"/>-->
-                                <!--                                                  </image>-->
-                                <!--                                                </ImageView>-->
-                                <!--                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Untitled">-->
-                                <!--                                                  <font>-->
-                                <!--                                                    <Font name="Apple SD Gothic Neo Light" size="24.0"/>-->
-                                <!--                                                  </font>-->
-                                <!--                                                </Text>-->
-                                <!--                                              </children>-->
-                                <!--                                            </VBox>-->
-                                <!--                                          </graphic>-->
-                                <!--                                        </Button>-->
-                                <!--                                        <Button mnemonicParsing="false" prefHeight="300.0" prefWidth="200.0"-->
-                                <!--                                                styleClass="menu_btn" stylesheets="@css/bookNote.css">-->
-                                <!--                                          <graphic>-->
-                                <!--                                            <VBox alignment="CENTER" spacing="20.0" stylesheets="@css/bookNote.css">-->
-                                <!--                                              <children>-->
-                                <!--                                                <ImageView fitHeight="200.0" fitWidth="150.0" pickOnBounds="true"-->
-                                <!--                                                           preserveRatio="true">-->
-                                <!--                                                  <image>-->
-                                <!--                                                    <Image url="@../../../image/during_book.png"/>-->
-                                <!--                                                  </image>-->
-                                <!--                                                </ImageView>-->
-                                <!--                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Untitled">-->
-                                <!--                                                  <font>-->
-                                <!--                                                    <Font name="Apple SD Gothic Neo Light" size="24.0"/>-->
-                                <!--                                                  </font>-->
-                                <!--                                                </Text>-->
-                                <!--                                              </children>-->
-                                <!--                                            </VBox>-->
-                                <!--                                          </graphic>-->
-                                <!--                                        </Button>-->
-                                <!--                                      </children>-->
-                                <!--                                    </VBox>-->
-                                <!--                                    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="250.0">-->
-                                <!--                                      <children>-->
-                                <!--                                        <Button mnemonicParsing="false" prefHeight="300.0" prefWidth="200.0"-->
-                                <!--                                                styleClass="menu_btn" stylesheets="@css/bookNote.css">-->
-                                <!--                                          <graphic>-->
-                                <!--                                            <VBox alignment="CENTER" spacing="20.0" stylesheets="@css/bookNote.css">-->
-                                <!--                                              <children>-->
-                                <!--                                                <ImageView fitHeight="200.0" fitWidth="150.0" pickOnBounds="true"-->
-                                <!--                                                           preserveRatio="true">-->
-                                <!--                                                  <image>-->
-                                <!--                                                    <Image url="@../../../image/after_book.png"/>-->
-                                <!--                                                  </image>-->
-                                <!--                                                </ImageView>-->
-                                <!--                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Untitled">-->
-                                <!--                                                  <font>-->
-                                <!--                                                    <Font name="Apple SD Gothic Neo Light" size="24.0"/>-->
-                                <!--                                                  </font>-->
-                                <!--                                                </Text>-->
-                                <!--                                              </children>-->
-                                <!--                                            </VBox>-->
-                                <!--                                          </graphic>-->
-                                <!--                                        </Button>-->
-                                <!--                                      </children>-->
-                                <!--                                    </VBox>-->
-                                <!--                                    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="250.0">-->
-                                <!--                                      <children>-->
-                                <!--                                        <Button mnemonicParsing="false" prefHeight="300.0" prefWidth="200.0"-->
-                                <!--                                                styleClass="menu_btn" stylesheets="@css/bookNote.css">-->
-                                <!--                                          <graphic>-->
-                                <!--                                            <VBox alignment="CENTER" spacing="20.0" stylesheets="@css/bookNote.css">-->
-                                <!--                                              <children>-->
-                                <!--                                                <ImageView fitHeight="200.0" fitWidth="150.0" pickOnBounds="true"-->
-                                <!--                                                           preserveRatio="true">-->
-                                <!--                                                  <image>-->
-                                <!--                                                    <Image url="@../../../image/after_book.png"/>-->
-                                <!--                                                  </image>-->
-                                <!--                                                </ImageView>-->
-                                <!--                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Untitled">-->
-                                <!--                                                  <font>-->
-                                <!--                                                    <Font name="Apple SD Gothic Neo Light" size="24.0"/>-->
-                                <!--                                                  </font>-->
-                                <!--                                                </Text>-->
-                                <!--                                              </children>-->
-                                <!--                                            </VBox>-->
-                                <!--                                          </graphic>-->
-                                <!--                                        </Button>-->
-                                <!--                                      </children>-->
-                                <!--                                    </VBox>-->
-                                <!--                                    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="250.0">-->
-                                <!--                                      <children>-->
-                                <!--                                        <Button mnemonicParsing="false" prefHeight="300.0" prefWidth="200.0"-->
-                                <!--                                                styleClass="menu_btn" stylesheets="@css/bookNote.css">-->
-                                <!--                                          <graphic>-->
-                                <!--                                            <VBox alignment="CENTER" spacing="20.0" stylesheets="@css/bookNote.css">-->
-                                <!--                                              <children>-->
-                                <!--                                                <ImageView fitHeight="200.0" fitWidth="150.0" pickOnBounds="true"-->
-                                <!--                                                           preserveRatio="true">-->
-                                <!--                                                  <image>-->
-                                <!--                                                    <Image url="@../../../image/during_book.png"/>-->
-                                <!--                                                  </image>-->
-                                <!--                                                </ImageView>-->
-                                <!--                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Untitled">-->
-                                <!--                                                  <font>-->
-                                <!--                                                    <Font name="Apple SD Gothic Neo Light" size="24.0"/>-->
-                                <!--                                                  </font>-->
-                                <!--                                                </Text>-->
-                                <!--                                              </children>-->
-                                <!--                                            </VBox>-->
-                                <!--                                          </graphic>-->
-                                <!--                                        </Button>-->
-                                <!--                                      </children>-->
-                                <!--                                    </VBox>-->
-                                <!--                                  </children>-->
-
-                              </content>
-                            </ScrollPane>
-                            <StackPane fx:id="modalOverlay" onMouseClicked="#onModalOverlayClicked" prefHeight="650.0"
-                                       prefWidth="1160.0" styleClass="stack_pane" stylesheets="@css/bookNote.css"
-                                       visible="false">
+                            <Pane prefHeight="1160.0" prefWidth="650.0">
                               <children>
-                                <VBox alignment="CENTER" maxHeight="400" maxWidth="500" spacing="15"
-                                      styleClass="search" stylesheets="@css/bookNote.css">
-                                  <Label text="Edit/Delete Note">
-                                    <font>
-                                      <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
-                                    </font>
-                                  </Label>
-                                  <TextField fx:id="modalInputField" promptText="Note Title" text="Note Title"/>
-                                  <Button onMouseClicked="#onSaveButtonClicked" text="Save"/>
-                                  <Button onMouseClicked="#onDeleteButtonClicked" text="Delete"/>
-                                  <padding>
-                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-                                  </padding>
-                                </VBox>
+                                <ScrollPane fx:id="notesScrollPane" maxHeight="-Infinity" prefHeight="650.0"
+                                            prefWidth="1160.0" stylesheets="@css/bookNote.css">
+                                  <VBox.margin>
+                                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0"/>
+                                  </VBox.margin>
+                                  <content>
+                                    <FlowPane fx:id="notesContainer" alignment="TOP_LEFT" hgap="20.0"
+                                              prefHeight="1000.0"
+                                              prefWidth="1111.0" vgap="20.0">
+                                      <padding>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                      </padding>
+                                    </FlowPane>
+                                  </content>
+                                </ScrollPane>
+                                <StackPane fx:id="modalOverlay" onMouseClicked="#onModalOverlayClicked"
+                                           prefHeight="650.0"
+                                           prefWidth="1160.0" styleClass="stack_pane" stylesheets="@css/bookNote.css"
+                                           visible="false">
+                                  <children>
+                                    <VBox alignment="CENTER" maxHeight="400" maxWidth="500" spacing="15"
+                                          styleClass="search" stylesheets="@css/bookNote.css">
+                                      <Label text="Edit/Delete Note">
+                                        <font>
+                                          <Font name="Apple SD Gothic Neo Regular" size="18.0"/>
+                                        </font>
+                                      </Label>
+                                      <TextField fx:id="modalInputField" promptText="Note Title" text="Note Title"/>
+                                      <Button onMouseClicked="#onSaveButtonClicked" text="Save"/>
+                                      <Button onMouseClicked="#onDeleteButtonClicked" text="Delete"/>
+                                      <padding>
+                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                                      </padding>
+                                    </VBox>
+                                  </children>
+                                </StackPane>
                               </children>
-                            </StackPane>
-                          </children>
-                        </Pane>
+                            </Pane>
                           </children>
                           <HBox.margin>
                             <Insets left="30.0" right="30.0"/>
