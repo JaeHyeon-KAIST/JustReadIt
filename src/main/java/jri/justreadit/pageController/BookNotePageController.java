@@ -168,6 +168,11 @@ public class BookNotePageController extends XPageController {
       System.out.println("WebView found in HTMLEditor.");
       WebEngine engine = webView.getEngine();
 
+      Platform.runLater(() -> {
+        double originalHeight = webView.getPrefHeight();
+        webView.setPrefHeight(originalHeight + 100);
+      });
+
       engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
         if (newState == Worker.State.SUCCEEDED && !isContentSet) {
           setHtmlContent(noteText);
