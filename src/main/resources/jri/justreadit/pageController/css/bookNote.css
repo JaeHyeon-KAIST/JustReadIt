@@ -1,4 +1,4 @@
-.root{
+.root {
   -fx-background-color: #ffffff;
 }
 
@@ -12,21 +12,21 @@
   -fx-border-radius: 0px;
 }
 
-.menu{
+.menu {
   -fx-background-color: rgba(120, 179, 206, 0.5);
   -fx-border-width: 0px 0px 0px 0px;
   -fx-border-style: solid;
   -fx-border-color: rgba(120, 179, 206, 0.5);
 }
 
-.menu_btn{
+.menu_btn {
   -fx-background-color: rgba(120, 179, 206, 0);
   -fx-border-width: 0px 0px 0px 0px;
   -fx-border-radius: 30px;
   -fx-background-radius: 30px;
 }
 
-.note{
+.note {
   -fx-background-color: #ffffff;
   -fx-border-width: 5px 5px 5px 5px;
   -fx-border-radius: 25px;
@@ -35,15 +35,15 @@
   -fx-border-color: #78b3ce;
 }
 
-.side_note{
-    -fx-background-color: #d0edfa;
-    -fx-border-width: 0px 0px 0px 0px;
-    -fx-border-radius: 20px;
-    -fx-background-radius: 20px;
-    -fx-border-style: solid;
+.side_note {
+  -fx-background-color: #d0edfa;
+  -fx-border-width: 0px 0px 0px 0px;
+  -fx-border-radius: 20px;
+  -fx-background-radius: 20px;
+  -fx-border-style: solid;
 }
 
-.book_map{
+.book_map {
   -fx-background-color: #d0edfa;
   -fx-border-width: 5px 5px 5px 5px;
   -fx-border-radius: 25px;
@@ -52,63 +52,63 @@
   -fx-border-style: solid;
 }
 
-.stack_pane{
+.stack_pane {
   -fx-background-color: rgba(0, 0, 0, 0.3);
   -fx-background-radius: 30px;
 }
 
-.search{
-    -fx-background-color: #ffffff;
-    -fx-border-width: 4px 4px 4px 4px;
-    -fx-border-radius: 18px;
-    -fx-background-radius: 20px;
-    -fx-border-style: solid;
-    -fx-border-color: #5da8ca;
+.search {
+  -fx-background-color: #ffffff;
+  -fx-border-width: 4px 4px 4px 4px;
+  -fx-border-radius: 18px;
+  -fx-background-radius: 20px;
+  -fx-border-style: solid;
+  -fx-border-color: #5da8ca;
 }
 
 .scroll-pane {
-    -fx-background-color: transparent;
-    -fx-border-color: rgba(224, 245, 255, 0.7);
-    -fx-border-radius: 15;
-    -fx-border-width: 3;
-    -fx-padding: 10;
-    -fx-background-radius: 10;
+  -fx-background-color: transparent;
+  -fx-border-color: rgba(224, 245, 255, 0.7);
+  -fx-border-radius: 15;
+  -fx-border-width: 3;
+  -fx-padding: 10;
+  -fx-background-radius: 10;
 }
 
 .scroll-bar {
-    -fx-background-color: rgba(224, 245, 255, 0.7);
-    -fx-background-radius: 10;
-    -fx-pref-width: 12;
+  -fx-background-color: rgba(224, 245, 255, 0.7);
+  -fx-background-radius: 10;
+  -fx-pref-width: 12;
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: #78b3ce;
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
-    -fx-border-color: #78b3ce;
-    -fx-border-width: 2;
+  -fx-background-color: #78b3ce;
+  -fx-background-radius: 10;
+  -fx-border-radius: 10;
+  -fx-border-color: #78b3ce;
+  -fx-border-width: 2;
 }
 
 .scroll-bar .thumb:hover {
-    -fx-background-color: #78b3ce;
+  -fx-background-color: #78b3ce;
 }
 
 .scroll-bar .track {
-    -fx-background-color: transparent;
-    -fx-background-radius: 10;
+  -fx-background-color: transparent;
+  -fx-background-radius: 10;
 }
 
 .scroll-pane .viewport {
-    -fx-background-color: rgba(224, 245, 255, 0.7);
-    -fx-background-radius: 45;
+  -fx-background-color: rgba(224, 245, 255, 0.7);
+  -fx-background-radius: 45;
 }
 
 .scroll-bar:vertical {
-    -fx-background-color: transparent;
-    -fx-border-radius: 10;
+  -fx-background-color: transparent;
+  -fx-border-radius: 10;
 }
 
 .scroll-bar:horizontal {
-    -fx-background-color: transparent;
-    -fx-border-radius: 10;
+  -fx-background-color: transparent;
+  -fx-border-radius: 10;
 }
