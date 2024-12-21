@@ -737,22 +737,25 @@ public class BookNotePageController extends XPageController {
   private void setupReadOnlyWebView() {
     WebEngine engine = readOnlyWebView.getEngine();
 
-    // WebView가 로드 완료되면 DOM 수정 방지
     engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
       if (newState == Worker.State.SUCCEEDED) {
         System.out.println("Setting WebView to read-only mode.");
 
-        // DOM 수정 방지 스크립트 추가
-        String script = "document.body.contentEditable = 'false';" +  // 편집 비활성화
-          "document.designMode = 'off';" +             // 디자인 모드 비활성화
-          "document.addEventListener('keydown', function(event) {" +
-          "  event.preventDefault();" +               // 키보드 입력 방지
-          "  return false;" +
-          "});" +
-          "document.addEventListener('input', function(event) {" +
-          "  event.preventDefault();" +               // DOM 수정 이벤트 방지
-          "  return false;" +
-          "});";
+        // 스타일과 DOM 수정 방지를 함께 설정
+        String script =
+          "document.head.innerHTML += '<style>" +
+            "body { margin-right: 2px !important; padding-right: 20px !important; }" +
+            "</style>';" +
+            "document.body.contentEditable = 'false';" +
+            "document.designMode = 'off';" +
+            "document.addEventListener('keydown', function(event) {" +
+            "    event.preventDefault();" +
+            "    return false;" +
+            "});" +
+            "document.addEventListener('input', function(event) {" +
+            "    event.preventDefault();" +
+            "    return false;" +
+            "});";
         engine.executeScript(script);
       }
     });
