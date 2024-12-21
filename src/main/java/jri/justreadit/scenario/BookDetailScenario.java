@@ -172,6 +172,9 @@ public class BookDetailScenario extends XScenario {
       JRIApp jri = (JRIApp) this.mScenario.getApp();
       Scene scene = jri.getPrimaryStage().getScene();
 
+      this.isSceneChanging = false;
+      this.lastClickTime = 0;
+
       scene.addEventFilter(KeyEvent.KEY_RELEASED, keyReleasedHandler);
 
       String currentPage = jri.getPageControllerMgr().getCurrentPageName();
