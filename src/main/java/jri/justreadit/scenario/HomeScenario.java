@@ -10,12 +10,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.Scene;
 
 import javafx.util.Duration;
-import jri.justreadit.JRIConnectionInfo;
+import jri.justreadit.types.JRIConnectionInfo;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import jri.justreadit.JRIApp;
-import jri.justreadit.JRIBookCard;
+import jri.justreadit.types.JRIBookCard;
 import jri.justreadit.JRIScene;
-import jri.justreadit.canvas.JRICanvas2D;
+import jri.justreadit.JRICanvas2D;
 import jri.justreadit.pageController.HomePageController;
 import jri.justreadit.utils.ServerAPI;
 import x.XApp;
@@ -48,14 +48,14 @@ public class HomeScenario extends XScenario {
 
   @Override
   protected void addScenes() {
-    this.addScene(FirstScene.createSingleton(this));
+    this.addScene(ReadyScene.createSingleton(this));
     this.addScene(SearchBookScene.createSingleton(this));
     this.addScene(MoveBookScene.createSingleton(this));
   }
 
   public void dispatchMoveToBookShelfPageButtonPress() {
-    if (this.getApp().getScenarioMgr().getCurScene() == FirstScene.mSingleton) {
-      FirstScene.mSingleton.onMoveToBookShelfPageButtonPress();
+    if (this.getApp().getScenarioMgr().getCurScene() == ReadyScene.mSingleton) {
+      ReadyScene.mSingleton.onMoveToBookShelfPageButtonPress();
     }
   }
 
@@ -67,7 +67,7 @@ public class HomeScenario extends XScenario {
     SearchBookScene.mSingleton.closeBookSearch();
   }
 
-  public static class FirstScene extends JRIScene {
+  public static class ReadyScene extends JRIScene {
     private long lastClickTime = 0;
     private static final long DOUBLE_CLICK_TIME = 200;
     private Timeline singleClickTimer;
@@ -78,24 +78,24 @@ public class HomeScenario extends XScenario {
     private final EventHandler<KeyEvent> keyPressedHandler;
     private final EventHandler<KeyEvent> keyReleasedHandler;
     // singleton
-    private static FirstScene mSingleton = null;
+    private static ReadyScene mSingleton = null;
 
-    public static FirstScene getSingleton() {
-      assert (FirstScene.mSingleton != null);
-      return FirstScene.mSingleton;
+    public static ReadyScene getSingleton() {
+      assert (ReadyScene.mSingleton != null);
+      return ReadyScene.mSingleton;
     }
 
-    public static FirstScene createSingleton(XScenario scenario) {
-      assert (FirstScene.mSingleton == null);
-      FirstScene.mSingleton = new FirstScene(scenario);
-      return FirstScene.mSingleton;
+    public static ReadyScene createSingleton(XScenario scenario) {
+      assert (ReadyScene.mSingleton == null);
+      ReadyScene.mSingleton = new ReadyScene(scenario);
+      return ReadyScene.mSingleton;
     }
 
     public void onMoveToBookShelfPageButtonPress() {
       XCmdToChangeScene.execute(this.mScenario.getApp(), BookShelfScenario.BookShelfScene.getSingleton(), this);
     }
 
-    private FirstScene(XScenario scenario) {
+    private ReadyScene(XScenario scenario) {
       super(scenario);
       mousePressedHandler = this::handleMousePressed;
       mouseDraggedHandler = this::handleMouseDragged;

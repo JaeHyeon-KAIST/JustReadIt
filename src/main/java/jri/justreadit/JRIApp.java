@@ -4,7 +4,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import jri.justreadit.canvas.JRICanvas2D;
 import x.XApp;
 import x.XLogMgr;
 import x.XScenarioMgr;

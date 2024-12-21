@@ -1,4 +1,4 @@
-package jri.justreadit;
+package jri.justreadit.types;
 
 public class JRIBookNoteInfo {
   private int mNoteId; // 노트 ID

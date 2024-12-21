@@ -13,11 +13,11 @@ public class JRIScenarioMgr extends XScenarioMgr {
     this.addScenario(HomeScenario.createSingleton(this.mApp));
     this.addScenario(BookShelfScenario.createSingleton(this.mApp));
     this.addScenario(BookDetailScenario.createSingleton(this.mApp));
-    this.addScenario(BookNotePageScenario.createSingleton(this.mApp));
+    this.addScenario(BookNoteScenario.createSingleton(this.mApp));
   }
 
   @Override
   protected void setInitCurScene() {
-    this.setCurScene(HomeScenario.FirstScene.getSingleton());
+    this.setCurScene(HomeScenario.ReadyScene.getSingleton());
   }
 }

@@ -25,7 +25,11 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.util.Duration;
 import jri.justreadit.*;
-import jri.justreadit.scenario.BookNotePageScenario;
+import jri.justreadit.scenario.BookNoteScenario;
+import jri.justreadit.types.JRIBookCard;
+import jri.justreadit.types.JRIBookNoteInfo;
+import jri.justreadit.types.JRIConnectionInfo;
+import jri.justreadit.types.JRIVectorResultInfo;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import jri.justreadit.utils.ServerAPI;
 import netscape.javascript.JSObject;
@@ -215,14 +219,14 @@ public class BookNotePageController extends XPageController {
   public void goToBookShelfPage() {
     System.out.println("Go to BookShelfPage button pressed");
     saveNote();
-    BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    BookNoteScenario scenario = (BookNoteScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
     scenario.dispatchGoToBookShelfPageButtonPress();
   }
 
   public void goToHomePage() {
     System.out.println("Go to HomePage button pressed");
     saveNote();
-    BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    BookNoteScenario scenario = (BookNoteScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
     scenario.dispatchMoveToHomePageButtonPress();
   }
 
@@ -272,7 +276,7 @@ public class BookNotePageController extends XPageController {
 
     private void handleInternalLink(String type, String id) {
       Platform.runLater(() -> {
-        BookNotePageScenario scenario = (BookNotePageScenario) controller.mApp.getScenarioMgr().getCurScene().getScenario();
+        BookNoteScenario scenario = (BookNoteScenario) controller.mApp.getScenarioMgr().getCurScene().getScenario();
         if ("note".equals(type)) {
           System.out.println("[WebView] Processing note ID: " + id);
           scenario.dispatchOpenLikedBookSideView(Integer.parseInt(id));
@@ -550,7 +554,7 @@ public class BookNotePageController extends XPageController {
     System.out.println("Modal overlay clicked!");
     if (event.getTarget() == noteSearchModalOverlay) {
       noteSearchModalOverlay.setVisible(false);
-      BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+      BookNoteScenario scenario = (BookNoteScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
       scenario.dispatchCloseNoteSearchModal();
     }
   }
@@ -560,7 +564,7 @@ public class BookNotePageController extends XPageController {
     System.out.println("Modal overlay clicked!");
     if (event.getTarget() == bookSearchModalOverlay) {
       bookSearchModalOverlay.setVisible(false);
-      BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+      BookNoteScenario scenario = (BookNoteScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
       scenario.dispatchCloseBookSearchModal();
     }
   }
@@ -637,7 +641,7 @@ public class BookNotePageController extends XPageController {
         String linkUrl = "/justreadit/note/" + noteId;
 
         insertLinkIntoHtmlEditor(linkUrl, sentence);
-        BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+        BookNoteScenario scenario = (BookNoteScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
         noteSearchModalOverlay.setVisible(false);
         scenario.dispatchCloseNoteSearchModal();
       }
@@ -653,7 +657,7 @@ public class BookNotePageController extends XPageController {
         String linkUrl = "/justreadit/book/" + selectedItem.getBookItem().getItemId();
 
         insertLinkIntoHtmlEditor(linkUrl, sentence);
-        BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+        BookNoteScenario scenario = (BookNoteScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
         bookSearchModalOverlay.setVisible(false);
         scenario.dispatchCloseBookSearchModal();
       }
@@ -712,7 +716,7 @@ public class BookNotePageController extends XPageController {
   @FXML
   public void goBack() {
     saveNote();
-    BookNotePageScenario scenario = (BookNotePageScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
+    BookNoteScenario scenario = (BookNoteScenario) this.mApp.getScenarioMgr().getCurScene().getScenario();
     scenario.dispatchGoBackButtonPress();
   }
 }

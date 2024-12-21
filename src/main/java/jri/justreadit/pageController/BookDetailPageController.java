@@ -9,16 +9,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import jri.justreadit.JRIApp;
-import jri.justreadit.JRIBookCard;
-import jri.justreadit.JRIBookNoteInfo;
+import jri.justreadit.types.JRIBookCard;
+import jri.justreadit.types.JRIBookNoteInfo;
 import jri.justreadit.scenario.BookDetailScenario;
-import jri.justreadit.scenario.HomeScenario;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import x.XPageController;
 

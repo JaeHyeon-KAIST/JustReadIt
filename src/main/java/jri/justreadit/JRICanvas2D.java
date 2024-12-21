@@ -1,7 +1,7 @@
-package jri.justreadit.canvas;
+package jri.justreadit;
 
-import jri.justreadit.JRIBookCard;
-import jri.justreadit.JRIConnectionInfo;
+import jri.justreadit.types.JRIBookCard;
+import jri.justreadit.types.JRIConnectionInfo;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 import jri.justreadit.utils.GreenRandomColor;
 

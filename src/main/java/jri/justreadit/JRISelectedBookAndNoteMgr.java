@@ -1,7 +1,9 @@
 package jri.justreadit;
 
+import jri.justreadit.types.JRIBookCard;
+import jri.justreadit.types.JRIBookNoteInfo;
+
 import java.util.ArrayList;
-import java.util.Map;
 
 public class JRISelectedBookAndNoteMgr {
   private JRIBookCard mSelectedBookCard;

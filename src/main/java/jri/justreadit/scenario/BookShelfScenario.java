@@ -2,8 +2,7 @@ package jri.justreadit.scenario;
 
 import javafx.application.Platform;
 import jri.justreadit.JRIApp;
-import jri.justreadit.JRIBookCard;
-import jri.justreadit.JRIBookNoteInfo;
+import jri.justreadit.types.JRIBookCard;
 import jri.justreadit.JRIScene;
 import jri.justreadit.pageController.BookShelfPageController;
 import jri.justreadit.utils.ServerAPI;
@@ -66,7 +65,7 @@ public class BookShelfScenario extends XScenario {
     }
 
     public void onMoveToHomePageButtonPress() {
-      XCmdToChangeScene.execute(this.mScenario.getApp(), HomeScenario.FirstScene.getSingleton(), this.mReturnScene);
+      XCmdToChangeScene.execute(this.mScenario.getApp(), HomeScenario.ReadyScene.getSingleton(), this.mReturnScene);
     }
 
     private BookShelfScene(XScenario scenario) {

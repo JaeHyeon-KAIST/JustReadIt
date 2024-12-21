@@ -13,4 +13,5 @@ module com.jaehyeon.jri.justreadit {
 
   // javafx.web도 추가
   opens jri.justreadit.pageController to javafx.fxml, javafx.web;
+  exports jri.justreadit.types;
 }

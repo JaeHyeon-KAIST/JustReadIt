@@ -1,10 +1,10 @@
 package jri.justreadit.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jri.justreadit.JRIBookCard;
-import jri.justreadit.JRIBookNoteInfo;
-import jri.justreadit.JRIConnectionInfo;
-import jri.justreadit.JRIVectorResultInfo;
+import jri.justreadit.types.JRIBookCard;
+import jri.justreadit.types.JRIBookNoteInfo;
+import jri.justreadit.types.JRIConnectionInfo;
+import jri.justreadit.types.JRIVectorResultInfo;
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 
 import java.awt.*;

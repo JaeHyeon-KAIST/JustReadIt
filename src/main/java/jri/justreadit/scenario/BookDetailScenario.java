@@ -8,17 +8,15 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import jri.justreadit.JRIApp;
-import jri.justreadit.JRIBookCard;
-import jri.justreadit.JRIBookNoteInfo;
+import jri.justreadit.types.JRIBookCard;
+import jri.justreadit.types.JRIBookNoteInfo;
 import jri.justreadit.JRIScene;
 import jri.justreadit.pageController.BookDetailPageController;
-import jri.justreadit.pageController.HomePageController;
 import jri.justreadit.utils.ServerAPI;
 import x.XApp;
 import x.XCmdToChangeScene;
 import x.XScenario;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class BookDetailScenario extends XScenario {
@@ -108,7 +106,7 @@ public class BookDetailScenario extends XScenario {
     }
 
     public void dispatchGoToHomePageButtonPress() {
-      XCmdToChangeScene.execute(this.mScenario.getApp(), HomeScenario.FirstScene.getSingleton(), this);
+      XCmdToChangeScene.execute(this.mScenario.getApp(), HomeScenario.ReadyScene.getSingleton(), this);
     }
 
     public void goToNotePage(JRIBookNoteInfo note) {
@@ -125,7 +123,7 @@ public class BookDetailScenario extends XScenario {
         System.out.println("Double Clicked on Note: " + note.getTitle());
         JRIApp jri = (JRIApp) this.mScenario.getApp();
         jri.getSelectedBookAndNoteMgr().setSelectedBookNote(note);
-        XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.WritingScene.getSingleton(), this);
+        XCmdToChangeScene.execute(this.mScenario.getApp(), BookNoteScenario.WritingScene.getSingleton(), this);
         lastClickTime = 0;
       } else {
         // 단일 클릭 타이머 설정
@@ -248,7 +246,7 @@ public class BookDetailScenario extends XScenario {
           // 노트 생성 성공 후 노트 씬으로 전환
           JRIBookNoteInfo newNote = new JRIBookNoteInfo(noteId, selectedBook.getBookItem().getItemId(), "Untitled", type, "");
           jri.getSelectedBookAndNoteMgr().setSelectedBookNote(newNote);
-          XCmdToChangeScene.execute(this.mScenario.getApp(), BookNotePageScenario.WritingScene.getSingleton(), this);
+          XCmdToChangeScene.execute(this.mScenario.getApp(), BookNoteScenario.WritingScene.getSingleton(), this);
         } else {
           System.err.println("Failed to create new note");
         }

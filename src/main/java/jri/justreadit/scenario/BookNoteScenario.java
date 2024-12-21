@@ -5,7 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import jri.justreadit.JRIApp;
-import jri.justreadit.JRIBookCard;
+import jri.justreadit.types.JRIBookCard;
 import jri.justreadit.JRIScene;
 import jri.justreadit.pageController.BookNotePageController;
 import jri.justreadit.utils.ServerAPI;
@@ -15,22 +15,22 @@ import x.XScenario;
 
 import java.util.Map;
 
-public class BookNotePageScenario extends XScenario {
+public class BookNoteScenario extends XScenario {
   // singleton pattern
-  private static BookNotePageScenario mSingleton = null;
+  private static BookNoteScenario mSingleton = null;
 
-  public static BookNotePageScenario getSingleton() {
-    assert (BookNotePageScenario.mSingleton != null);
+  public static BookNoteScenario getSingleton() {
+    assert (BookNoteScenario.mSingleton != null);
     return mSingleton;
   }
 
-  public static BookNotePageScenario createSingleton(XApp app) {
-    assert (BookNotePageScenario.mSingleton == null);
-    BookNotePageScenario.mSingleton = new BookNotePageScenario(app);
-    return BookNotePageScenario.mSingleton;
+  public static BookNoteScenario createSingleton(XApp app) {
+    assert (BookNoteScenario.mSingleton == null);
+    BookNoteScenario.mSingleton = new BookNoteScenario(app);
+    return BookNoteScenario.mSingleton;
   }
 
-  private BookNotePageScenario(XApp app) {
+  private BookNoteScenario(XApp app) {
     super(app);
   }
 
@@ -70,7 +70,7 @@ public class BookNotePageScenario extends XScenario {
   }
 
   public void dispatchGoBackButtonPress() {
-    XCmdToChangeScene.execute(this.getApp(), BookDetailScenario.DefaultScene.getSingleton(), HomeScenario.FirstScene.getSingleton());
+    XCmdToChangeScene.execute(this.getApp(), BookDetailScenario.DefaultScene.getSingleton(), HomeScenario.ReadyScene.getSingleton());
   }
 
   public static class WritingScene extends JRIScene {
@@ -94,7 +94,7 @@ public class BookNotePageScenario extends XScenario {
     }
 
     public void onMoveToHomePageButtonPress() {
-      XCmdToChangeScene.execute(this.mScenario.getApp(), HomeScenario.FirstScene.getSingleton(), this);
+      XCmdToChangeScene.execute(this.mScenario.getApp(), HomeScenario.ReadyScene.getSingleton(), this);
     }
 
     public void openLikedBookSideView(int noteId) {

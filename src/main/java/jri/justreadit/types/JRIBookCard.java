@@ -1,4 +1,4 @@
-package jri.justreadit;
+package jri.justreadit.types;
 
 import jri.justreadit.utils.AladdinOpenAPI.AladdinBookItem;
 

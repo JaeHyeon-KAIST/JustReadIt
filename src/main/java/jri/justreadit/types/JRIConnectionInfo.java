@@ -1,4 +1,4 @@
-package jri.justreadit;
+package jri.justreadit.types;
 
 public class JRIConnectionInfo {
   private final String baseBookId;

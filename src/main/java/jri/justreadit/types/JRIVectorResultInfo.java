@@ -1,4 +1,4 @@
-package jri.justreadit;
+package jri.justreadit.types;
 
 public class JRIVectorResultInfo {
   private String bookId;      // 책 ID
